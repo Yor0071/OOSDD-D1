@@ -19,16 +19,16 @@ public class DatabaseQueryHandler {
 
             foreach (DataRow row in result.Rows) {
                 int id = Convert.ToInt32(row["id"]);
-                double cordinateX = Convert.ToDouble(row["cordinate_x"]);
-                double cordinateY = Convert.ToDouble(row["cordinate_y"]);
+                double coordinateX = Convert.ToDouble(row["coordinate_x"]);
+                double coordinateY = Convert.ToDouble(row["coordinate_y"]);
                 int campingSpotId = Convert.ToInt32(row["camping_spot"]);
                 
-                CampingMap campingApp = new CampingMap(id, cordinateX, cordinateY, campingSpotId);
+                CampingMap campingApp = new CampingMap(id, coordinateX, coordinateY, campingSpotId);
                 campingMaps.Add(campingApp);
             }
         }
         catch (Exception ex) {
-            throw new Exception($"Error fetching high scores: {ex.Message}");
+            throw new Exception($"Error fetching camping maps: {ex.Message}");
         }
 
         return campingMaps;
