@@ -3,7 +3,6 @@ using MySql.Data.MySqlClient;
 
 namespace Database;
 
-
 public class DatabaseHandler {
     private MySqlConnection _connection;
 
