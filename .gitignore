@@ -1,7 +1,12 @@
 
 /CampingD1/.vs/CampingD1/CopilotIndices
 /CampingD1/.vs
-/CampingD1/BeheerdersApp/obj
 /CampingD1/Database/obj
-/CampingD1/ReserveringsApp/obj
+/CampingD1/ReservationApp/obj
+/CampingD1/ReservationApp/bin
+/CampingD1/AdminApp/obj
+/CampingD1/AdminApp/bin
+/CampingD1/AdminApp/Properties
+/CampingD1/BeheerdersApp/obj
 /CampingD1/ReserveringsApp/bin
+/CampingD1/ReserveringsApp/obj
