@@ -7,10 +7,11 @@
         <!-- Table Header -->
         <Grid BackgroundColor="LightGray" Padding="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
@@ -18,7 +19,8 @@
             <Label Text="First Name" FontAttributes="Bold" Grid.Column="1" />
             <Label Text="Last Name" FontAttributes="Bold" Grid.Column="2" />
             <Label Text="Place" FontAttributes="Bold" Grid.Column="3" />
-            <Label Text="Arrival - Depart" FontAttributes="Bold" Grid.Column="4" />
+            <Label Text="Arrival" FontAttributes="Bold" Grid.Column="4" />
+            <Label Text="Depart" FontAttributes="Bold" Grid.Column="5"/>
         </Grid>
 
         <!-- Table Rows -->
@@ -27,11 +29,11 @@
                 <DataTemplate>
                     <Grid Padding="10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
