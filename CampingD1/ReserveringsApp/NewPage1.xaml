@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReserveringsApp.NewPage1"
+             Title="CampLife"
+             BackgroundColor="White">
+
+    <Grid Padding="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+
+        <VerticalStackLayout Grid.Column="0" Padding="10">
+            <Label 
+                Text="Reserveer Plekken"
+                TextColor="Black"
+                VerticalOptions="Center" 
+                FontSize="Large"
+                HorizontalOptions="Center" />
+
+            <HorizontalStackLayout Spacing="40" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                <Image 
+                    Source="C:\Users\Ali-I\Documents\GitHub\OOSDD-D1\CampingD1\ReserveringsApp\Resources\Images\image.png" 
+                    WidthRequest="800"
+                    HeightRequest="600"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="End" />
+                <Button 
+                    Text="Ik heb een reservering"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="StartAndExpand"
+                    BackgroundColor="DodgerBlue"
+                    TextColor="White"
+                    WidthRequest="200"
+                    HeightRequest="50"
+                     />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Add Circle" Clicked="OnAddCircleButtonClicked" />
+                <Button Text="Save" Clicked="OnSaveButtonClicked" />
+            </HorizontalStackLayout>
+
+            <Grid WidthRequest="1000" HeightRequest="600">
+                <Image Source="C:\Users\Ali-I\Documents\GitHub\OOSDD-D1\CampingD1\ReserveringsApp\Resources\Images\image.png" Aspect="AspectFill" />
+                <Frame x:Name="RectangleContainer"
+                       BackgroundColor="Transparent"
+                       CornerRadius="0"
+                       BorderColor="Black">
+                    <AbsoluteLayout x:Name="Canvas" />
+                </Frame>
+            </Grid>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Column="1" x:Name="SideMenu" IsVisible="False" Padding="10" BackgroundColor="LightGray">
+            <Label Text="Edit Circle" FontSize="18" FontAttributes="Bold" />
+            <Entry x:Name="CircleIdEntry" Placeholder="Enter Circle ID" />
+            <Button Text="Set ID" Clicked="OnSetCircleIdButtonClicked" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
