@@ -4,9 +4,46 @@
              x:Class="AdminApp.ReservationList"
              Title="ReservationList">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <!-- Table Header -->
+        <Grid BackgroundColor="LightGray" Padding="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Text="ID" FontAttributes="Bold" Grid.Column="0" />
+            <Label Text="First Name" FontAttributes="Bold" Grid.Column="1" />
+            <Label Text="Last Name" FontAttributes="Bold" Grid.Column="2" />
+            <Label Text="Place" FontAttributes="Bold" Grid.Column="3" />
+            <Label Text="Arrival - Depart" FontAttributes="Bold" Grid.Column="4" />
+        </Grid>
+
+        <!-- Table Rows -->
+        <CollectionView x:Name="ReservationsCollectionView" VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="{Binding Id}" Grid.Column="0" />
+                        <Label Text="{Binding FirstName}" Grid.Column="1" />
+                        <Label Text="{Binding LastName}" Grid.Column="2" />
+                        <Label Text="{Binding Placenumber}" Grid.Column="3" />
+                        <Label Text="{Binding Arrival, StringFormat='{0:MM/dd/yyyy}'}" Grid.Column="4" />
+                        <Label Text="{Binding Depart, StringFormat='{0:MM/dd/yyyy}'}" Grid.Column="5" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>

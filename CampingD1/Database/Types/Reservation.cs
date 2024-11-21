@@ -6,23 +6,25 @@ using System.Threading.Tasks;
 
 namespace Database.Types
 {
-    public struct Reservation
+    public class Reservation
     {
-        public int id;
-        public string firstName;
-        public string lastName;
-        public int placenumber;
-        public DateTime arrival;
-        public DateTime depart;
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int PlaceNumber { get; set; }
+        public DateTime Arrival { get; set; }
+        public DateTime Depart { get; set; }
 
-        public Reservation(int id, string firstName, string lastName, int placenumber, DateTime arrival, DateTime depart)
+        public Reservation(int id, string firstName, string lastName, int placeNumber, DateTime arrival, DateTime depart)
         {
-            this.id = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.placenumber = placenumber;
-            this.arrival = arrival;
-            this.depart = depart;
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            PlaceNumber = placeNumber;
+            Arrival = arrival;
+            Depart = depart;
         }
     }
 }
+
+
