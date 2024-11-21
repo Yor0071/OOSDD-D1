@@ -12,3 +12,4 @@
 /CampingD1/ReserveringsApp/obj
 /CampingD1/Database/bin
 CampingD1/AdminApp/AdminApp.csproj.user
+*.DS_Store
