@@ -5,13 +5,13 @@ namespace AdminApp
     public partial class App : Application
     {
         public static DatabaseQueryHandler Database { get; private set; }
-        private DatabaseHandler databaseHandler;
+        public static DatabaseHandler databaseHandler;
         public App()
         {
             
             
-            InitializeComponent();
             InitializeDatabase();
+            InitializeComponent();
             MainPage = new AppShell();
         }
         
@@ -22,7 +22,7 @@ namespace AdminApp
             try
             {
                 databaseHandler.Connect(
-                    server: "mysql1.derrin.nl",
+                    server: "mysql2.derrin.nl",
                     database: "mountain_campingapp",
                     user: "mountain_campingapp",
                     password: ""
@@ -32,7 +32,7 @@ namespace AdminApp
             }
             catch (Exception ex)
             {
-                MainPage.DisplayAlert("Error", "Failed to connect to the database: " + ex.Message, "OK");
+                // MainPage.DisplayAlert("Error", "Failed to connect to the database: " + ex.Message, "OK");
             }
         }
     }
