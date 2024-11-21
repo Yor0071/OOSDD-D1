@@ -1,6 +1,7 @@
 using Database.Types;
+using Database;
 
-namespace AdminApp;
+namespace AdministrationApp;
 
 public partial class ReservationList : ContentPage
 {
@@ -22,7 +23,7 @@ public partial class ReservationList : ContentPage
         // Bind the data
         ReservationsCollectionView.ItemsSource = new List<Reservation>();
     }
-    
+
     private async Task LoadReservationsAsync()
     {
         try

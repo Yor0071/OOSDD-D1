@@ -1,6 +1,6 @@
 ﻿using Database;
 
-namespace AdminApp
+namespace AdministrationApp
 {
     public partial class App : Application
     {
@@ -8,13 +8,13 @@ namespace AdminApp
         public static DatabaseHandler databaseHandler;
         public App()
         {
-            
-            
+
+
             InitializeDatabase();
             InitializeComponent();
             MainPage = new AppShell();
         }
-        
+
         private void InitializeDatabase()
         {
             databaseHandler = new DatabaseHandler();
@@ -25,7 +25,7 @@ namespace AdminApp
                     server: "mysql2.derrin.nl",
                     database: "mountain_campingapp",
                     user: "mountain_campingapp",
-                    password: ""
+                    password: "iWN4RVoC8jPLfKVNuGfANgj8yX_.e8x6KMzLh7UE!XR7FAeg"
                 );
 
                 Database = new DatabaseQueryHandler(databaseHandler);
