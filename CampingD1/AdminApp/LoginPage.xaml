@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BeheerdersApp.LoginPage"
+             Title="BeheerApp"
+             BackgroundColor="White">
+    <VerticalStackLayout
+        Padding="20" Spacing="20" VerticalOptions="Center" HorizontalOptions="CenterAndExpand">
+        <Label 
+            Text="Welkom!"
+            FontSize="60"
+            HorizontalOptions="Center"
+            TextColor="Black"
+            />
+        <Entry x:Name="UsernameEntry"
+               Placeholder="Gebruikersnaam"
+               Keyboard="Email"
+               BackgroundColor="White"
+               TextColor="Black"/>
+        <Entry x:Name="PasswordEntry"
+               Placeholder="Wachtwoord"
+               IsPassword="True"
+               BackgroundColor="White"
+               TextColor="Black"/>
+        <HorizontalStackLayout HorizontalOptions="Center">
+            <CheckBox x:Name="ShowPasswordCheckbox"/>
+            <Label Text="Toon wachtwoord" VerticalOptions="Center"  TextColor="Black"/>
+        </HorizontalStackLayout>
+        
+        <Button Text="Inloggen" 
+        BackgroundColor="DarkGreen" 
+        TextColor="White"
+        Clicked="OnLoginClicked" />
+
+    </VerticalStackLayout>
+</ContentPage>
