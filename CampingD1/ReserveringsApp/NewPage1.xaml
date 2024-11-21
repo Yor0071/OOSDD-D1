@@ -7,7 +7,7 @@
 
     <Grid Padding="20">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1800" />
             <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
 
@@ -19,36 +19,20 @@
                 FontSize="Large"
                 HorizontalOptions="Center" />
 
-            <HorizontalStackLayout Spacing="40" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-                <Image 
-                    Source="C:\Users\Ali-I\Documents\GitHub\OOSDD-D1\CampingD1\ReserveringsApp\Resources\Images\image.png" 
-                    WidthRequest="800"
-                    HeightRequest="600"
-                    VerticalOptions="Start" 
-                    HorizontalOptions="End" />
-                <Button 
-                    Text="Ik heb een reservering"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="StartAndExpand"
-                    BackgroundColor="DodgerBlue"
-                    TextColor="White"
-                    WidthRequest="200"
-                    HeightRequest="50"
-                     />
+            <HorizontalStackLayout Spacing="09">
+                <Button Text="Bepaal beschikbaarheid" Clicked="OnAddCircleButtonClicked" />
+                <Button Text="Opslaan" Clicked="OnSaveButtonClicked" />
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout Spacing="10">
-                <Button Text="Add Circle" Clicked="OnAddCircleButtonClicked" />
-                <Button Text="Save" Clicked="OnSaveButtonClicked" />
-            </HorizontalStackLayout>
-
-            <Grid WidthRequest="1000" HeightRequest="600">
+            <Grid WidthRequest="1200" HeightRequest="800">
                 <Image Source="C:\Users\Ali-I\Documents\GitHub\OOSDD-D1\CampingD1\ReserveringsApp\Resources\Images\image.png" Aspect="AspectFill" />
                 <Frame x:Name="RectangleContainer"
                        BackgroundColor="Transparent"
                        CornerRadius="0"
-                       BorderColor="Black">
-                    <AbsoluteLayout x:Name="Canvas" />
+                       BorderColor="Green">
+                    <AbsoluteLayout x:Name="Canvas"
+                                    WidthRequest="1300"
+/>
                 </Frame>
             </Grid>
         </VerticalStackLayout>

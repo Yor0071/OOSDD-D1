@@ -24,7 +24,7 @@ public partial class NewPage1 : ContentPage
 
     private void OnAddCircleButtonClicked(object sender, EventArgs e)
     {
-        AddCircle(nextCircleId++, 50, 50); // Adds a new circle at a default position
+        AddCircle(nextCircleId++, 25, 25); // Adds a new circle at a default position
     }
 
     private void OnSaveButtonClicked(object sender, EventArgs e)
@@ -50,8 +50,8 @@ public partial class NewPage1 : ContentPage
     {
         var circle = new Frame
         {
-            WidthRequest = 50,
-            HeightRequest = 50,
+            WidthRequest = 23,
+            HeightRequest = 23,
             CornerRadius = 25,
             BackgroundColor = Colors.Red,
             HasShadow = false
