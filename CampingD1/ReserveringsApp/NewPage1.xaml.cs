@@ -21,6 +21,10 @@ public partial class NewPage1 : ContentPage
     {
         InitializeComponent();
     }
+    private async void OnReservationButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new ReservationPage());
+    }
 
     private void OnAddCircleButtonClicked(object sender, EventArgs e)
     {

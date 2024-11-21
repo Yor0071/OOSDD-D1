@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReserveringsApp.ReservationPage"
+             Title="Reservation Page"
+             BackgroundColor="White">
+
+    <!-- Use VerticalStackLayout to take full available space -->
+    <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+
+        <!-- Frame with content to be centered -->
+        <Frame BorderColor="White" CornerRadius="30" Padding="40" WidthRequest="600" >
+            <VerticalStackLayout Spacing="10">
+                <!-- Title Label -->
+                <Label Text="Bestaande reservering bekijken" 
+                       FontSize="Large" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center" />
+
+                <!-- Instruction Label -->
+                <Label Text="Voer svp uw reserveringsnummer in" 
+                       FontSize="Medium" 
+                       HorizontalOptions="Center" />
+
+                <!-- Reservation Entry -->
+                <Entry x:Name="ReservationNumberEntry" 
+                       Placeholder="Reserveringsnummer" 
+                       Keyboard="Numeric" 
+                       HorizontalOptions="FillAndExpand" />
+
+                <!-- View Reservation Button -->
+                <Button Text="Bekijk Reservering" 
+                        HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Frame>
+    </VerticalStackLayout>
+
+</ContentPage>

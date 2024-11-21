@@ -22,6 +22,8 @@
             <HorizontalStackLayout Spacing="09">
                 <Button Text="Bepaal beschikbaarheid" Clicked="OnAddCircleButtonClicked" />
                 <Button Text="Opslaan" Clicked="OnSaveButtonClicked" />
+                <Button Text="Ik heb een reservering" Clicked="OnReservationButtonClicked" />
+
             </HorizontalStackLayout>
 
             <Grid WidthRequest="1200" HeightRequest="800">
@@ -31,16 +33,20 @@
                        CornerRadius="0"
                        BorderColor="Green">
                     <AbsoluteLayout x:Name="Canvas"
-                                    WidthRequest="1300"
-/>
+                                    WidthRequest="1300"/>
+                    
                 </Frame>
             </Grid>
+            
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Column="1" x:Name="SideMenu" IsVisible="False" Padding="10" BackgroundColor="LightGray">
             <Label Text="Edit Circle" FontSize="18" FontAttributes="Bold" />
             <Entry x:Name="CircleIdEntry" Placeholder="Enter Circle ID" />
             <Button Text="Set ID" Clicked="OnSetCircleIdButtonClicked" />
+            
+           
+            
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
