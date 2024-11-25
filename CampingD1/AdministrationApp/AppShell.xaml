@@ -8,8 +8,12 @@
     Title="AdministrationApp">
 
     <ShellContent
-        Title="Home"
+        Title="LoginPage"
+        ContentTemplate="{DataTemplate local:LoginPage}"
+        Route="LoginPage" />
+
+    <ShellContent
+        Title="ReservationList"
         ContentTemplate="{DataTemplate local:ReservationList}"
         Route="ReservationList" />
-
 </Shell>

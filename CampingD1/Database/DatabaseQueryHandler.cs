@@ -87,4 +87,31 @@ public class DatabaseQueryHandler {
 
         return reservations;
     }
+
+    public bool LoginCheck(string username, string password)
+    {
+        string query = "select * from admin_accounts where username = @username && PASSWORD = @password LIMIT 1;";
+
+        try
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"@username", username},
+                {"@password", password}
+            };
+
+            var result = _databaseHandler.ExecuteSelectQuery(query, parameters);
+
+            if (result.Rows.Count > 0)
+            {
+                return true;
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error trying to login: {ex.Message}");
+        }
+
+        return false;
+    }
 }
