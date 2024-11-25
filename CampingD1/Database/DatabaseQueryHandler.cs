@@ -16,16 +16,16 @@ public class DatabaseQueryHandler {
         List<CampingMap> campingMaps = new List<CampingMap>();
 
         try {
-            DataTable result = _databaseHandler.ExecuteSelectQuery(query);
+            DataTable mapsResult = _databaseHandler.ExecuteSelectQuery(query);
 
-            foreach (DataRow row in result.Rows) {
-                int id = Convert.ToInt32(row["id"]);
-                double coordinateX = Convert.ToDouble(row["coordinate_x"]);
-                double coordinateY = Convert.ToDouble(row["coordinate_y"]);
-                int campingSpotId = Convert.ToInt32(row["camping_spot"]);
+            foreach (DataRow mapRow in mapsResult.Rows) {
+                int mapId = Convert.ToInt32(mapRow["id"]);
+                int campingSpotId = Convert.ToInt32(mapRow["camping_spot"]);
                 
-                CampingMap campingApp = new CampingMap(id, coordinateX, coordinateY, campingSpotId);
-                campingMaps.Add(campingApp);
+                List<MapCircle> mapCircles = SelectMapCircles(mapId);
+
+                CampingMap campingMap = new CampingMap(mapId, mapCircles, campingSpotId);
+                campingMaps.Add(campingMap);
             }
         }
         catch (Exception ex) {
@@ -33,6 +33,29 @@ public class DatabaseQueryHandler {
         }
 
         return campingMaps;
+    }
+    
+    public List<MapCircle> SelectMapCircles(int mapId) {
+        string query = $"SELECT * FROM map_circles WHERE map = {mapId};";
+        List<MapCircle> mapCircles = new List<MapCircle>();
+
+        try {
+            DataTable result = _databaseHandler.ExecuteSelectQuery(query);
+
+            foreach (DataRow row in result.Rows) {
+                int id = Convert.ToInt32(row["id"]);
+                double coordinateX = Convert.ToDouble(row["coordinate_x"]);
+                double coordinateY = Convert.ToDouble(row["coordinate_y"]);
+
+                MapCircle mapCircle = new MapCircle(id, coordinateX, coordinateY);
+                mapCircles.Add(mapCircle);
+            }
+        }
+        catch (Exception ex) {
+            throw new Exception($"Error fetching map circles for mapId {mapId}: {ex.Message}");
+        }
+
+        return mapCircles;
     }
     
     public List<Reservation> SelectReservations()

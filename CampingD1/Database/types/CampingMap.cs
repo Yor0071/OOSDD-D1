@@ -2,14 +2,12 @@ namespace Database.types;
 
 public class CampingMap {
     public int id;
-    public double coordinateX;
-    public double coordinateY;
+    public List<MapCircle> cirles;
     public int campingSpotId;
 
-    public CampingMap(int id, double coordinateX, double coordinateY, int campingSpotId) {
+    public CampingMap(int id, List<MapCircle> cirles, int campingSpotId) {
         this.id = id;
-        this.coordinateX = coordinateX;
-        this.coordinateY = coordinateY;
+        this.cirles = cirles;
         this.campingSpotId = campingSpotId;
     }
 }
