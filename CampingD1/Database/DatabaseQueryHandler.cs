@@ -87,4 +87,33 @@ public class DatabaseQueryHandler {
 
         return reservations;
     }
+    public void SaveReservation(Reservation reservation)
+    {
+        string query = "INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`) " +
+                       "VALUES (@FirstName, @LastName, @CampingSpot, @FromDate, @ToDate);";
+
+        // Create a dictionary to hold the parameters and their values
+        Dictionary<string, object> parameters = new Dictionary<string, object>
+    {
+        { "@FirstName", reservation.FirstName },
+        { "@LastName", reservation.LastName },
+        { "@CampingSpot",  1 },
+        { "@FromDate", reservation.Arrival },
+        { "@ToDate", reservation.Depart }
+    };
+
+        try
+        {
+            // Ensure the database connection is open
+            _databaseHandler.EnsureConnection();
+
+            // Execute the non-query command to insert the reservation into the database
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error saving reservation: {ex.Message}");
+        }
+    }
+
 }
