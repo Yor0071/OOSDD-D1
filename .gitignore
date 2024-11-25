@@ -12,3 +12,5 @@
 /CampingD1/ReserveringsApp/obj
 /CampingD1/Database/bin
 *.DS_Store
+/CampingD1/AdministrationApp/bin
+/CampingD1/AdministrationApp/obj
