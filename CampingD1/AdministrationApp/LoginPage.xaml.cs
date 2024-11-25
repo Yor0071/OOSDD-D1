@@ -1,3 +1,5 @@
+using Database;
+
 namespace AdministrationApp;
 
 public partial class LoginPage : ContentPage
@@ -13,12 +15,18 @@ public partial class LoginPage : ContentPage
 
     private async void OnLoginClicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Succes","welkom", "ok");
+        string username = UsernameEntry.Text;
+        string password = PasswordEntry.Text;
 
-        // No login functionality for now
+        if (App.Database.LoginCheck(username, password))
+        {
+            await DisplayAlert("Succes", "Welkom", "Ok");
 
-        await Shell.Current.GoToAsync("///ReservationList");
+            await Shell.Current.GoToAsync("///ReservationList");
+        }
+        else
+        {
+            await DisplayAlert("Error", "Foute username of wachtwoord", "Ok");
+        }
     }
-
-
 }
