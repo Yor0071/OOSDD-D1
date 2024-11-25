@@ -30,7 +30,8 @@
                        HorizontalOptions="FillAndExpand" />
 
                 <!-- View Reservation Button -->
-                <Button Text="Bekijk Reservering" 
+                <Button x:Name="ViewReservationButton" 
+                        Text="Bekijk Reservering" 
                         HorizontalOptions="Center" />
             </VerticalStackLayout>
         </Frame>

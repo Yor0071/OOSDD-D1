@@ -15,6 +15,43 @@ namespace ReserveringsApp
         public ReservationPage()
         {
             InitializeComponent();
+
+         
+            var viewReservationButton = this.FindByName<Button>("Bekijk Reservering");
+            ViewReservationButton.Clicked += ViewReservationButtonClicked;
+        }
+
+        private async void ViewReservationButtonClicked(object sender, EventArgs e)
+        {
+            string reservationNumber = ReservationNumberEntry.Text;
+
+            
+            if (reservationNumber == "11111")
+            {
+              
+                bool retry = await DisplayAlert("Foutmelding",
+                    "Dit nummer komt niet bekend voor.",
+                    "Nummer opnieuw invoeren",
+                    "Maak een reservering");
+
+                if (retry)
+                {
+                   
+                    ReservationNumberEntry.Text = string.Empty;
+                }
+                else
+                {
+                    
+                    await Navigation.PushAsync(new CreateReservationPage());
+                }
+            }
+            else
+            {
+                
+                await DisplayAlert("Reservering gevonden",
+                    $"Reservering nummer {reservationNumber} wordt opgehaald.",
+                    "OK");
+            }
         }
     }
 }
