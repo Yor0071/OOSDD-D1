@@ -1,4 +1,4 @@
-namespace AdminApp;
+namespace AdministrationApp;
 
 public partial class LoginPage : ContentPage
 {
@@ -14,6 +14,10 @@ public partial class LoginPage : ContentPage
     private async void OnLoginClicked(object sender, EventArgs e)
     {
         await DisplayAlert("Succes","welkom", "ok");
+
+        // No login functionality for now
+
+        await Shell.Current.GoToAsync("///ReservationList");
     }
 
 

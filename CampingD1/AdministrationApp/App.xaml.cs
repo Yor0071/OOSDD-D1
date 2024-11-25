@@ -8,8 +8,6 @@ namespace AdministrationApp
         public static DatabaseHandler databaseHandler;
         public App()
         {
-
-
             InitializeDatabase();
             InitializeComponent();
             MainPage = new AppShell();
