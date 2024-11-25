@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace AdminApp
+namespace AdministrationApp
 {
     public class Program
     {

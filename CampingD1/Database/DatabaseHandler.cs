@@ -14,9 +14,18 @@ public class DatabaseHandler {
         try {
             _connection = new MySqlConnection(connectionString);
             _connection.Open();
+            Console.WriteLine("connected");
         }
         catch (MySqlException ex) {
             throw new Exception("Could not connect to the database", ex);
+        }
+    }
+    
+    public void EnsureConnection()
+    {
+        if (_connection.State != ConnectionState.Open)
+        {
+            _connection.Open();
         }
     }
     

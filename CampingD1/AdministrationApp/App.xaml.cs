@@ -1,20 +1,20 @@
 ﻿using Database;
 
-namespace AdminApp
+namespace AdministrationApp
 {
     public partial class App : Application
     {
         public static DatabaseQueryHandler Database { get; private set; }
-        private DatabaseHandler databaseHandler;
+        public static DatabaseHandler databaseHandler;
         public App()
         {
-            
-            
-            InitializeComponent();
+
+
             InitializeDatabase();
+            InitializeComponent();
             MainPage = new AppShell();
         }
-        
+
         private void InitializeDatabase()
         {
             databaseHandler = new DatabaseHandler();
@@ -22,17 +22,17 @@ namespace AdminApp
             try
             {
                 databaseHandler.Connect(
-                    server: "mysql1.derrin.nl",
+                    server: "mysql2.derrin.nl",
                     database: "mountain_campingapp",
                     user: "mountain_campingapp",
-                    password: ""
+                    password: "iWN4RVoC8jPLfKVNuGfANgj8yX_.e8x6KMzLh7UE!XR7FAeg"
                 );
 
                 Database = new DatabaseQueryHandler(databaseHandler);
             }
             catch (Exception ex)
             {
-                MainPage.DisplayAlert("Error", "Failed to connect to the database: " + ex.Message, "OK");
+                // MainPage.DisplayAlert("Error", "Failed to connect to the database: " + ex.Message, "OK");
             }
         }
     }
