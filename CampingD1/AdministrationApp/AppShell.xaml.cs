@@ -1,4 +1,4 @@
-﻿namespace AdminApp
+﻿namespace AdministrationApp
 {
     public partial class AppShell : Shell
     {
