@@ -23,22 +23,27 @@ namespace ReservationApp
 
             // Check if all required fields are filled
             if (string.IsNullOrWhiteSpace(firstNameEntry.Text) ||
-                string.IsNullOrWhiteSpace(lastNameEntry.Text) ||
-                string.IsNullOrWhiteSpace(phoneEntry.Text) ||
-                string.IsNullOrWhiteSpace(emailEntry.Text) ||
-                string.IsNullOrWhiteSpace(totalCampersEntry.Text) ||
-                string.IsNullOrWhiteSpace(under12Entry.Text) ||
-                arrivalDatePicker.Date == null ||
-                departureDatePicker.Date == null)
+             string.IsNullOrWhiteSpace(lastNameEntry.Text) ||
+             string.IsNullOrWhiteSpace(phoneEntry.Text) ||
+             string.IsNullOrWhiteSpace(emailEntry.Text) ||
+             string.IsNullOrWhiteSpace(totalCampersEntry.Text) ||
+             string.IsNullOrWhiteSpace(under12Entry.Text) ||
+             arrivalDatePicker.Date == null ||
+             departureDatePicker.Date == null)
             {
                 // Show error message
                 errorLabel.Text = "Alle verplichte velden moeten worden ingevuld.";
                 errorLabel.IsVisible = true;
             }
+            else if (!emailEntry.Text.Contains("@"))
+            {
+                // Show email-specific error message
+                errorLabel.Text = "Controleer uw e-mailadres.";
+                errorLabel.IsVisible = true;
+            }
             else
             {
                 // Haal de ingevulde gegevens op
-                // Assuming your Reservation class has properties for these fields
                 var firstName = firstNameEntry.Text;
                 var middleName = middleNameEntry.Text;
                 var lastName = lastNameEntry.Text;
@@ -48,26 +53,25 @@ namespace ReservationApp
                 var under12 = int.TryParse(under12Entry.Text, out int parsedUnder12) ? parsedUnder12 : 0;
                 var specialNotes = specialNotesEditor.Text;
 
-                // You may also want to capture the camping spot and date range, assuming those are part of the Reservation
-                // For example, let's assume you have a CampingSpot and Date range (fromDate, toDate):
+                // You may also want to capture the camping spot and date range
                 int campingSpot = 1; // Example default value, replace with your actual value
-                DateTime fromDate = DateTime.Now; // Replace with actual date from your form
-                DateTime toDate = fromDate.AddDays(3); // Example: 3-day reservation
+                DateTime fromDate = arrivalDatePicker.Date; // Use selected arrival date
+                DateTime toDate = departureDatePicker.Date; // Use selected departure date
 
                 // Create the Reservation object
                 Reservation reservation = new Reservation(
-                    0, // ID: Assuming 0 because it's a new reservation, let the database handle the ID generation
-
-                        firstName,    
-                        lastName , 
-                        1, 
-                        fromDate,
-                        toDate
+                    0, // ID: Assuming 0 because it's a new reservation
+                    firstName,
+                    lastName,
+                    campingSpot,
+                    fromDate,
+                    toDate
                 );
 
-
+                // Save the reservation to the database
                 App.Database.SaveReservation(reservation);
-                
+
+                // Show confirmation message
                 await DisplayAlert("Bevestiging",
                                    "Reservering opgeslagen!\n" +
                                    $"Naam: {firstName} {middleName} {lastName}\n" +
@@ -77,6 +81,9 @@ namespace ReservationApp
                                    $"Onder 12: {under12}\n" +
                                    $"Bijzonderheden: {specialNotes}",
                                    "OK");
+
+                // Hide error label after successful operation
+                errorLabel.IsVisible = false;
             }
         }
     }

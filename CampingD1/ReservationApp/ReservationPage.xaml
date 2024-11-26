@@ -52,7 +52,7 @@
             <Label x:Name="errorLabel" TextColor="Red" IsVisible="False" FontSize="14" HorizontalOptions="Center" />
 
             <!-- Confirm and Pay Button -->
-            <Button Text="Bevestigen en betalen"
+            <Button Text="Bevestig uw reservering"
                     BackgroundColor="Green"
                     TextColor="White"
                     Clicked="OnConfirmButtonClicked" />
