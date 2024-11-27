@@ -4,6 +4,7 @@ namespace ReservationApp
 {
     public partial class ReservationPage : ContentPage
     {
+       
         public ReservationPage()
         {
             InitializeComponent();
@@ -13,6 +14,12 @@ namespace ReservationApp
 
             // Stel de minimumdatum voor vertrekdatum in (morgen)
             departureDatePicker.MinimumDate = DateTime.Today.AddDays(1);
+
+            // Haal CircleId op uit de BindingContext (indien aanwezig)
+            if (BindingContext is IDictionary<string, object> context && context.TryGetValue("CircleId", out var circleId))
+            {
+                Title = $"Reservering voor plek {circleId}";
+            }
         }
 
         // Event handler voor de bevestigingsknop

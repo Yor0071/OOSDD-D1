@@ -9,9 +9,10 @@ namespace ReservationApp
         public static DatabaseHandler databaseHandler;
         public App()
         {
-            InitializeDatabase();
             InitializeComponent();
-            MainPage = new ReservationPage();
+
+            // Stel NewPage1 in als de eerste pagina, verpakt in een NavigationPage
+            MainPage = new NavigationPage(new NewPage1());
         }
 
         private void InitializeDatabase()

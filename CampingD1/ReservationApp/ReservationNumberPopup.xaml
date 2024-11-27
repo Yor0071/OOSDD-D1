@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="ReservationApp.ReservationNumberPopup">
+
+    <!-- Semi-transparante achtergrond -->
+    <Grid BackgroundColor="#80000000">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Frame voor de inhoud van de popup -->
+        <Frame Padding="20"
+               BackgroundColor="Black"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               HeightRequest="250"  
+            WidthRequest="400"
+          
+            HasShadow="True"
+               BorderColor="White"
+               CornerRadius="20">
+
+           
+            <VerticalStackLayout Spacing="15">
+
+                <!-- Titel bovenaan de popup -->
+                <Label Text="Vul aub uw reserveringsnummer in"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="White" />
+
+                <!-- Sluitknop in de rechterbovenhoek -->
+                <Button Text="X"
+                        BackgroundColor="Transparent"
+                        TextColor="Red"
+                        FontSize="30"
+                        Padding="0"
+                        Clicked="OnClosePopupClicked"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start" />
+
+                <!-- Frame rondom de Entry voor afgeronde hoeken -->
+                <Frame BorderColor="White"
+                       CornerRadius="10"   
+                       Padding="5">
+                    <Entry x:Name="ReservationEntry"
+                           Placeholder="Reserveringsnummer"
+                           Keyboard="Numeric"
+                           HeightRequest="45"
+                           BackgroundColor="Black"
+                           TextColor="White"
+                           PlaceholderColor="Gray" />
+                </Frame>
+
+                <!-- Bevestigingsknop met een groene achtergrond en afgeronde hoeken -->
+                <Button Text="Reservering bekijken"
+                        BackgroundColor="#4CAF50"
+                        TextColor="White"
+                        HeightRequest="50"
+                        CornerRadius="10"
+                        Clicked="OnConfirmButtonClicked" />
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</toolkit:Popup>
