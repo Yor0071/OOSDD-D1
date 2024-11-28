@@ -27,4 +27,9 @@ public partial class LoginPage : ContentPage
             await DisplayAlert("Error", "Foute username of wachtwoord", "Ok");
         }
     }
+
+    private void PasswordEntry_Completed(object sender, EventArgs e)
+    {
+        OnLoginClicked(sender, e);
+    }
 }
