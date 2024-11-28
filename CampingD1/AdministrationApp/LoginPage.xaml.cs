@@ -20,8 +20,6 @@ public partial class LoginPage : ContentPage
 
         if (App.Database.LoginCheck(username, password))
         {
-            await DisplayAlert("Succes", "Welkom", "Ok");
-
             await Shell.Current.GoToAsync("///ReservationList");
         }
         else
