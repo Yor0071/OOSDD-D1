@@ -24,7 +24,7 @@
         </Style>
     </ContentPage.Resources>
 
-    <VerticalStackLayout Padding="20" Spacing="20">
+    <VerticalStackLayout Padding="30" Spacing="50">
         <!-- Titel voor de pagina -->
         <Label 
             Text="Plattegrond"
