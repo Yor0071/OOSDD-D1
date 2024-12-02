@@ -26,7 +26,7 @@ public partial class LoginPage : ContentPage
         }
         else
         {
-            await DisplayAlert("Error", "Foute username of wachtwoord", "Ok");
+            await DisplayAlert("Error", "De gebruikersnaam of het wachtwoord is onjuist. Voer de gebruikersnaam en het wachtwoord opnieuw in.", "Ok");
         }
     }
 }
