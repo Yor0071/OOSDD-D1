@@ -7,13 +7,16 @@
     Shell.FlyoutBehavior="Disabled"
     Title="AdministrationApp">
 
-    <ShellContent
-        Title="LoginPage"
-        ContentTemplate="{DataTemplate local:LoginPage}"
-        Route="LoginPage" />
+    <TabBar>
+        <ShellContent
+            Title="Reservations"
+            ContentTemplate="{DataTemplate local:ReservationList}" 
+            Route="ReservationList" />
 
-    <ShellContent
-        Title="ReservationList"
-        ContentTemplate="{DataTemplate local:ReservationList}"
-        Route="ReservationList" />
+        <!-- change this to new page -->
+        <ShellContent
+            Title="Login"
+            ContentTemplate="{DataTemplate local:LoginPage}"
+            Route="LoginPage" />
+    </TabBar>
 </Shell>
