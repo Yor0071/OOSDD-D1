@@ -9,9 +9,6 @@
     <MauiXaml Update="NewPage1.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="ReservationNumberPopup.xaml">
-      <SubType>Designer</SubType>
-    </MauiXaml>
     <MauiXaml Update="ReservationPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>

@@ -27,7 +27,7 @@
             </HorizontalStackLayout>
 
             <Grid WidthRequest="1200" HeightRequest="800">
-                <Image Source="C:\Users\Ali-I\Documents\GitHub\OOSDD-D1\CampingD1\ReserveringsApp\Resources\Images\image.png" Aspect="AspectFill" />
+                <Image Source="C:\Users\Ali-I\Documents\GitHub\OOSDD-D1\CampingD1\ReservationApp\Resources\Images\image.png" Aspect="AspectFill" />
                 <Frame x:Name="RectangleContainer"
                        BackgroundColor="Transparent"
                        CornerRadius="0"
