@@ -24,7 +24,7 @@
         </Style>
     </ContentPage.Resources>
 
-    <VerticalStackLayout Padding="30" Spacing="50">
+    <VerticalStackLayout Padding="20" Spacing="10">
         <!-- Titel voor de pagina -->
         <Label 
             Text="Plattegrond"
@@ -38,27 +38,30 @@
             <!-- Aankomstdatum -->
             <StackLayout>
                 <Label 
-                    Text="Aankomstdatum"
-                    VerticalOptions="Start"
-                    HorizontalOptions="Center" />
+            Text="Aankomstdatum"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
                 <DatePicker 
-                    x:Name="arrivalDatePicker"
-                    Date="{Binding ArrivalDate}"
-                    VerticalOptions="Start" />
+            x:Name="arrivalDatePicker"
+            Date="{Binding ArrivalDate}"
+            VerticalOptions="Center"
+            WidthRequest="150" />
             </StackLayout>
 
             <!-- Vertrekdatum -->
             <StackLayout>
                 <Label 
-                    Text="Vertrekdatum"
-                    VerticalOptions="Start"
-                    HorizontalOptions="Center" />
+            Text="Vertrekdatum"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
                 <DatePicker 
-                    x:Name="departureDatePicker"
-                    Date="{Binding DepartureDate}"
-                    VerticalOptions="Start" />
+            x:Name="departureDatePicker"
+            Date="{Binding DepartureDate}"
+            VerticalOptions="Center"
+            WidthRequest="150" />
             </StackLayout>
         </HorizontalStackLayout>
+
 
         <!-- Zoekbeschikbaarheid knop -->
         <Button 
@@ -68,19 +71,27 @@
             Clicked="OnSearchAvailabilityClicked" />
 
         <!-- Afbeelding onder de datumprikkers -->
-        <Image 
-            Source="C:\Users\Ali-I\Desktop\image.png"  
-            WidthRequest="1000"
-       
-            HeightRequest="600"
-          
-            Aspect="AspectFill"
-       
-            HorizontalOptions="Center"
-          
-            VerticalOptions="Start"
-            
-            Margin="0,20,0,0"/>
-     
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Image 
+        Source="C:\Users\Ali-I\Desktop\image.png"  
+        WidthRequest="1000"
+        HeightRequest="700"
+        Aspect="AspectFill"
+        HorizontalOptions="Center"
+        VerticalOptions="Start"
+        Margin="0,20,0,0"
+        Grid.Row="0" 
+        Grid.Column="0"/>
+        </Grid>
+
+
     </VerticalStackLayout>
 </ContentPage>
