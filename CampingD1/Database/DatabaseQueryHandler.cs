@@ -75,8 +75,10 @@ public class DatabaseQueryHandler {
                 int campingSpot = Convert.ToInt32(row["camping_spot"]);
                 DateTime fromDate = Convert.ToDateTime(row["from"]);
                 DateTime toDate = Convert.ToDateTime(row["to"]);
+                string phone = row["phone"].ToString();
+                string email = row["email"].ToString();
 
-                Reservation reservation = new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate);
+                Reservation reservation = new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email);
                 reservations.Add(reservation);
             }
         }
