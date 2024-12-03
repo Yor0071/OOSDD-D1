@@ -16,4 +16,9 @@
         Title="ReservationList"
         ContentTemplate="{DataTemplate local:ReservationList}"
         Route="ReservationList" />
+
+    <ShellContent
+        Title="CampingSpotList"
+        ContentTemplate="{DataTemplate local:CampingSpotList}"
+        Route="CampingSpotList" />
 </Shell>
