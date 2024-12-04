@@ -10,8 +10,7 @@ namespace AdministrationApp
         {
             InitializeDatabase();
             InitializeComponent();
-            // MainPage = new AppShell();
-            MainPage = new MapEditorPage();
+            MainPage = new LoginPage();
         }
 
         private void InitializeDatabase()

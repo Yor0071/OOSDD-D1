@@ -18,9 +18,18 @@ public partial class LoginPage : ContentPage
         string username = UsernameEntry.Text;
         string password = PasswordEntry.Text;
 
+        if (App.Database == null)
+        {
+            await DisplayAlert("Error", "Database is not connected. Please try again later.", "OK");
+            return;
+        }
+
+
         if (App.Database.LoginCheck(username, password))
         {
-            await Shell.Current.GoToAsync("///ReservationList");
+            Application.Current.MainPage = new AppShell();
+
+            //await Shell.Current.GoToAsync("//ReservationList");
         }
         else
         {

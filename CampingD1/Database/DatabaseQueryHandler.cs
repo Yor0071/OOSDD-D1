@@ -113,8 +113,9 @@ public class DatabaseQueryHandler {
         return reservations;
     }
 
-    public bool LoginCheck(string username, string password) {
-        string query = "select * from admin_accounts where username = @username && PASSWORD = @password LIMIT 1;";
+    public bool LoginCheck(string username, string password)
+    {
+        string query = "select * from admin_accounts where binary username = @username && binary PASSWORD = @password LIMIT 1;";
 
         try {
             var parameters = new Dictionary<string, object> {
