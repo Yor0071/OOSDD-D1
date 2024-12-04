@@ -4,8 +4,13 @@
              x:Class="AdministrationApp.ReservationList"
              Title="Reserveringen">
     <Grid Padding="10">
+        <!-- Define rows for grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <!-- Table Header -->
-        <Grid BackgroundColor="LightGray" Padding="10">
+        <Grid BackgroundColor="LightGray" Padding="10" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -31,7 +36,8 @@
         <CollectionView x:Name="ReservationsCollectionView" 
                         VerticalOptions="FillAndExpand"
                         SelectionMode="Single"
-                        SelectionChanged="OnReservationSelected">
+                        SelectionChanged="OnReservationSelected"
+                        Grid.Row="1">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">
