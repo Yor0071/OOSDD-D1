@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AdministrationApp.EditCampingSpotPage"
+             Title="Edit Camping Spot">
+    <Grid Padding="10">
+        <!-- Define rows for grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <VerticalStackLayout Padding="10" Grid.Row="0">
+            <!-- Camping Spot -->
+            <Label Text="Camping Plaats:" FontAttributes="Bold" />
+            <Entry x:Name="CampingSpotNameEntry" Placeholder="Camping plaats" />
+
+            <!-- Surface Area -->
+            <Label Text="Oppervlakte (m²):" FontAttributes="Bold" />
+            <Entry x:Name="SurfaceAreaEntry" Placeholder="Oppervlakte in m²" Keyboard="Numeric" />
+
+            <!-- Power Supply -->
+            <Label Text="Stroomvoorziening:" FontAttributes="Bold" />
+            <Switch x:Name="PowerSwitch" />
+
+            <!-- Water Supply -->
+            <Label Text="Watervoorziening:" FontAttributes="Bold" />
+            <Switch x:Name="WaterSwitch" />
+
+            <!-- WiFi Availability -->
+            <Label Text="WiFi Beschikbaarheid:" FontAttributes="Bold" />
+            <Switch x:Name="WifiSwitch" />
+
+            <!-- Max Persons -->
+            <Label Text="Maximaal aantal personen:" FontAttributes="Bold" />
+            <Entry x:Name="MaxPersonsEntry" Placeholder="Aantal personen" Keyboard="Numeric" />
+
+            <!-- Price per square meter -->
+            <Label Text="Prijs per m²:" FontAttributes="Bold" />
+            <Entry x:Name="PricePerSquareMeterEntry" Placeholder="Prijs per m²" Keyboard="Numeric" />
+
+            <!-- Availability -->
+            <Label Text="Beschikbaar:" FontAttributes="Bold" />
+            <Switch x:Name="AvailableSwitch" />
+        </VerticalStackLayout>
+
+        <!-- Back and Save Buttons at the Bottom -->
+        <HorizontalStackLayout Spacing="10" Grid.Row="1" HorizontalOptions="End" VerticalOptions="End">
+            <Button x:Name="BackButton" Text="Terug" Clicked="OnBackButtonClicked" WidthRequest="100" />
+            <Button x:Name="SaveButton" Text="Opslaan" Clicked="OnSaveButtonClicked" WidthRequest="100" />
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>
