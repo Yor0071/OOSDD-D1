@@ -1,4 +1,5 @@
 using System.Data;
+using System.Resources;
 using Database.types;
 using Database.Types;
 
@@ -166,6 +167,32 @@ public class DatabaseQueryHandler {
         return campingSpots;
     }
 
+    public void UpdateReservation(Reservation reservation)
+    {
+        string query = @"UPDATE reservations SET firstname = @firstname, lastname = @lastname, camping_spot = @placeNumber, `from` = @fromDate, `to` = @toDate, phone = @phone, email = @email WHERE id = @id;";
+
+        var parameters = new Dictionary<string, object>
+        {
+            { "@firstname", reservation.FirstName },
+            { "@lastname", reservation.LastName },
+            { "@placeNumber", reservation.PlaceNumber },
+            { "@fromDate", reservation.Arrival },
+            { "@toDate", reservation.Depart },
+            { "@phone", reservation.PhoneNumber },
+            { "@email", reservation.Email },
+            { "@id", reservation.Id }
+        };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error updating reservation: {ex.Message}");
+        }
+    }
+    
     public void AddCampingMap(string mapName, List<MapCircle> mapCircles) {
         try {
             _databaseHandler.EnsureConnection();
