@@ -13,20 +13,38 @@
         <VerticalStackLayout Grid.Column="0" Padding="0" Spacing="0">
             <!-- Buttons -->
             <HorizontalStackLayout Padding="10" Spacing="10">
-                <Picker
-                    x:Name="MapPicker"
-                    SelectedIndexChanged="OnMapSelected"
-                    WidthRequest="200" />
-                
-                <Button Text="Add Circle" Clicked="OnAddCircleButtonClicked" />
+                <VerticalStackLayout>
+                    <Label Text="Kies een kaart:" />
+                    <Picker
+                        x:Name="MapPicker"
+                        SelectedIndexChanged="OnMapSelected"
+                        WidthRequest="200" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Padding="0,0,100,0">
+                    <Label Text="Naam van kaart:" />
+                    <Entry x:Name="MapNameEntry"
+                           Placeholder="Nieuwe Map"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="Center" />
+                </VerticalStackLayout>
+
+
+                <Button Text="Voeg cirkel toe" Clicked="OnAddCircleButtonClicked" />
                 <Button Text="Reset" Clicked="OnResetButtonClicked" />
-                <Button Text="Save" Clicked="OnSaveButtonClicked" />
+                <Button Text="Map opslaan" Clicked="OnSaveButtonClicked" />
+                
+                <Button Text="Verwijder huidige kaart"
+                        BackgroundColor="Red"
+                        TextColor="White"
+                        Clicked="OnDeleteMapButtonClicked"
+                        Margin="10,0,10,10" />
             </HorizontalStackLayout>
 
             <!-- Rectangle container -->
             <Grid WidthRequest="1000" HeightRequest="600" Padding="0">
                 <!-- Background Image -->
-                <Image Source="background_image.png" Aspect="AspectFill" />
+                <Image Source="plattegrond.png" Aspect="AspectFill" />
 
                 <!-- Frame Content -->
                 <Frame x:Name="RectangleContainer"
@@ -40,16 +58,16 @@
         </VerticalStackLayout>
 
         <!-- Side Menu -->
-        <VerticalStackLayout Grid.Column="1" x:Name="SideMenu" IsVisible="False" Padding="10" BackgroundColor="LightGray">
-            <Label Text="Bewerk cirkel" FontSize="18" FontAttributes="Bold" />
-            <Entry x:Name="CircleNameEntry" Placeholder="Voer plek naam in" />
-            <Button Text="Set ID" Clicked="OnSetCircleIdButtonClicked" />
-            <Button 
-                Text="Delete Circle" 
-                Clicked="OnDeleteCircleButtonClicked" 
-                BackgroundColor="Red" 
-                TextColor="White"
-                HorizontalOptions="Center" />
+        <VerticalStackLayout Grid.Column="1" x:Name="SideMenu" IsVisible="False" Padding="10"
+                             BackgroundColor="LightGray">
+            <Label Text="Bewerk cirkel" FontSize="18" FontAttributes="Bold"/>
+            <Entry x:Name="CircleNameEntry" Placeholder="Voer plek naam in"/>
+            <Button Text="Stel in" Clicked="OnSetCircleIdButtonClicked" Padding="0,60,0,0"/>
+            <Button
+                Text="Verwijder cirkel"
+                Clicked="OnDeleteCircleButtonClicked"
+                BackgroundColor="Red"
+                TextColor="White" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

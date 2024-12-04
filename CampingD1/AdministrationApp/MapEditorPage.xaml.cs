@@ -9,13 +9,14 @@ namespace AdministrationApp;
 
 public partial class MapEditorPage : ContentPage
 {
-    private Dictionary<Frame, MapCircle> circleMap = new(); // Maps Frame objects to MapCircle instances
-    private List<MapCircle> circleData = new(); // Temporary storage for all circles
-    private Frame selectedCircle = null; // Currently selected circle for editing
+    private Dictionary<Frame, MapCircle> circleMap = new();
+    private List<MapCircle> circleData = new();
+    private Frame selectedCircle = null;
     private double offsetX, offsetY;
-    private List<CampingMap> originalMapsFromDatabase = new(); // Original maps from the database
-    private List<CampingMap> currentMaps = new(); // List of current maps
-    private CampingMap? selectedMap = null; // Currently selected map
+    private List<CampingMap> originalMapsFromDatabase = new();
+    private List<CampingMap> currentMaps = new();
+    private CampingMap? selectedMap = null;
+    private bool isNewMap = true;
 
     public MapEditorPage()
     {
@@ -27,20 +28,18 @@ public partial class MapEditorPage : ContentPage
     {
         try
         {
-            // Ensure database connection and fetch maps
             await Task.Run(() => App.databaseHandler.EnsureConnection());
             var maps = await Task.Run(() => App.Database.SelectCampingMaps());
-
-            // Deep copy maps to avoid reference issues
+            Console.WriteLine(maps.First().cirles.First().spotName);
+            
             currentMaps = DeepCopyMaps(maps);
             originalMapsFromDatabase = DeepCopyMaps(maps);
-
-            // Populate the picker with map options on the main thread
-            MainThread.BeginInvokeOnMainThread(() => PopulateMapPicker());
+            
+            PopulateMapPicker();
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to load maps: {ex.Message}", "OK");
+            await DisplayAlert("Fout", $"Kan mappen niet laden: {ex.Message}", "OK");
         }
     }
 
@@ -50,23 +49,20 @@ public partial class MapEditorPage : ContentPage
         foreach (var map in maps)
         {
             var circleCopy = new List<MapCircle>();
-            foreach (var circle in map.cirles)
-            {
-                circleCopy.Add(circle); // Copy each circle
+            foreach (var circle in map.cirles) {
+                circleCopy.Add(circle);
             }
-            copy.Add(new CampingMap(map.id, circleCopy, map.name, map.campingSpotId));
+            copy.Add(new CampingMap(map.id, circleCopy, map.name));
         }
         return copy;
     }
 
     private void PopulateMapPicker()
     {
-        MapPicker.Items.Clear(); // Clear existing items
-
-        // Add "Nieuwe map" as the first option
+        MapPicker.Items.Clear();
+        
         MapPicker.Items.Add("Nieuwe map");
-
-        // Populate picker with existing maps
+        
         foreach (var map in currentMaps)
         {
             MapPicker.Items.Add(map.name);
@@ -78,29 +74,31 @@ public partial class MapEditorPage : ContentPage
         int selectedIndex = MapPicker.SelectedIndex;
 
         if (selectedIndex == -1)
-            return; // No selection made
+            return;
 
         if (selectedIndex == 0)
         {
-            // "Nieuwe map" selected - Create a new empty map
             selectedMap = new CampingMap(
-                id: currentMaps.Count + 1,
+                id: 0,
                 cirles: new List<MapCircle>(),
-                name: $"New Map {currentMaps.Count + 1}",
-                campingSpotId: 0
+                name: $"zonder naam"
             );
+
+            isNewMap = true;
             ClearCanvas();
         }
         else
         {
-            // Existing map selected - Render circles
-            selectedMap = currentMaps[selectedIndex - 1]; // Adjust index for "Nieuwe map"
+            selectedMap = currentMaps[selectedIndex - 1];
             RenderMap(selectedMap.Value);
 
-            // Update the selected index to match the user's selection
             MapPicker.SelectedIndex = selectedIndex;
             MapPicker.SelectedItem = currentMaps[selectedIndex - 1].name;
+            
+            isNewMap = false;
         }
+
+        MapNameEntry.Text = selectedMap.Value.name;
     }
 
     private void RenderMap(CampingMap map)
@@ -131,20 +129,16 @@ public partial class MapEditorPage : ContentPage
             HasShadow = false
         };
 
-        // Add tap gesture for selection
         var tapGesture = new TapGestureRecognizer();
         tapGesture.Tapped += (s, e) => OnCircleTapped(circle);
         circle.GestureRecognizers.Add(tapGesture);
 
-        // Add drag functionality
         var panGesture = new PanGestureRecognizer();
         panGesture.PanUpdated += OnCircleDragged;
         circle.GestureRecognizers.Add(panGesture);
 
-        // Map the circle's data to the frame
         circleMap[circle] = mapCircle;
 
-        // Add the frame to the canvas
         AbsoluteLayout.SetLayoutBounds(circle, new Rect(mapCircle.coordinateX, mapCircle.coordinateY, circle.WidthRequest, circle.HeightRequest));
         AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
         Canvas.Children.Add(circle);
@@ -155,7 +149,6 @@ public partial class MapEditorPage : ContentPage
         selectedCircle = circle;
         var mapCircle = circleMap[circle];
 
-        // Update UI to reflect the selected circle's name
         CircleNameEntry.Text = mapCircle.spotName;
         SideMenu.IsVisible = true;
     }
@@ -178,7 +171,6 @@ public partial class MapEditorPage : ContentPage
                     var newX = offsetX + e.TotalX;
                     var newY = offsetY + e.TotalY;
 
-                    // Ensure the circle stays within bounds
                     newX = Math.Clamp(newX, 0, RectangleContainer.Width - circle.WidthRequest);
                     newY = Math.Clamp(newY, 0, RectangleContainer.Height - circle.HeightRequest);
 
@@ -186,14 +178,12 @@ public partial class MapEditorPage : ContentPage
                     break;
 
                 case GestureStatus.Completed:
-                    // Update MapCircle coordinates
                     mapCircle.coordinateX = bounds.X;
                     mapCircle.coordinateY = bounds.Y;
 
-                    // Update the dictionary entry
                     circleMap[circle] = mapCircle;
 
-                    Console.WriteLine($"Circle {mapCircle.id} moved to ({mapCircle.coordinateX}, {mapCircle.coordinateY})");
+                    Console.WriteLine($"Cirkel {mapCircle.id} verplaatst naar ({mapCircle.coordinateX}, {mapCircle.coordinateY})");
                     break;
             }
         }
@@ -203,26 +193,21 @@ public partial class MapEditorPage : ContentPage
     {
         if (!selectedMap.HasValue)
         {
-            DisplayAlert("Error", "Select a map before adding a circle.", "OK");
+            DisplayAlert("Fout", "Selecteer een kaart voordat je een cirkel toevoegt.", "OK");
             return;
         }
 
-        // Get a copy of the selected map
         var map = selectedMap.Value;
 
-        // Create a new circle at (0, 0)
         var newCircle = new MapCircle(id: map.cirles.Count + 1, coordinateX: 0, coordinateY: 0);
 
-        // Update the circle list and reassign the map
         var updatedCircles = new List<MapCircle>(map.cirles) { newCircle };
         selectedMap = new CampingMap(
             map.id,
             updatedCircles,
-            map.name,
-            map.campingSpotId
+            map.name
         );
 
-        // Add the circle to the UI
         AddCircle(newCircle);
     }
 
@@ -230,31 +215,27 @@ public partial class MapEditorPage : ContentPage
     {
         if (!selectedMap.HasValue)
         {
-            DisplayAlert("Error", "No map selected to reset.", "OK");
+            DisplayAlert("Fout", "Geen kaart geselecteerd om te resetten.", "OK");
             return;
         }
 
-        // Find the original map from the database
         CampingMap? originalMap = originalMapsFromDatabase.Find(map => map.id == selectedMap.Value.id);
 
         if (originalMap != null)
         {
-            // Replace the current map with the original map
             selectedMap = new CampingMap(
                 originalMap?.id ?? 1,
                 DeepCopyCircles(originalMap?.cirles ?? []),
-                originalMap?.name ?? "",
-                originalMap?.campingSpotId ?? 0
+                originalMap?.name ?? ""
             );
 
-            // Re-render the map with the restored data
             RenderMap(selectedMap.Value);
 
-            DisplayAlert("Success", "The map has been reset to its original state.", "OK");
+            DisplayAlert("Succes", "De kaart is gereset naar de originele staat.", "OK");
         }
         else
         {
-            DisplayAlert("Error", "Original map data not found.", "OK");
+            DisplayAlert("Fout", "Originele kaartgegevens niet gevonden.", "OK");
         }
     }
 
@@ -270,7 +251,12 @@ public partial class MapEditorPage : ContentPage
 
     private void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        // Save the latest positions to circleData
+        if (!selectedMap.HasValue)
+        {
+            DisplayAlert("Fout", "Geen kaart geselecteerd om op te slaan.", "OK");
+            return;
+        }
+
         circleData.Clear();
         foreach (var kvp in circleMap)
         {
@@ -283,22 +269,29 @@ public partial class MapEditorPage : ContentPage
 
             circleData.Add(mapCircle);
         }
-
-        Console.WriteLine("Saved Circle Data:");
-        foreach (var circle in circleData)
+        
+        if (!isNewMap)
         {
-            Console.WriteLine($"ID: {circle.id}, X: {circle.coordinateX}, Y: {circle.coordinateY}, Name: {circle.spotName}");
+            App.Database.EditCampingMap(selectedMap.Value.id, MapNameEntry.Text, circleData);
+            DisplayAlert("Succes", $"Kaart '{MapNameEntry.Text}' succesvol bijgewerkt.", "OK");
         }
+        else
+        {
+            App.Database.AddCampingMap(MapNameEntry.Text, circleData);
+            DisplayAlert("Succes", $"Nieuwe kaart '{MapNameEntry.Text}' succesvol aangemaakt.", "OK");
+        }
+
+        LoadMapsAsync();
+        setNewEmptyMap();
+        MapNameEntry.Text = "";
     }
     
     private void OnDeleteCircleButtonClicked(object sender, EventArgs e)
     {
         if (selectedCircle != null)
         {
-            // Remove the circle from the canvas
             Canvas.Children.Remove(selectedCircle);
 
-            // Remove the circle from the map
             if (circleMap.ContainsKey(selectedCircle))
             {
                 circleMap.Remove(selectedCircle);
@@ -306,14 +299,13 @@ public partial class MapEditorPage : ContentPage
 
             selectedCircle = null;
 
-            // Hide the side menu
             SideMenu.IsVisible = false;
 
-            Console.WriteLine("Circle deleted successfully.");
+            Console.WriteLine("Cirkel succesvol verwijderd.");
         }
         else
         {
-            DisplayAlert("Error", "No circle selected to delete.", "OK");
+            DisplayAlert("Fout", "Geen cirkel geselecteerd om te verwijderen.", "OK");
         }
     }
     
@@ -323,26 +315,66 @@ public partial class MapEditorPage : ContentPage
         {
             if (circleMap.ContainsKey(selectedCircle) && !string.IsNullOrWhiteSpace(CircleNameEntry.Text))
             {
-                // Update the spotName of the selected circle
                 var updatedCircle = circleMap[selectedCircle];
                 updatedCircle.spotName = CircleNameEntry.Text;
 
-                // Reassign the updated circle back into the dictionary
                 circleMap[selectedCircle] = updatedCircle;
 
-                Console.WriteLine($"Circle {updatedCircle.id} updated with new name: {updatedCircle.spotName}");
+                Console.WriteLine($"Cirkel {updatedCircle.id} bijgewerkt met nieuwe naam: {updatedCircle.spotName}");
 
-                // Optionally, hide the side menu after setting the ID
                 SideMenu.IsVisible = false;
             }
             else
             {
-                DisplayAlert("Error", "Invalid input or no circle selected.", "OK");
+                DisplayAlert("Fout", "Ongeldige invoer of geen cirkel geselecteerd.", "OK");
             }
         }
         else
         {
-            DisplayAlert("Error", "No circle selected to update.", "OK");
+            DisplayAlert("Fout", "Geen cirkel geselecteerd om bij te werken.", "OK");
         }
+    }
+    
+    private async void OnDeleteMapButtonClicked(object sender, EventArgs e)
+    {
+        if (!selectedMap.HasValue || selectedMap.Value.id <= 0)
+        {
+            await DisplayAlert("Fout", "Geen kaart geselecteerd om te verwijderen.", "OK");
+            return;
+        }
+        
+        bool confirmDelete = await DisplayAlert(
+            "Bevestig verwijdering",
+            $"Weet je zeker dat je de kaart '{selectedMap.Value.name}' wilt verwijderen?",
+            "Ja",
+            "Annuleren"
+        );
+
+        if (confirmDelete)
+        {
+            try
+            {
+                App.Database.DeleteMap(selectedMap.Value.id);
+                await DisplayAlert("Succes", $"Kaart '{selectedMap.Value.name}' is verwijderd.", "OK");
+                await LoadMapsAsync();
+                setNewEmptyMap();
+                MapNameEntry.Text = "";
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Fout", $"Er is een fout opgetreden bij het verwijderen: {ex.Message}", "OK");
+            }
+        }
+    }
+
+    private void setNewEmptyMap() {
+        selectedMap = new CampingMap(
+            id: 0,
+            cirles: new List<MapCircle>(),
+            name: $"zonder naam"
+        );
+        
+        isNewMap = true;
+        ClearCanvas();
     }
 }
