@@ -9,8 +9,13 @@ public partial class ReservationList : ContentPage
     public ReservationList()
     {
         InitializeComponent();
-        LoadReservationsAsync();
         ReservationsCollectionView.ItemsSource = new List<Reservation>();
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        LoadReservationsAsync();
     }
 
     private async Task LoadReservationsAsync()
