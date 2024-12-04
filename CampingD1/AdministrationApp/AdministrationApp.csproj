@@ -67,6 +67,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="CampingSpotList.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ReservationList.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
