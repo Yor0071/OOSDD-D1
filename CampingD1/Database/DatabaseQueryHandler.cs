@@ -20,11 +20,12 @@ public class DatabaseQueryHandler {
 
             foreach (DataRow mapRow in mapsResult.Rows) {
                 int mapId = Convert.ToInt32(mapRow["id"]);
+                string name = Convert.ToString(mapRow["name"]);
                 int campingSpotId = Convert.ToInt32(mapRow["camping_spot"]);
                 
                 List<MapCircle> mapCircles = SelectMapCircles(mapId);
 
-                CampingMap campingMap = new CampingMap(mapId, mapCircles, campingSpotId);
+                CampingMap campingMap = new CampingMap(mapId, mapCircles, name, campingSpotId);
                 campingMaps.Add(campingMap);
             }
         }

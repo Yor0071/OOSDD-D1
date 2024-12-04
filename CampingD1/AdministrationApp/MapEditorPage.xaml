@@ -1,0 +1,55 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AdministrationApp.MapEditorPage"
+             Padding="0">
+    <Grid Padding="0">
+        <!-- Main layout -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" /> <!-- Side menu width -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Main Content -->
+        <VerticalStackLayout Grid.Column="0" Padding="0" Spacing="0">
+            <!-- Buttons -->
+            <HorizontalStackLayout Padding="10" Spacing="10">
+                <Picker
+                    x:Name="MapPicker"
+                    SelectedIndexChanged="OnMapSelected"
+                    WidthRequest="200" />
+                
+                <Button Text="Add Circle" Clicked="OnAddCircleButtonClicked" />
+                <Button Text="Reset" Clicked="OnResetButtonClicked" />
+                <Button Text="Save" Clicked="OnSaveButtonClicked" />
+            </HorizontalStackLayout>
+
+            <!-- Rectangle container -->
+            <Grid WidthRequest="1000" HeightRequest="600" Padding="0">
+                <!-- Background Image -->
+                <Image Source="background_image.png" Aspect="AspectFill" />
+
+                <!-- Frame Content -->
+                <Frame x:Name="RectangleContainer"
+                       BackgroundColor="Transparent"
+                       CornerRadius="0"
+                       BorderColor="Black"
+                       Padding="0">
+                    <AbsoluteLayout x:Name="Canvas" />
+                </Frame>
+            </Grid>
+        </VerticalStackLayout>
+
+        <!-- Side Menu -->
+        <VerticalStackLayout Grid.Column="1" x:Name="SideMenu" IsVisible="False" Padding="10" BackgroundColor="LightGray">
+            <Label Text="Bewerk cirkel" FontSize="18" FontAttributes="Bold" />
+            <Entry x:Name="CircleNameEntry" Placeholder="Voer plek naam in" />
+            <Button Text="Set ID" Clicked="OnSetCircleIdButtonClicked" />
+            <Button 
+                Text="Delete Circle" 
+                Clicked="OnDeleteCircleButtonClicked" 
+                BackgroundColor="Red" 
+                TextColor="White"
+                HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
