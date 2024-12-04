@@ -42,4 +42,9 @@ public partial class EditReservation : ContentPage
             await DisplayAlert("Error", $"Failed to save reservation: {ex.Message}", "OK");
         }
     }
+
+    private async void OnBackButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PopAsync();
+    }
 }
