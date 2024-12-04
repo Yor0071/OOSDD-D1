@@ -3,15 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AdministrationApp.ReservationList"
              Title="Reserveringen">
-    <Grid Padding="10">
-        <!-- Define rows for grid -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <VerticalStackLayout>
+        <SearchBar x:Name="SearchBar"
+            IsTextPredictionEnabled="True"
+            Placeholder="Filter"
+            CancelButtonColor="White"
+            WidthRequest="200"
+            HorizontalOptions="Start"
+            SearchButtonPressed="OnSearchButtonPressed"
+            />
         <!-- Table Header -->
-        <Grid BackgroundColor="LightGray" Padding="10" Grid.Row="0">
+        <Grid BackgroundColor="LightGray" Padding="10">
+ 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
