@@ -12,7 +12,8 @@ public partial class EditCampingSpotPage : ContentPage
 		InitializeComponent();
 		_campingSpot = campingSpot;
 
-		CampingSpotNameEntry.Text = _campingSpot.Description;
+        CampingSpotIdLabel.Text = _campingSpot.Id.ToString();
+        CampingSpotDescriptionEntry.Text = _campingSpot.Description;
         SurfaceAreaEntry.Text = _campingSpot.Surface_m2.ToString();
         PowerSwitch.IsToggled = _campingSpot.Power;
         WaterSwitch.IsToggled = _campingSpot.Water;
@@ -24,7 +25,7 @@ public partial class EditCampingSpotPage : ContentPage
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
-        _campingSpot.Description = CampingSpotNameEntry.Text;
+        _campingSpot.Description = CampingSpotDescriptionEntry.Text;
         _campingSpot.Surface_m2 = double.TryParse(SurfaceAreaEntry.Text, out double surface) ? surface : 0;
         _campingSpot.Power = PowerSwitch.IsToggled;
         _campingSpot.Water = WaterSwitch.IsToggled;
@@ -36,7 +37,7 @@ public partial class EditCampingSpotPage : ContentPage
         try
         {
             App.Database.UpdateCampingSpot(_campingSpot);
-            await DisplayAlert("Succes", "Reservering succesvol geüpdate!", "OK");
+            await DisplayAlert("Succes", "Kampeerplek succesvol geüpdate!", "OK");
             await Navigation.PopAsync();
         }
         catch (Exception ex)
