@@ -14,8 +14,10 @@ namespace Database.Types
         public int PlaceNumber { get; set; }
         public DateTime Arrival { get; set; }
         public DateTime Depart { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
 
-        public Reservation(int id, string firstName, string lastName, int placeNumber, DateTime arrival, DateTime depart)
+        public Reservation(int id, string firstName, string lastName, int placeNumber, DateTime arrival, DateTime depart, string phoneNumber, string email)
         {
             Id = id;
             FirstName = firstName;
@@ -23,6 +25,8 @@ namespace Database.Types
             PlaceNumber = placeNumber;
             Arrival = arrival;
             Depart = depart;
+            PhoneNumber = phoneNumber;
+            Email = email;
         }
     }
 }

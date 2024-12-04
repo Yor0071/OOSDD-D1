@@ -75,8 +75,10 @@ public class DatabaseQueryHandler {
                 int campingSpot = Convert.ToInt32(row["camping_spot"]);
                 DateTime fromDate = Convert.ToDateTime(row["from"]);
                 DateTime toDate = Convert.ToDateTime(row["to"]);
+                string phone = row["phone"].ToString();
+                string email = row["email"].ToString();
 
-                Reservation reservation = new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate);
+                Reservation reservation = new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email);
                 reservations.Add(reservation);
             }
         }
@@ -113,5 +115,38 @@ public class DatabaseQueryHandler {
         }
 
         return false;
+    }
+
+    public List<CampingSpot> SelectCampingSpots()
+    {
+        string query = "SELECT * FROM camping_spots ORDER BY id;";
+        List<CampingSpot> campingSpots = new List<CampingSpot>();
+
+        try
+        {
+            DataTable result = _databaseHandler.ExecuteSelectQuery(query);
+
+            foreach (DataRow row in result.Rows)
+            {
+                int id = Convert.ToInt32(row["id"]);
+                string description = row["description"].ToString();
+                double surface_m2 = Convert.ToDouble(row["surface_m2"]);
+                bool power = Convert.ToBoolean(row["power"]);
+                bool water = Convert.ToBoolean(row["water"]);
+                bool wifi = Convert.ToBoolean(row["wifi"]);
+                int max_persons = Convert.ToInt32(row["max_persons"]);
+                double price_m2 = Convert.ToDouble(row["price_m2"]);
+                bool available = Convert.ToBoolean(row["available"]);
+
+                CampingSpot campingSpot = new CampingSpot(id, description, surface_m2, power, water, wifi, max_persons, price_m2, available);
+                campingSpots.Add(campingSpot);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error fetching camping spots: {ex.Message}");
+        }
+
+        return campingSpots;
     }
 }

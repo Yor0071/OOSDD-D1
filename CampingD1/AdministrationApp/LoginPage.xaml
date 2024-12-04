@@ -21,7 +21,8 @@
                Placeholder="Wachtwoord"
                IsPassword="True"
                BackgroundColor="White"
-               TextColor="Black"/>
+               TextColor="Black"
+               Completed="PasswordEntry_Completed"/>
         <HorizontalStackLayout HorizontalOptions="Center">
             <CheckBox x:Name="ShowPasswordCheckbox"/>
             <Label Text="Toon wachtwoord" VerticalOptions="Center"  TextColor="Black"/>
