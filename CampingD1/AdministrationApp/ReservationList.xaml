@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AdministrationApp.ReservationList"
              Title="Reserveringen">
-    <VerticalStackLayout>
+    <Grid Padding="10">
         <!-- Table Header -->
         <Grid BackgroundColor="LightGray" Padding="10">
             <Grid.ColumnDefinitions>
@@ -28,7 +28,10 @@
         </Grid>
 
         <!-- Table Rows -->
-        <CollectionView x:Name="ReservationsCollectionView" VerticalOptions="FillAndExpand">
+        <CollectionView x:Name="ReservationsCollectionView" 
+                        VerticalOptions="FillAndExpand"
+                        SelectionMode="Single"
+                        SelectionChanged="OnReservationSelected">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">
@@ -43,6 +46,21 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommentStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="White"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="LightBlue"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
                         <Label Text="{Binding Id}" Grid.Column="0" />
                         <Label Text="{Binding FirstName}" Grid.Column="1" />
                         <Label Text="{Binding LastName}" Grid.Column="2" />
@@ -55,5 +73,16 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </VerticalStackLayout>
+        <!-- Edit Button -->
+        <Button x:Name="EditButton"
+                Text="Edit"
+                Clicked="OnEditButtonClicked"
+                IsEnabled="False"
+                WidthRequest="100"
+                HeightRequest="50"
+                Margin="10"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Grid.Row="1"/>
+    </Grid>
 </ContentPage>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AdministrationApp.EditReservation"
+             Title="Reservation Details">
+    <VerticalStackLayout Padding="10">
+        <Label Text="Voornaam:" FontAttributes="Bold" />
+        <Label x:Name="FirstNameLabel" />
+
+        <Label Text="Achternaam:" FontAttributes="Bold" />
+        <Label x:Name="LastNameLabel" />
+
+        <Label Text="Plek:" FontAttributes="Bold" />
+        <Label x:Name="PlaceNumberLabel" />
+
+        <Label Text="Aankomst:" FontAttributes="Bold" />
+        <Label x:Name="ArrivalLabel" />
+
+        <Label Text="Vertrek:" FontAttributes="Bold" />
+        <Label x:Name="DepartLabel" />
+
+        <Label Text="Telefoonnummer:" FontAttributes="Bold" />
+        <Label x:Name="PhoneNumberLabel" />
+
+        <Label Text="E-mail:" FontAttributes="Bold" />
+        <Label x:Name="EmailLabel" />
+    </VerticalStackLayout>
+</ContentPage>
