@@ -9,6 +9,9 @@
     <MauiXaml Update="CampingSpotList.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="EditReservation.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="ReservationList.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
