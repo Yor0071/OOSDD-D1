@@ -9,17 +9,12 @@
 
     <TabBar>
         <ShellContent
-            Title="Reservations"
+            Title="Reserveringen"
             ContentTemplate="{DataTemplate local:ReservationList}" 
             Route="ReservationList" />
 
         <ShellContent
-            Title="ReservationList"
-            ContentTemplate="{DataTemplate local:ReservationList}"
-            Route="ReservationList" />
-    
-        <ShellContent
-            Title="CampingSpotList"
+            Title="Camping plekken"
             ContentTemplate="{DataTemplate local:CampingSpotList}"
             Route="CampingSpotList" />
     </TabBar>
