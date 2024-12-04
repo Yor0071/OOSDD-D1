@@ -17,5 +17,10 @@
             Title="Camping plekken"
             ContentTemplate="{DataTemplate local:CampingSpotList}"
             Route="CampingSpotList" />
+        
+        <ShellContent
+            Title="Plattegrond bewerken"
+            ContentTemplate="{DataTemplate local:MapEditorPage}"
+            Route="MapEditorPage" />
     </TabBar>
 </Shell>
