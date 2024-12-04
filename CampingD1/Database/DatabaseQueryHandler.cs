@@ -92,7 +92,7 @@ public class DatabaseQueryHandler {
 
     public bool LoginCheck(string username, string password)
     {
-        string query = "select * from admin_accounts where username = @username && PASSWORD = @password LIMIT 1;";
+        string query = "select * from admin_accounts where binary username = @username && binary PASSWORD = @password LIMIT 1;";
 
         try
         {
