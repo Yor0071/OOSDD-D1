@@ -4,8 +4,17 @@
              x:Class="AdministrationApp.ReservationList"
              Title="Reserveringen">
     <VerticalStackLayout>
+        <SearchBar x:Name="SearchBar"
+            IsTextPredictionEnabled="True"
+            Placeholder="Filter"
+            CancelButtonColor="White"
+            WidthRequest="200"
+            HorizontalOptions="Start"
+            SearchButtonPressed="OnSearchButtonPressed"
+            />
         <!-- Table Header -->
         <Grid BackgroundColor="LightGray" Padding="10">
+ 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
