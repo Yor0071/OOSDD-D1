@@ -10,7 +10,7 @@ namespace AdministrationApp
         {
             InitializeDatabase();
             InitializeComponent();
-            MainPage = new NavigationPage(new CampingSpotList());
+            MainPage = new LoginPage();
         }
 
         private void InitializeDatabase()
