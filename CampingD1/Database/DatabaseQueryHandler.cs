@@ -2,6 +2,7 @@ using System.Data;
 using System.Resources;
 using Database.types;
 using Database.Types;
+using Org.BouncyCastle.Asn1;
 
 namespace Database;
 
@@ -335,6 +336,42 @@ public class DatabaseQueryHandler {
         catch (Exception ex)
         {
             throw new Exception($"Error deleting map with ID {mapId}: {ex.Message}", ex);
+        }
+    }
+
+    public void UpdateCampingSpot(CampingSpot campingSpot)
+    {
+        string query = @"UPDATE camping_spots 
+                         SET description = @description,
+                         surface_m2 = @surfaceM2,
+                         power = @power,
+                         water = @water,
+                         wifi = @wifi,
+                         max_persons = @maxPersons,
+                         price_m2 = @priceM2,
+                         available = @available
+                         WHERE id = @id;";
+
+        var parameters = new Dictionary<string, object>
+        {
+            {"@description", campingSpot.Description},
+            {"@surfaceM2", campingSpot.Surface_m2},
+            {"@power", campingSpot.Power},
+            {"@water", campingSpot.Water},
+            {"@wifi", campingSpot.Wifi},
+            {"@maxPersons", campingSpot.MaxPersons},
+            {"@priceM2", campingSpot.Price_m2},
+            {"@available", campingSpot.Available},
+            {"@id", campingSpot.Id}
+        };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error updating camping spot: {ex.Message}");
         }
     }
 }
