@@ -374,4 +374,24 @@ public class DatabaseQueryHandler {
             throw new Exception($"Error updating camping spot: {ex.Message}");
         }
     }
+
+    public void DeleteReservation(int reservationId)
+    {
+        string query = "DELETE FROM reservations WHERE id = @id;";
+
+        var parameters = new Dictionary<string, object>
+    {
+        { "@id", reservationId }
+    };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error deleting reservation with ID {reservationId}: {ex.Message}");
+        }
+    }
+
 }
