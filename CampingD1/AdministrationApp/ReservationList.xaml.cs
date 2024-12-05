@@ -7,23 +7,17 @@ namespace AdministrationApp;
 
 public partial class ReservationList : ContentPage
 {
+    private Reservation _selectedReservation;
     public ReservationList()
     {
         InitializeComponent();
-        LoadReservationsAsync();
-
-        // List<Reservation> testje = App.Database.SelectReservations();
-
-        // Dummy data
-        // var reservations = new List<Reservation>
-        // {
-        //     new Reservation(1, "John", "Doe", 101, DateTime.Now, DateTime.Now.AddDays(7)),
-        //     new Reservation(2, "Jane", "Smith", 102, DateTime.Now.AddDays(-1), DateTime.Now.AddDays(6)),
-        //     new Reservation(3, "Alice", "Johnson", 103, DateTime.Now, DateTime.Now.AddDays(5)),
-        // };
-
-        // Bind the data
         ReservationsCollectionView.ItemsSource = new List<Reservation>();
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        LoadReservationsAsync();
     }
 
     private async Task LoadReservationsAsync(string nameFilter = null, int? spotFilter = null, string emailFilter = null, DateTime? fromDateFilter = null)
@@ -83,4 +77,25 @@ public partial class ReservationList : ContentPage
         await LoadReservationsAsync(nameFilter, spotFilter, emailFilter, fromDateFilter);
     }
 
+    private void OnReservationSelected(Object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.Count > 0)
+        {
+            _selectedReservation = (Reservation)e.CurrentSelection.FirstOrDefault();
+            EditButton.IsEnabled = true;
+        }
+        else
+        {
+            _selectedReservation = null;
+            EditButton.IsEnabled = false;
+        }
+    }
+
+    private async void OnEditButtonClicked(object sender, EventArgs e)
+    {
+        if (_selectedReservation != null)
+        {
+            await Navigation.PushAsync(new EditReservation(_selectedReservation));
+        }
+    }
 }
