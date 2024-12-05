@@ -19,7 +19,7 @@ namespace ReservationApp
             arrivalDatePicker.MinimumDate = DateTime.Now;
             departureDatePicker.MinimumDate = DateTime.Now;
 
-           LoadCampingMapAsync();
+            LoadCampingMapAsync();
         }
 
         private async Task LoadCampingMapAsync()
