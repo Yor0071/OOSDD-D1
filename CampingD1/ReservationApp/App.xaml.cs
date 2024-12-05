@@ -9,13 +9,14 @@ namespace ReservationApp
         {
             InitializeDatabase();
             InitializeComponent();
-
-            MainPage = new MapScreenCustomer();
+            
+            MainPage = new AppShell();
         }
-
+        
         private void InitializeDatabase()
         {
             databaseHandler = new DatabaseHandler();
+
             try
             {
                 databaseHandler.Connect(
@@ -24,6 +25,7 @@ namespace ReservationApp
                     user: "mountain_campingapp",
                     password: "iWN4RVoC8jPLfKVNuGfANgj8yX_.e8x6KMzLh7UE!XR7FAeg"
                 );
+
                 Database = new DatabaseQueryHandler(databaseHandler);
             }
             catch (Exception ex)

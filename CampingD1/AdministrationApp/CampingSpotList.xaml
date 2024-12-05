@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AdministrationApp.CampingSpotList"
+             Title="Campingplekken">
+    <VerticalStackLayout>
+        <!-- Table Header -->
+        <Grid BackgroundColor="LightGray" Padding="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Text="ID" FontAttributes="Bold" Grid.Column="0" />
+            <Label Text="Beschikbaar" FontAttributes="Bold" Grid.Column="1"/>
+            <Label Text="Aantal personen" FontAttributes="Bold" Grid.Column="2"/>
+            <Label Text="Oppervlakte(m2)" FontAttributes="Bold" Grid.Column="3" />
+            <Label Text="Prijs per m2" FontAttributes="Bold" Grid.Column="4"/>
+            <Label Text="Electriciteit" FontAttributes="Bold" Grid.Column="5" />
+            <Label Text="Water" FontAttributes="Bold" Grid.Column="6" />
+            <Label Text="Wifi" FontAttributes="Bold" Grid.Column="7" />
+            <Label Text="Omschrijving" FontAttributes="Bold" Grid.Column="8" />
+        </Grid>
+
+        <!-- Table Rows -->
+        <CollectionView x:Name="CampingSpotsCollectionView" VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="{Binding Id}" Grid.Column="0" />
+                        <Label Text="{Binding AvailableText}" Grid.Column="1" />
+                        <Label Text="{Binding MaxPersons}" Grid.Column="2" />
+                        <Label Text="{Binding Surface_m2}" Grid.Column="3" />
+                        <Label Text="{Binding Price_m2 }" Grid.Column="4" />
+                        <Label Text="{Binding PowerText}" Grid.Column="5" />
+                        <Label Text="{Binding WaterText}" Grid.Column="6" />
+                        <Label Text="{Binding WifiText}" Grid.Column="7" />
+                        <Label Text="{Binding Description}" Grid.Column="8" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

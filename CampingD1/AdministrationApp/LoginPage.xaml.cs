@@ -18,15 +18,27 @@ public partial class LoginPage : ContentPage
         string username = UsernameEntry.Text;
         string password = PasswordEntry.Text;
 
+        if (App.Database == null)
+        {
+            await DisplayAlert("Error", "Database is not connected. Please try again later.", "OK");
+            return;
+        }
+
+
         if (App.Database.LoginCheck(username, password))
         {
-            await DisplayAlert("Succes", "Welkom", "Ok");
+            Application.Current.MainPage = new AppShell();
 
-            await Shell.Current.GoToAsync("///ReservationList");
+            //await Shell.Current.GoToAsync("//ReservationList");
         }
         else
         {
-            await DisplayAlert("Error", "Foute username of wachtwoord", "Ok");
+            await DisplayAlert("Error", "De gebruikersnaam of het wachtwoord is onjuist. Voer de gebruikersnaam en het wachtwoord opnieuw in.", "Ok");
         }
+    }
+
+    private void PasswordEntry_Completed(object sender, EventArgs e)
+    {
+        OnLoginClicked(sender, e);
     }
 }
