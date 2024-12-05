@@ -11,6 +11,7 @@
             WidthRequest="200"
             HorizontalOptions="Start"
             SearchButtonPressed="OnSearchButtonPressed"
+            Grid.Row="0"
             />
         <!-- Table Header -->
         <Grid BackgroundColor="LightGray" Padding="10">
@@ -43,7 +44,7 @@
                         VerticalOptions="FillAndExpand"
                         SelectionMode="Single"
                         SelectionChanged="OnReservationSelected"
-                        Grid.Row="1">
+                        Grid.Row="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">
@@ -87,26 +88,16 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <!-- Edit and remove button -->
-        <HorizontalStackLayout Grid.Row="2"
-                               HorizontalOptions="End"
-                               Spacing="10"
-                               Margin="10">
-            
-            <Button x:Name="EditButton"
-            Text="Bewerken"
-            Clicked="OnEditButtonClicked"
-            IsEnabled="False"
-            WidthRequest="100"
-            HeightRequest="50" />
-
-            <Button x:Name="DeleteButton"
-            Text="Verwijderen"
-            Clicked="OnDeleteButtonClicked"
-            IsEnabled="False"
-            WidthRequest="150"
-            HeightRequest="50" />
-        </HorizontalStackLayout>
-
+        <!-- Edit Button -->
+        <Button x:Name="EditButton"
+                Text="Edit"
+                Clicked="OnEditButtonClicked"
+                IsEnabled="False"
+                WidthRequest="100"
+                HeightRequest="50"
+                Margin="10"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Grid.Row="3"/>
     </Grid>
 </ContentPage>
