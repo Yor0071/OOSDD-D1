@@ -6,9 +6,6 @@
     <ActiveDebugProfile>Windows Machine</ActiveDebugProfile>
   </PropertyGroup>
   <ItemGroup>
-    <MauiXaml Update="MapScreen.xaml">
-      <SubType>Designer</SubType>
-    </MauiXaml>
     <MauiXaml Update="MapScreenCustomer.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>

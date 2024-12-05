@@ -1,16 +1,15 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ReservationApp.MapScreenCustomer"
              Title="Plattegrond">
     <ContentPage.Resources>
         <Style TargetType="Label">
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="TextColor" Value="White"/>
         </Style>
 
         <Style TargetType="DatePicker">
-            <Setter Property="HeightRequest" Value="40"/>
+            <Setter Property="HeightRequest" Value= "40"/>
             <Setter Property="BackgroundColor" Value="#f0f0f0"/>
             <Setter Property="TextColor" Value="Black"/>
         </Style>
@@ -24,8 +23,8 @@
         </Style>
     </ContentPage.Resources>
 
-    <VerticalStackLayout Padding="20" Spacing="10">
-        <!-- Titel voor de pagina -->
+    <VerticalStackLayout Padding="5" Spacing="20">
+        <!-- Page Title -->
         <Label 
             Text="Plattegrond"
             FontSize="24"
@@ -33,9 +32,8 @@
             VerticalOptions="Center"
             HorizontalOptions="Center" />
 
-        <!-- Gebruik een HorizontalStackLayout om de datumprikkers naast elkaar te plaatsen -->
-        <HorizontalStackLayout Spacing="500" HorizontalOptions="Center">
-            <!-- Aankomstdatum -->
+        <!-- Date pickers in a horizontal layout -->
+        <HorizontalStackLayout Spacing="180" HorizontalOptions="Center">
             <StackLayout>
                 <Label 
             Text="Aankomstdatum"
@@ -47,8 +45,7 @@
             VerticalOptions="Center"
             WidthRequest="150" />
             </StackLayout>
-
-            <!-- Vertrekdatum -->
+            
             <StackLayout>
                 <Label 
             Text="Vertrekdatum"
@@ -60,25 +57,37 @@
             VerticalOptions="Center"
             WidthRequest="150" />
             </StackLayout>
+
+            <!-- Knop voor Reserveringsnummer Popup -->
+            <Button 
+Text="Inzien plek bekende"
+HorizontalOptions="Center"
+VerticalOptions="Center"
+Clicked="OnReservationNumberClicked" />
         </HorizontalStackLayout>
 
-        <!-- Zoekbeschikbaarheid knop -->
+
+        <!-- Search availability button -->
         <Button 
             Text="Zoek Beschikbaarheid"
             HorizontalOptions="Center"
             VerticalOptions="Center" 
             Clicked="OnSearchAvailabilityClicked" />
 
-        <!-- Afbeelding onder de datumprikkers -->
-        <AbsoluteLayout x:Name="Canvas">
-            <Image 
-                Source="image.png"  
-                WidthRequest="1000"
-                HeightRequest="700"
-                Aspect="AspectFill"
-                HorizontalOptions="Center"
-                VerticalOptions="Start"
-                Margin="0,20,0,0" />
-        </AbsoluteLayout>
+        <!-- Grid with the map -->
+        <Grid Padding="0">
+            <!-- Main Content -->
+            <Grid WidthRequest="1000" HeightRequest="700">
+                <!-- Background Image -->
+                <Image Source="mapv1.png" Aspect="AspectFill" />
+                <!-- Frame Content -->
+                <Frame x:Name="RectangleContainer"
+                       BackgroundColor="Transparent"
+                       CornerRadius="0"
+                       BorderColor="Black">
+                    <AbsoluteLayout x:Name="Canvas" />
+                </Frame>
+            </Grid>
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>
