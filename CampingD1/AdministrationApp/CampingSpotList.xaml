@@ -70,7 +70,6 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
                         <Label Text="{Binding Id}" Grid.Column="0" />
                         <Label Text="{Binding AvailableText}" Grid.Column="1" />
                         <Label Text="{Binding MaxPersons}" Grid.Column="2" />
@@ -85,7 +84,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
         <Button x:Name="EditButton"
-                Text="Edit"
+                Text="Bewerk"
                 Clicked="OnEditButtonClicked"
                 IsEnabled="False"
                 WidthRequest="100"

@@ -9,7 +9,6 @@ public partial class CampingSpotList : ContentPage
 	public CampingSpotList()
 	{
 		InitializeComponent();
-        //LoadCampingSpotAsync();
 
         CampingSpotsCollectionView.ItemsSource = new List<CampingSpot>();
     }
