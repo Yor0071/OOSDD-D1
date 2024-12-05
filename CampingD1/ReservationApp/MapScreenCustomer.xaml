@@ -62,7 +62,6 @@
             </StackLayout>
         </HorizontalStackLayout>
 
-
         <!-- Zoekbeschikbaarheid knop -->
         <Button 
             Text="Zoek Beschikbaarheid"
@@ -71,27 +70,15 @@
             Clicked="OnSearchAvailabilityClicked" />
 
         <!-- Afbeelding onder de datumprikkers -->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
+        <AbsoluteLayout x:Name="Canvas">
             <Image 
-        Source="C:\Users\Ali-I\Desktop\image.png"  
-        WidthRequest="1000"
-        HeightRequest="700"
-        Aspect="AspectFill"
-        HorizontalOptions="Center"
-        VerticalOptions="Start"
-        Margin="0,20,0,0"
-        Grid.Row="0" 
-        Grid.Column="0"/>
-        </Grid>
-
-
+                Source="image.png"  
+                WidthRequest="1000"
+                HeightRequest="700"
+                Aspect="AspectFill"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                Margin="0,20,0,0" />
+        </AbsoluteLayout>
     </VerticalStackLayout>
 </ContentPage>

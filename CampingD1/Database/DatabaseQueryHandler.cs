@@ -10,31 +10,35 @@ public class DatabaseQueryHandler {
     public DatabaseQueryHandler(DatabaseHandler databaseHandler) {
         _databaseHandler = databaseHandler;
     }
-    
-    public List<CampingMap> SelectCampingMaps() {
+
+    public List<CampingMap> SelectCampingMaps()
+    {
         string query = "SELECT * FROM maps ORDER BY id;";
         List<CampingMap> campingMaps = new List<CampingMap>();
 
-        try {
+        try
+        {
             DataTable mapsResult = _databaseHandler.ExecuteSelectQuery(query);
 
-            foreach (DataRow mapRow in mapsResult.Rows) {
+            foreach (DataRow mapRow in mapsResult.Rows)
+            {
                 int mapId = Convert.ToInt32(mapRow["id"]);
                 int campingSpotId = Convert.ToInt32(mapRow["camping_spot"]);
-                
+
                 List<MapCircle> mapCircles = SelectMapCircles(mapId);
 
                 CampingMap campingMap = new CampingMap(mapId, mapCircles, campingSpotId);
                 campingMaps.Add(campingMap);
             }
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             throw new Exception($"Error fetching camping maps: {ex.Message}");
         }
 
         return campingMaps;
     }
-    
+
     public List<MapCircle> SelectMapCircles(int mapId) {
         string query = $"SELECT * FROM map_circles WHERE map = {mapId};";
         List<MapCircle> mapCircles = new List<MapCircle>();
