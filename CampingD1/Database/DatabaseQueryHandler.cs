@@ -88,7 +88,33 @@ public class DatabaseQueryHandler {
 
         return mapCircles;
     }
+    public void AddReservation(Reservation reservation)
+    {
+        string query = @"
+    INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`, phone, email) 
+    VALUES (@firstname, @lastname, @campingSpot, @fromDate, @toDate, @phone, @email);
+    ";
 
+        var parameters = new Dictionary<string, object>
+    {
+        { "@firstname", reservation.FirstName },
+        { "@lastname", reservation.LastName },
+        { "@campingSpot", reservation.PlaceNumber },
+        { "@fromDate", reservation.Arrival },
+        { "@toDate", reservation.Depart },
+        { "@phone", reservation.PhoneNumber },
+        { "@email", reservation.Email }
+    };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error adding reservation: {ex.Message}");
+        }
+    }
     public List<Reservation> SelectReservations() {
         string query = "SELECT * FROM reservations ORDER BY id;";
         List<Reservation> reservations = new List<Reservation>();

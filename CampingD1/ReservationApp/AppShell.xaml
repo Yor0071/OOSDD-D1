@@ -12,4 +12,8 @@
         ContentTemplate="{DataTemplate local:MapScreenCustomer}"
         Route="MapScreenCustomer" />
 
+    <!-- Voeg hier de route voor de ReservationPage toe -->
+    <ShellContent
+        Title="Reserveren"
+        ContentTemplate="{DataTemplate local:ReservationPage}" />
 </Shell>

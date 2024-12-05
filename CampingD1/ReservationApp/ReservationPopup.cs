@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls;
+using Database.Types;
 
 namespace ReservationApp.Views
 {
@@ -67,45 +68,6 @@ namespace ReservationApp.Views
                                 TextColor = Color.FromArgb("#555555")
                             }
                         },
-                        new Frame
-                        {
-                            BorderColor = Color.FromArgb("#FF5722"),
-                            CornerRadius = 14,
-                            Padding = new Thickness(5),
-                            BackgroundColor = Color.FromArgb("#F4F4F4"),
-                            Content = new Label
-                            {
-                                Text = $"Max Personen: {spotDetails.MaxPersons}",
-                                FontSize = 14,
-                                TextColor = Color.FromArgb("#555555")
-                            }
-                        },
-                        new Frame
-                        {
-                            BorderColor = Color.FromArgb("#FF5722"),
-                            CornerRadius = 14,
-                            Padding = new Thickness(5),
-                            BackgroundColor = Color.FromArgb("#F4F4F4"),
-                            Content = new Label
-                            {
-                                Text = $"Water Beschikbaar: {(spotDetails.Water ? "Ja" : "Nee")}",
-                                FontSize = 14,
-                                TextColor = Color.FromArgb("#555555")
-                            }
-                        },
-                        new Frame
-                        {
-                            BorderColor = Color.FromArgb("#FF5722"),
-                            CornerRadius = 14,
-                            Padding = new Thickness(5),
-                            BackgroundColor = Color.FromArgb("#F4F4F4"),
-                            Content = new Label
-                            {
-                                Text = $"Wifi Beschikbaar: {(spotDetails.Wifi ? "Ja" : "Nee")}",
-                                FontSize = 14,
-                                TextColor = Color.FromArgb("#555555")
-                            }
-                        },
                         new HorizontalStackLayout
                         {
                             Spacing = 20,
@@ -138,26 +100,13 @@ namespace ReservationApp.Views
                     }
                 }
             };
-
-            var layout = new VerticalStackLayout
-            {
-                Spacing = 30,
-                Padding = new Thickness(5),
-                Children =
-                {
-                    Content
-                }
-            };
-
-            Content = layout;
-
-            layout.HeightRequest = 400;
-            layout.WidthRequest = 600;
         }
 
-        private void ReserveSpot(object spotDetails)
+        private async void ReserveSpot(CampingSpot spotDetails)
         {
-            Close();
+            var page = new ReservationPage(spotDetails); // doorgeven van de geselecteerde campingplek
+            await Shell.Current.GoToAsync(nameof(ReservationPage)); // Navigeer naar ReservationPage
+            Close(); // Sluit de popup
         }
     }
 }
