@@ -7,8 +7,10 @@
     <Grid Padding="10">
         <!-- Define rows for grid -->
         <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <SearchBar x:Name="SearchBar"
@@ -18,10 +20,11 @@
             WidthRequest="200"
             HorizontalOptions="Start"
             SearchButtonPressed="OnSearchButtonPressed"
+            Grid.Row="0"
             />
 
         <!-- Table Header -->
-        <Grid BackgroundColor="LightGray" Padding="10" Grid.Row="0">
+        <Grid BackgroundColor="LightGray" Padding="10" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -48,7 +51,7 @@
                         VerticalOptions="FillAndExpand"
                         SelectionMode="Single"
                         SelectionChanged="OnReservationSelected"
-                        Grid.Row="1">
+                        Grid.Row="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">
@@ -100,6 +103,6 @@
                 Margin="10"
                 HorizontalOptions="End"
                 VerticalOptions="End"
-                Grid.Row="1"/>
+                Grid.Row="3"/>
     </Grid>
 </ContentPage>
