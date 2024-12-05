@@ -81,7 +81,7 @@
         </CollectionView>
         <!-- Edit Button -->
         <Button x:Name="EditButton"
-                Text="Edit"
+                Text="Bewerken"
                 Clicked="OnEditButtonClicked"
                 IsEnabled="False"
                 WidthRequest="100"
