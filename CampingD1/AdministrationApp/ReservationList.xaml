@@ -20,6 +20,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Label Text="ID" FontAttributes="Bold" Grid.Column="0" />
@@ -30,6 +31,7 @@
             <Label Text="Vertrek" FontAttributes="Bold" Grid.Column="5"/>
             <Label Text="Telefoonnummer" FontAttributes="Bold" Grid.Column="6"/>
             <Label Text="E-mail" FontAttributes="Bold" Grid.Column="7"/>
+            <Label Text="Status" FontAttributes="Bold" Grid.Column="8"/>
         </Grid>
 
         <!-- Table Rows -->
@@ -42,6 +44,7 @@
                 <DataTemplate>
                     <Grid Padding="10">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -75,6 +78,7 @@
                         <Label Text="{Binding Depart, StringFormat='{0:MM/dd/yyyy}'}" Grid.Column="5" />
                         <Label Text="{Binding PhoneNumber}" Grid.Column="6" />
                         <Label Text="{Binding Email}" Grid.Column="7" />
+                        <Label Text="{Binding TranslatedStatus}" Grid.Column="8" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
