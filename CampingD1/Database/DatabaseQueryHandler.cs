@@ -101,9 +101,10 @@ public class DatabaseQueryHandler {
                 DateTime toDate = Convert.ToDateTime(row["to"]);
                 string phone = row["phone"].ToString();
                 string email = row["email"].ToString();
+                ReservationStatus status =  Enum.Parse<ReservationStatus>((string)row["status"]); 
 
                 Reservation reservation =
-                    new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email);
+                    new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email, status);
                 reservations.Add(reservation);
             }
         }
@@ -169,7 +170,7 @@ public class DatabaseQueryHandler {
 
     public void UpdateReservation(Reservation reservation)
     {
-        string query = @"UPDATE reservations SET firstname = @firstname, lastname = @lastname, camping_spot = @placeNumber, `from` = @fromDate, `to` = @toDate, phone = @phone, email = @email WHERE id = @id;";
+        string query = @"UPDATE reservations SET firstname = @firstname, lastname = @lastname, camping_spot = @placeNumber, `from` = @fromDate, `to` = @toDate, phone = @phone, email = @email, status = @status WHERE id = @id;";
 
         var parameters = new Dictionary<string, object>
         {
@@ -180,6 +181,7 @@ public class DatabaseQueryHandler {
             { "@toDate", reservation.Depart },
             { "@phone", reservation.PhoneNumber },
             { "@email", reservation.Email },
+            { "@status", reservation.Status.ToString() },
             { "@id", reservation.Id }
         };
 
