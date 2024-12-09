@@ -19,6 +19,10 @@ public partial class EditReservation : ContentPage
         DepartDatePicker.Date = _reservation.Depart;
         PhoneNumberEntry.Text = _reservation.PhoneNumber;
         EmailEntry.Text = _reservation.Email;
+
+        // Populate the Picker with translated statuses and select the current status
+        StatusPicker.ItemsSource = Reservation.StatusTranslations.Values.ToList();
+        StatusPicker.SelectedItem = _reservation.TranslatedStatus;
     }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -30,6 +34,12 @@ public partial class EditReservation : ContentPage
         _reservation.Depart = DepartDatePicker.Date;
         _reservation.PhoneNumber = PhoneNumberEntry.Text;
         _reservation.Email = EmailEntry.Text;
+
+        // Find the ReservationStatus enum value corresponding to the translated status string selected by the user
+        var selectedTranslatedStatus = StatusPicker.SelectedItem.ToString();
+        _reservation.Status = Reservation.StatusTranslations
+                                         .FirstOrDefault(kvp => kvp.Value == selectedTranslatedStatus)
+                                         .Key;
 
         try
         {

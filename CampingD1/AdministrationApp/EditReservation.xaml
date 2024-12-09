@@ -37,6 +37,11 @@
                     <Label Text="Vertrek:" FontAttributes="Bold" />
                     <DatePicker x:Name="DepartDatePicker" />
                 </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="Status:" FontAttributes="Bold" />
+                    <Picker x:Name="StatusPicker" />
+                </VerticalStackLayout>
             </HorizontalStackLayout>
             <!-- Telefoonnummer -->
             <Label Text="Telefoonnummer:" FontAttributes="Bold" />
