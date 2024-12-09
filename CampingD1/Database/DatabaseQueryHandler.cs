@@ -1,4 +1,5 @@
 using System.Data;
+using System.Data.SqlTypes;
 using System.Resources;
 using Database.types;
 using Database.Types;
@@ -138,7 +139,7 @@ public class DatabaseQueryHandler {
 
         if (!string.IsNullOrEmpty(fromDateFilter))
         {
-            query += " AND `from` = \"@fromDateFilter\"";
+            query += " AND `from` = @fromDateFilter";
         }
 
 
@@ -151,9 +152,8 @@ public class DatabaseQueryHandler {
             { "@nameFilter", $"%{nameFilter}%" },
             { "@campingSpot", spotFilter },
             {"@emailFilter", $"%{emailFilter}%" },
-            { "@fromDateFilter", $"%{fromDateFilter}%" }
+            { "@fromDateFilter", fromDateFilter }
         };
-
 
         try
         {
