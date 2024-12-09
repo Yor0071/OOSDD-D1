@@ -14,6 +14,9 @@ namespace ReservationApp
 
             _spotDetails = spotDetails;
 
+            // Stel het label in met de beschrijving of nummer van de plek
+            campingSpotNumberLabel.Text = _spotDetails.Id.ToString();
+
             arrivalDatePicker.MinimumDate = DateTime.Today;
             departureDatePicker.MinimumDate = DateTime.Today.AddDays(1);
 
@@ -86,9 +89,5 @@ namespace ReservationApp
                 }
             }
         }
-
-
-
-
     }
 }
