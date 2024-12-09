@@ -1,5 +1,6 @@
 using Microsoft.Maui.Controls;
 using Database.Types;
+using Database;
 
 namespace ReservationApp
 {
@@ -23,6 +24,7 @@ namespace ReservationApp
         {
             errorLabel.IsVisible = false;
 
+            // Controleer of alle verplichte velden zijn ingevuld
             if (string.IsNullOrWhiteSpace(firstNameEntry.Text) ||
                 string.IsNullOrWhiteSpace(lastNameEntry.Text) ||
                 string.IsNullOrWhiteSpace(phoneEntry.Text) ||
@@ -42,6 +44,7 @@ namespace ReservationApp
             }
             else
             {
+                // Verkrijg de invoer van de gebruiker
                 var firstName = firstNameEntry.Text;
                 var lastName = lastNameEntry.Text;
                 var phone = phoneEntry.Text;
@@ -50,35 +53,56 @@ namespace ReservationApp
                 var under12 = int.TryParse(under12Entry.Text, out int parsedUnder12) ? parsedUnder12 : 0;
                 var specialNotes = specialNotesEditor.Text;
 
+                // Verkrijg de geselecteerde data
                 int campingSpot = _spotDetails.Id;
                 DateTime fromDate = arrivalDatePicker.Date;
                 DateTime toDate = departureDatePicker.Date;
 
-                Reservation reservation = new Reservation(
-                    0,               // ID: Aangenomen als 0 voor nieuwe reservering
-                    firstName,       // Voornaam
-                    lastName,        // Achternaam
-                    campingSpot,     // Campingplek ID
-                    fromDate,        // Aankomstdatum
-                    toDate,          // Vertrekdatum
-                    phone,           // Telefoonnummer
-                    email            // E-mailadres
-                );
+                // SQL-query om de reservering direct toe te voegen
+                string query = @"
+            INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`, phone, email) 
+            VALUES (@firstname, @lastname, @campingSpot, @fromDate, @toDate, @phone, @email);
+        ";
 
-                App.Database.AddReservation(reservation);
+                // Parameters voor de SQL-query
+                var parameters = new Dictionary<string, object>
+        {
+            { "@firstname", firstName ?? string.Empty },
+            { "@lastname", lastName ?? string.Empty },
+            { "@campingSpot", campingSpot },
+            { "@fromDate", fromDate.ToString("yyyy-MM-dd") }, // Verzeker dat de datum in de juiste indeling is
+            { "@toDate", toDate.ToString("yyyy-MM-dd") }, // Verzeker dat de datum in de juiste indeling is
+            { "@phone", phone ?? string.Empty },
+            { "@email", email ?? string.Empty }
+        };
 
-                await DisplayAlert("Bevestiging",
-                    "Reservering opgeslagen!\n" +
-                    $"Naam: {firstName} {lastName}\n" +
-                    $"Telefoon: {phone}\n" +
-                    $"Email: {email}\n" +
-                    $"Aantal kampeerders: {totalCampers}\n" +
-                    $"Onder 12: {under12}\n" +
-                    $"Bijzonderheden: {specialNotes}",
-                    "OK");
+                try
+                {
+                    // Voer de query uit via je database handler
+                    //App.Database.(query, parameters);
 
-                errorLabel.IsVisible = false;
+                    // Toon bevestiging
+                    await DisplayAlert("Bevestiging",
+                        "Reservering opgeslagen!\n" +
+                        $"Naam: {firstName} {lastName}\n" +
+                        $"Telefoon: {phone}\n" +
+                        $"Email: {email}\n" +
+                        $"Aantal kampeerders: {totalCampers}\n" +
+                        $"Onder 12: {under12}\n" +
+                        $"Bijzonderheden: {specialNotes}",
+                        "OK");
+
+                    errorLabel.IsVisible = false;
+                }
+                catch (Exception ex)
+                {
+                    // Toon een foutmelding als de query faalt
+                    errorLabel.Text = $"Fout bij het opslaan van de reservering: {ex.Message}";
+                    errorLabel.IsVisible = true;
+                }
             }
         }
+
+
     }
 }
