@@ -44,11 +44,13 @@ public partial class CampingSpotList : ContentPage
         {
             _selectedCampingSpot = (CampingSpot)e.CurrentSelection.FirstOrDefault();
             EditButton.IsEnabled = true;
+            DeleteButton.IsEnabled = true;
         }    
         else
         {
             _selectedCampingSpot = null;
             EditButton.IsEnabled = false;
+            DeleteButton.IsEnabled = false;
         }
     }
 
@@ -59,4 +61,29 @@ public partial class CampingSpotList : ContentPage
             await Navigation.PushAsync(new EditCampingSpotPage(_selectedCampingSpot));
         }
     }
+
+    private async void OnDeleteButtonClicked(object sender, EventArgs e)
+    {
+        if (_selectedCampingSpot != null)
+        {
+            bool confirmDelete = await DisplayAlert("Bevestigen", "Weet u zeker dat u deze campingplek wilt verwijderen?", "Ja", "Nee");
+
+            if (confirmDelete)
+            {
+                try
+                {
+                    await Task.Run(() => App.Database.DeleteCampingSpot(_selectedCampingSpot.Id));
+
+                    await LoadCampingSpotAsync();
+
+                    EditButton.IsEnabled = false;
+                    DeleteButton.IsEnabled = false;
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error", $"Verwijderen van campingplek mislukt: {ex.Message}", "Ok");
+                }
+            }
+        }
+    } 
 }

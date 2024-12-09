@@ -83,15 +83,27 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button x:Name="EditButton"
-                Text="Bewerk"
-                Clicked="OnEditButtonClicked"
-                IsEnabled="False"
-                WidthRequest="100"
-                HeightRequest="50"
-                Margin="10"
-                HorizontalOptions="End"
-                VerticalOptions="End" 
-                Grid.Row="2"/>
+        <HorizontalStackLayout Grid.Row="2"
+                               HorizontalOptions="End"
+                               Spacing="10"
+                               Margin="10">
+            <Button x:Name="EditButton"
+                    Text="Bewerk"
+                    Clicked="OnEditButtonClicked"
+                    IsEnabled="False"
+                    WidthRequest="100"
+                    HeightRequest="50"
+                    Margin="10"
+                    HorizontalOptions="End"
+                    VerticalOptions="End" 
+                    Grid.Row="2"/>
+
+            <Button x:Name="DeleteButton"
+                    Text="Verwijderen"
+                    Clicked="OnDeleteButtonClicked"
+                    IsEnabled="False"
+                    WidthRequest="150"
+                    HeightRequest="50"/>
+        </HorizontalStackLayout>
     </Grid>
 </ContentPage>

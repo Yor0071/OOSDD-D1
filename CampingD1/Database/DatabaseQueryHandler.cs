@@ -396,4 +396,43 @@ public class DatabaseQueryHandler {
         }
     }
 
+    public void DeleteCampingSpot(int campingSpotId)
+    {
+        try
+        {
+            _databaseHandler.EnsureConnection();
+
+            // Step 1: Delete related entries from reservations
+            string deleteReservationsQuery = "DELETE FROM reservations WHERE camping_spot = @id;";
+            var reservationParams = new Dictionary<string, object>
+        {
+            { "@id", campingSpotId }
+        };
+            _databaseHandler.ExecuteNonQuery(deleteReservationsQuery, reservationParams);
+
+            // Step 2: Delete related entries from map_circles
+            string deleteMapCirclesQuery = "DELETE FROM map_circles WHERE camping_spot = @id;";
+            var mapCircleParams = new Dictionary<string, object>
+        {
+            { "@id", campingSpotId }
+        };
+            _databaseHandler.ExecuteNonQuery(deleteMapCirclesQuery, mapCircleParams);
+
+            // Step 3: Delete the camping spot itself
+            string deleteCampingSpotQuery = "DELETE FROM camping_spots WHERE id = @id;";
+            var campingSpotParams = new Dictionary<string, object>
+        {
+            { "@id", campingSpotId }
+        };
+            _databaseHandler.ExecuteNonQuery(deleteCampingSpotQuery, campingSpotParams);
+
+            Console.WriteLine($"Camping spot with ID {campingSpotId} and its related data have been deleted.");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error deleting camping spot with ID {campingSpotId}: {ex.Message}", ex);
+        }
+    }
+
+
 }
