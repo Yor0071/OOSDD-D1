@@ -69,6 +69,7 @@
                 Text="Inzien plek bekende"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
+                Margin="0,25,0,0" 
                 Clicked="OnReservationNumberClicked" />
         </HorizontalStackLayout>
 

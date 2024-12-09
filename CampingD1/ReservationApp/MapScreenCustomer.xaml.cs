@@ -3,7 +3,8 @@ using Microsoft.Maui.Layouts;
 using Database.types;
 using CommunityToolkit.Maui.Views;
 using ReservationApp;
-using ReservationApp.Views;
+using Database;
+using Database.Types;
 
 namespace ReservationApp;
 
@@ -36,14 +37,37 @@ public partial class MapScreenCustomer : ContentPage
 
     private async void OnReservationNumberClicked(object sender, EventArgs e)
     {
+        // Show popup to input the reservation number
         var popup = new ReservationNumberPopup();
         var result = await this.ShowPopupAsync(popup);
 
         if (result is string reservationNumber)
         {
-            await DisplayAlert("Ingevoerde Reservering", $"Reserveringsnummer: {reservationNumber}", "OK");
+            // Query the database to get all reservations
+            var reservations = App.Database.SelectReservations();
+
+            // Find the reservation that matches the input reservation number
+            var reservation = reservations.FirstOrDefault(r => r.Id.ToString() == reservationNumber);
+
+            if (reservation != null)
+            {
+                // Reservation found, show details
+                await DisplayAlert("Ingevoerde Reservering",
+                    $"Reserveringsnummer: {reservation.Id}\n" +
+                    $"Naam: {reservation.FirstName} {reservation.LastName}\n" +
+                    $"Camping Spot: {reservation.PlaceNumber}\n" +
+                    $"Van: {reservation.Arrival.ToShortDateString()} Tot: {reservation.Depart.ToShortDateString()}\n" +
+                    $"Telefoon: {reservation.PhoneNumber}\n" +
+                    $"Email: {reservation.Email}", "OK");
+            }
+            else
+            {
+                // Reservation not found, show error
+                await DisplayAlert("Fout", "Reserveringsnummer komt niet overeen met een bestaande reservering.", "OK");
+            }
         }
     }
+
 
     private async Task LoadMapsAsync()
     {
@@ -99,10 +123,19 @@ public partial class MapScreenCustomer : ContentPage
     }
 
     private async void OnCircleClicked(int circleId)
-{
-    // Toon de popup voor de specifieke plek
-    var popup = new ReservationPopup(circleId);
-    await this.ShowPopupAsync(popup);
-}
+    {
+        // Fetch map circle details
+        var mapCircle = App.Database.SelectMapCircleById(circleId);
+
+        // Fetch camping spot associated with the map circle
+        CampingSpot campingSpot = App.Database.SelectCampingSpotById(mapCircle.Value.CampingSpotId);  // Toegang via .Value
+
+        // Create and show the ReservationPopup with the camping spot details
+        var popup = new ReservationPopup(campingSpot);
+        await this.ShowPopupAsync(popup);
+    }
+
+
+
 
 }
