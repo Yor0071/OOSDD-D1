@@ -259,7 +259,7 @@ WHERE
                 DateTime toDate = Convert.ToDateTime(row["to"]);
                 string phone = row["phone"].ToString();
                 string email = row["email"].ToString();
-                ReservationStatus status =  Enum.Parse<ReservationStatus>((string)row["status"]); 
+                ReservationStatus status = System.Enum.Parse<ReservationStatus>((string)row["status"]);
 
                 Reservation reservation =
                     new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email, status);
