@@ -13,27 +13,88 @@ namespace ReservationApp
         {
             _campingSpot = campingSpot;
 
-            // Show camping spot details
-            var descriptionLabel = new Label { Text = $"Spot: {_campingSpot.Description}", FontSize = 18 };
-            var powerLabel = new Label { Text = $"Power: {_campingSpot.Power}", FontSize = 16 };
-            var wifiLabel = new Label { Text = $"WiFi: {_campingSpot.Wifi}", FontSize = 16 };
-            var waterLabel = new Label { Text = $"Water: {_campingSpot.Water}", FontSize = 16 };
-            var maxPersonsLabel = new Label { Text = $"Max persons: {_campingSpot.MaxPersons}", FontSize = 16 };
+            // Show camping spot details with improved formatting
+            var descriptionLabel = new Label
+            {
+                Text = $"Spot: {_campingSpot.Description}",
+                FontSize = 20,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Colors.Black,
+                HorizontalOptions = LayoutOptions.Center
+            };
 
-            // Reserve button
-            _reserveButton = new Button { Text = "Reserve Now", FontSize = 18 };
+            var powerLabel = new Label
+            {
+                Text = $"Power: {_campingSpot.Power}",
+                FontSize = 16,
+                TextColor = Colors.Gray,
+                HorizontalOptions = LayoutOptions.Start
+            };
+
+            var wifiLabel = new Label
+            {
+                Text = $"WiFi: {_campingSpot.Wifi}",
+                FontSize = 16,
+                TextColor = Colors.Gray,
+                HorizontalOptions = LayoutOptions.Start
+            };
+
+            var waterLabel = new Label
+            {
+                Text = $"Water: {_campingSpot.Water}",
+                FontSize = 16,
+                TextColor = Colors.Gray,
+                HorizontalOptions = LayoutOptions.Start
+            };
+
+            var maxPersonsLabel = new Label
+            {
+                Text = $"Max Persons: {_campingSpot.MaxPersons}",
+                FontSize = 16,
+                TextColor = Colors.Gray,
+                HorizontalOptions = LayoutOptions.Start
+            };
+
+            // Reserve button with better styling
+            _reserveButton = new Button
+            {
+                Text = "Reserveer nu!",
+                FontSize = 18,
+                BackgroundColor = Color.FromArgb("#4CAF50"),
+                TextColor = Colors.White,
+                CornerRadius = 10,
+                HeightRequest = 50,
+                HorizontalOptions = LayoutOptions.Fill
+            };
+
+            // Card-style container for labels
+            var infoContainer = new Frame
+            {
+                BackgroundColor = Colors.White,
+                BorderColor = Colors.LightGray,
+                CornerRadius = 15,
+                Padding = 15,
+                Content = new StackLayout
+                {
+                    Spacing = 10,
+                    Children = {
+                        descriptionLabel,
+                        powerLabel,
+                        wifiLabel,
+                        waterLabel,
+                        maxPersonsLabel
+                    }
+                }
+            };
 
             // Arrange UI elements
             var layout = new StackLayout
             {
                 Padding = 20,
-                Spacing = 15,
+                Spacing = 20,
+                BackgroundColor = Colors.LightGray.WithLuminosity(1),
                 Children = {
-                    descriptionLabel,
-                    powerLabel,
-                    wifiLabel,
-                    waterLabel,
-                    maxPersonsLabel,
+                    infoContainer,
                     _reserveButton
                 }
             };
@@ -41,15 +102,21 @@ namespace ReservationApp
             // Add click handler to open ReservationPage
             _reserveButton.Clicked += async (sender, e) =>
             {
-                // Navigate to the ReservationPage
                 var reservationPage = new ReservationPage(_campingSpot);
                 await Application.Current.MainPage.Navigation.PushAsync(reservationPage);
 
-                // Close the popup after navigation
                 this.Close();
             };
 
-            Content = layout;
+            // Add border and content to the popup
+            Content = new Frame
+            {
+                CornerRadius = 20,
+                BackgroundColor = Colors.White,
+                BorderColor = Colors.Gray,
+                Padding = 0,
+                Content = layout
+            };
         }
     }
 }
