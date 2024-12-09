@@ -78,14 +78,15 @@ Clicked="OnReservationNumberClicked" />
         <!-- Grid with the map -->
         <Grid Padding="0">
             <!-- Main Content -->
-            <Grid WidthRequest="1000" HeightRequest="700">
+            <Grid WidthRequest="1000" HeightRequest="700" Padding="0">
                 <!-- Background Image -->
                 <Image Source="mapv1.png" Aspect="AspectFill" />
                 <!-- Frame Content -->
                 <Frame x:Name="RectangleContainer"
                        BackgroundColor="Transparent"
                        CornerRadius="0"
-                       BorderColor="Black">
+                       BorderColor="Black"
+                       Padding="0">
                     <AbsoluteLayout x:Name="Canvas" />
                 </Frame>
             </Grid>
