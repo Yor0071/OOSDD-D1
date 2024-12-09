@@ -15,13 +15,15 @@ public class DatabaseQueryHandler {
 
     public List<CampingMap> SelectCampingMaps() {
         string query = "SELECT * FROM maps ORDER BY id;";
-        Console.WriteLine(query);
+        //Console.WriteLine(query);
         List<CampingMap> campingMaps = new List<CampingMap>();
 
-        try {
+        try
+        {
             DataTable mapsResult = _databaseHandler.ExecuteSelectQuery(query);
 
-            foreach (DataRow mapRow in mapsResult.Rows) {
+            foreach (DataRow mapRow in mapsResult.Rows)
+            {
                 int mapId = Convert.ToInt32(mapRow["id"]);
                 string name = Convert.ToString(mapRow["name"]);
 
@@ -31,7 +33,8 @@ public class DatabaseQueryHandler {
                 campingMaps.Add(campingMap);
             }
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             throw new Exception($"Error fetching camping maps: {ex.Message}");
         }
 
@@ -85,7 +88,33 @@ public class DatabaseQueryHandler {
 
         return mapCircles;
     }
+    public void AddReservation(Reservation reservation)
+    {
+        string query = @"
+    INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`, phone, email) 
+    VALUES (@firstname, @lastname, @campingSpot, @fromDate, @toDate, @phone, @email);
+    ";
 
+        var parameters = new Dictionary<string, object>
+    {
+        { "@firstname", reservation.FirstName },
+        { "@lastname", reservation.LastName },
+        { "@campingSpot", reservation.PlaceNumber },
+        { "@fromDate", reservation.Arrival },
+        { "@toDate", reservation.Depart },
+        { "@phone", reservation.PhoneNumber },
+        { "@email", reservation.Email }
+    };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error adding reservation: {ex.Message}");
+        }
+    }
     public List<Reservation> SelectReservations() {
         string query = "SELECT * FROM reservations ORDER BY id;";
         List<Reservation> reservations = new List<Reservation>();
