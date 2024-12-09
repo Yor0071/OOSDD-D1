@@ -33,16 +33,16 @@
                 <Button Text="Voeg cirkel toe" Clicked="OnAddCircleButtonClicked" />
                 <Button Text="Reset" Clicked="OnResetButtonClicked" />
                 <Button Text="Map opslaan" Clicked="OnSaveButtonClicked" />
-                <Button Text="Maak primaire map" Clicked="OnSetPrimaryMapButtonClicked" />
                 
                 <Button Text="Verwijder huidige kaart"
                         BackgroundColor="Red"
                         TextColor="White"
-                        Clicked="OnDeleteMapButtonClicked" />
+                        Clicked="OnDeleteMapButtonClicked"
+                        Margin="10,0,10,10" />
             </HorizontalStackLayout>
 
             <!-- Rectangle container -->
-            <Grid WidthRequest="1000" HeightRequest="700" Padding="0">
+            <Grid WidthRequest="1000" HeightRequest="600" Padding="0">
                 <!-- Background Image -->
                 <Image Source="plattegrond.png" Aspect="AspectFill" />
 

@@ -19,28 +19,23 @@ public class DatabaseQueryHandler {
 
     public List<CampingMap> SelectCampingMaps() {
         string query = "SELECT * FROM maps ORDER BY id;";
-        //Console.WriteLine(query);
+        Console.WriteLine(query);
         List<CampingMap> campingMaps = new List<CampingMap>();
 
-        try
-        {
+        try {
             DataTable mapsResult = _databaseHandler.ExecuteSelectQuery(query);
 
-            foreach (DataRow mapRow in mapsResult.Rows)
-            {
+            foreach (DataRow mapRow in mapsResult.Rows) {
                 int mapId = Convert.ToInt32(mapRow["id"]);
                 string name = Convert.ToString(mapRow["name"]);
-                bool isPrimary = Convert.ToBoolean(mapRow["is_primary"]);
-
 
                 List<MapCircle> mapCircles = SelectMapCircles(mapId);
 
-                CampingMap campingMap = new CampingMap(mapId, mapCircles, name, isPrimary);
+                CampingMap campingMap = new CampingMap(mapId, mapCircles, name);
                 campingMaps.Add(campingMap);
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw new Exception($"Error fetching camping maps: {ex.Message}");
         }
 
@@ -243,6 +238,7 @@ WHERE
         }
     }
 
+
     public List<Reservation> SelectReservations() {
         string query = "SELECT * FROM reservations ORDER BY id;";
         List<Reservation> reservations = new List<Reservation>();
@@ -259,10 +255,9 @@ WHERE
                 DateTime toDate = Convert.ToDateTime(row["to"]);
                 string phone = row["phone"].ToString();
                 string email = row["email"].ToString();
-                ReservationStatus status = System.Enum.Parse<ReservationStatus>((string)row["status"]);
 
                 Reservation reservation =
-                    new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email, status);
+                    new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email);
                 reservations.Add(reservation);
             }
         }
@@ -398,7 +393,7 @@ WHERE
 
     public void UpdateReservation(Reservation reservation)
     {
-        string query = @"UPDATE reservations SET firstname = @firstname, lastname = @lastname, camping_spot = @placeNumber, `from` = @fromDate, `to` = @toDate, phone = @phone, email = @email, status = @status WHERE id = @id;";
+        string query = @"UPDATE reservations SET firstname = @firstname, lastname = @lastname, camping_spot = @placeNumber, `from` = @fromDate, `to` = @toDate, phone = @phone, email = @email WHERE id = @id;";
 
         var parameters = new Dictionary<string, object>
         {
@@ -409,7 +404,6 @@ WHERE
             { "@toDate", reservation.Depart },
             { "@phone", reservation.PhoneNumber },
             { "@email", reservation.Email },
-            { "@status", reservation.Status.ToString() },
             { "@id", reservation.Id }
         };
 

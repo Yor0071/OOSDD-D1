@@ -1,0 +1,19 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReservationApp.MapScreen">
+    <Grid Padding="0">
+        <!-- Main Content -->
+        <Grid WidthRequest="1000" HeightRequest="600">
+            <!-- Background Image -->
+            <Image Source="mapv1.png" Aspect="AspectFill" />
+
+            <!-- Frame Content -->
+            <Frame x:Name="RectangleContainer"
+                   BackgroundColor="Transparent"
+                   CornerRadius="0"
+                   BorderColor="Black">
+                <AbsoluteLayout x:Name="Canvas" />
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

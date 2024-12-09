@@ -9,8 +9,7 @@
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MapScreenCustomer}"
-        Route="MapScreenCustomer" />
-
-    
+        ContentTemplate="{DataTemplate local:MapScreen}"
+        Route="MapScreen" />
+        
 </Shell>
