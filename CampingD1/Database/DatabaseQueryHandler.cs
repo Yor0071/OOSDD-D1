@@ -2,6 +2,8 @@ using System.Data;
 using System.Resources;
 using Database.types;
 using Database.Types;
+using Google.Protobuf.WellKnownTypes;
+using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Common;
 
 namespace Database;
@@ -115,7 +117,7 @@ public class DatabaseQueryHandler {
         return reservations;
     }
 
-    public List<Reservation> SelectFilteredReservations(string nameFilter, int? spotFilter, string emailFilter, DateTime? fromDateFilter) 
+    public List<Reservation> SelectFilteredReservations(string nameFilter, int? spotFilter, string emailFilter, string fromDateFilter)
     {
         string query = @"SELECT * FROM reservations WHERE 1 = 1";
         if (!string.IsNullOrEmpty(nameFilter))
@@ -128,15 +130,17 @@ public class DatabaseQueryHandler {
             query += " AND camping_spot = @campingSpot";
         }
 
-        if (!string.IsNullOrEmpty(emailFilter)) 
+        if (!string.IsNullOrEmpty(emailFilter))
         {
             query += " AND email LIKE @emailFilter";
         }
 
-        if (fromDateFilter.HasValue)
+
+        if (!string.IsNullOrEmpty(fromDateFilter))
         {
-            query += " AND DATE(from) = @fromDateFilter";  // Vergelijk de datum direct
+            query += " AND `from` = \"@fromDateFilter\"";
         }
+
 
         query += " ORDER BY id;";
 
@@ -147,9 +151,10 @@ public class DatabaseQueryHandler {
             { "@nameFilter", $"%{nameFilter}%" },
             { "@campingSpot", spotFilter },
             {"@emailFilter", $"%{emailFilter}%" },
-            { "@fromDateFilter", fromDateFilter?.ToString("yyyy-MM-dd") }
+            { "@fromDateFilter", $"%{fromDateFilter}%" }
         };
-         
+
+
         try
         {
             DataTable result = _databaseHandler.ExecuteSelectQuery(query, parameters);

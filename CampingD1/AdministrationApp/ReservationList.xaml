@@ -7,21 +7,35 @@
     <Grid Padding="10">
         <!-- Define rows for grid -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <SearchBar x:Name="SearchBar"
-            IsTextPredictionEnabled="True"
-            Placeholder="Filter"
-            CancelButtonColor="White"
-            WidthRequest="200"
-            HorizontalOptions="Start"
-            SearchButtonPressed="OnSearchButtonPressed"
-            Grid.Row="0"
-            />
+        <VerticalStackLayout Grid.Row="0" >
+            <HorizontalStackLayout> 
+                <SearchBar x:Name="SearchBar"
+                IsTextPredictionEnabled="True"
+                Placeholder="Filter"
+                CancelButtonColor="White"
+                WidthRequest="200"
+                HorizontalOptions="Start"
+                SearchButtonPressed="OnSearchButtonPressed"
+                MaxLength="20"/>
+
+                <VerticalStackLayout>
+                    <Label Text="Aankomst:" FontAttributes="Bold"/>
+                    <DatePicker x:Name="ArrivalDatePicker"/>
+                    <Button x:Name="ArrivalButton" Clicked="OnArrivalButtonClicked"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="Vertrek:" FontAttributes="Bold" />
+                    <DatePicker x:Name="DepartureDatePicker"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
 
         <!-- Table Header -->
         <Grid BackgroundColor="LightGray" Padding="10" Grid.Row="1">

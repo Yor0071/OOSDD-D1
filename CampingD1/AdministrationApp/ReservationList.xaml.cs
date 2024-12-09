@@ -20,7 +20,16 @@ public partial class ReservationList : ContentPage
         LoadReservationsAsync();
     }
 
-    private async Task LoadReservationsAsync(string nameFilter = null, int? spotFilter = null, string emailFilter = null, DateTime? fromDateFilter = null)
+    public class ReservationFilter
+    {
+        public string NameFilter { get; set; }
+        public int? SpotFilter { get; set; }
+        public string EmailFilter { get; set; }
+        public string FromDateFilter { get; set; }
+    }
+
+
+    private async Task LoadReservationsAsync(ReservationFilter filter = null)
     {
         try
         {
@@ -28,8 +37,12 @@ public partial class ReservationList : ContentPage
             await Task.Run(() => App.databaseHandler.EnsureConnection()); // Ensure the database connection is established
 
             List<Reservation> reservations;
+            if (filter == null)
+            {
+                filter = new ReservationFilter();
+            }
 
-            reservations = await Task.Run(() => App.Database.SelectFilteredReservations(nameFilter, spotFilter, emailFilter, fromDateFilter));
+            reservations = await Task.Run(() => App.Database.SelectFilteredReservations(filter.NameFilter, filter.SpotFilter, filter.EmailFilter, filter.FromDateFilter));
 
             ReservationsCollectionView.ItemsSource = reservations;
         }
@@ -43,10 +56,7 @@ public partial class ReservationList : ContentPage
     {
         SearchBar searchBar = (SearchBar)sender;
         string searchText = searchBar.Text?.Trim();
-        string nameFilter = null;
-        int? spotFilter = null;
-        string emailFilter = null;
-        DateTime? fromDateFilter = null;
+        var filter = new ReservationFilter();
 
         if (!string.IsNullOrEmpty(searchText))
         {
@@ -57,24 +67,28 @@ public partial class ReservationList : ContentPage
                 if (int.TryParse(input, out int campingSpot))
                 {
                     // Als het een getal is, interpreteer het als campingplek
-                    spotFilter = campingSpot;
+                    filter.SpotFilter = campingSpot;
                 }
                 else if (input.Contains("@"))
                 {
-                    emailFilter = input;
-                }
-                else if (DateTime.TryParseExact(input, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate)) 
-                { 
-                    fromDateFilter = parsedDate;
+                    filter.EmailFilter = input;
                 }
                 else
                 {
                     // Anders interpreteer het als naam
-                    nameFilter = input;
+                    filter.NameFilter = input;
                 }
             }
         }
-        await LoadReservationsAsync(nameFilter, spotFilter, emailFilter, fromDateFilter);
+        await LoadReservationsAsync(filter);
+    }
+
+    private async void OnArrivalButtonClicked(object sender, EventArgs e) 
+    {
+        var filter = new ReservationFilter { FromDateFilter = ArrivalDatePicker.Date.ToString("yyyy-MM-dd") };
+        
+
+        await LoadReservationsAsync(filter);
     }
 
     private void OnReservationSelected(Object sender, SelectionChangedEventArgs e)
