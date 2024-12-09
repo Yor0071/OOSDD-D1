@@ -115,6 +115,31 @@ public class DatabaseQueryHandler {
             throw new Exception($"Error adding reservation: {ex.Message}");
         }
     }
+
+    public bool SetPrimaryMap(int mapId)
+    {
+        try
+        {
+            // Step 1: Set `is_primary` to 0 for all maps
+            string resetPrimaryQuery = "UPDATE maps SET is_primary = 0;";
+            _databaseHandler.ExecuteNonQuery(resetPrimaryQuery);
+
+            // Step 2: Set `is_primary` to 1 for the given mapId
+            string setPrimaryQuery = "UPDATE maps SET is_primary = 1 WHERE id = @mapId;";
+            var parameters = new Dictionary<string, object>
+            {
+                { "@mapId", mapId }
+            };
+            int rowsAffected = _databaseHandler.ExecuteNonQuery(setPrimaryQuery, parameters);
+
+            // Return true if the specific map was successfully updated
+            return rowsAffected > 0;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error setting primary map with ID {mapId}: {ex.Message}", ex);
+        }
+    }
     public List<Reservation> SelectReservations() {
         string query = "SELECT * FROM reservations ORDER BY id;";
         List<Reservation> reservations = new List<Reservation>();
