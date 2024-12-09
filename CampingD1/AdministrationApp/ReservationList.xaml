@@ -8,6 +8,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <!-- Table Header -->
         <Grid BackgroundColor="LightGray" Padding="10" Grid.Row="0">
@@ -79,16 +80,26 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <!-- Edit Button -->
-        <Button x:Name="EditButton"
-                Text="Bewerken"
-                Clicked="OnEditButtonClicked"
-                IsEnabled="False"
-                WidthRequest="100"
-                HeightRequest="50"
-                Margin="10"
-                HorizontalOptions="End"
-                VerticalOptions="End"
-                Grid.Row="1"/>
+        <!-- Edit and remove button -->
+        <HorizontalStackLayout Grid.Row="2"
+                               HorizontalOptions="End"
+                               Spacing="10"
+                               Margin="10">
+            
+            <Button x:Name="EditButton"
+            Text="Bewerken"
+            Clicked="OnEditButtonClicked"
+            IsEnabled="False"
+            WidthRequest="100"
+            HeightRequest="50" />
+
+            <Button x:Name="DeleteButton"
+            Text="Verwijderen"
+            Clicked="OnDeleteButtonClicked"
+            IsEnabled="False"
+            WidthRequest="150"
+            HeightRequest="50" />
+        </HorizontalStackLayout>
+
     </Grid>
 </ContentPage>
