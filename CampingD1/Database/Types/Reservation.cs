@@ -35,7 +35,11 @@ namespace Database.Types
             { ReservationStatus.awaiting, "In afwachting" },
             { ReservationStatus.finished, "Afgerond" }
         };
-
+        private int v;
+        private int campingSpot;
+        private DateTime fromDate;
+        private DateTime toDate;
+        private string phone;
 
         public Reservation(int id, string firstName, string lastName, int placeNumber, DateTime arrival, DateTime depart, string phoneNumber, string email, ReservationStatus status)
         {
@@ -48,6 +52,18 @@ namespace Database.Types
             PhoneNumber = phoneNumber;
             Email = email;
             Status = status;
+        }
+
+        public Reservation(int v, string firstName, string lastName, int campingSpot, DateTime fromDate, DateTime toDate, string phone, string email)
+        {
+            this.v = v;
+            FirstName = firstName;
+            LastName = lastName;
+            this.campingSpot = campingSpot;
+            this.fromDate = fromDate;
+            this.toDate = toDate;
+            this.phone = phone;
+            Email = email;
         }
 
         public static string Translate(ReservationStatus status)
