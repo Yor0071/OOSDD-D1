@@ -46,28 +46,29 @@ public class DatabaseQueryHandler {
     public List<MapCircle> SelectMapCircles(int mapId)
     {
         string query = @"
-        SELECT 
-            map_circles.id,
-            map_circles.coordinate_x,
-            map_circles.coordinate_y,
-            camping_spots.spot_name 
-        FROM 
-            map_circles
-        LEFT JOIN 
-            camping_spots 
-        ON 
-            map_circles.camping_spot = camping_spots.id
-        WHERE 
-            map_circles.map = @mapId;";
+    SELECT 
+        map_circles.id,
+        map_circles.coordinate_x,
+        map_circles.coordinate_y,
+        camping_spots.id AS camping_spot_id,  -- Voeg de camping_spot_id toe aan de query
+        camping_spots.spot_name 
+    FROM 
+        map_circles
+    LEFT JOIN 
+        camping_spots 
+    ON 
+        map_circles.camping_spot = camping_spots.id
+    WHERE 
+        map_circles.map = @mapId;";
 
         List<MapCircle> mapCircles = new List<MapCircle>();
 
         try
         {
             var parameters = new Dictionary<string, object>
-            {
-                { "@mapId", mapId }
-            };
+        {
+            { "@mapId", mapId }
+        };
 
             DataTable result = _databaseHandler.ExecuteSelectQuery(query, parameters);
 
@@ -77,9 +78,10 @@ public class DatabaseQueryHandler {
                 double coordinateX = Convert.ToDouble(row["coordinate_x"]);
                 double coordinateY = Convert.ToDouble(row["coordinate_y"]);
                 string spotName = row["spot_name"] != DBNull.Value ? row["spot_name"].ToString() : null;
-                Console.WriteLine(spotName);
+                int campingSpotId = row["camping_spot_id"] != DBNull.Value ? Convert.ToInt32(row["camping_spot_id"]) : 0;  // Haal de CampingSpotId op, stel in op 0 als het leeg is
 
-                MapCircle mapCircle = new MapCircle(id, coordinateX, coordinateY, spotName);
+                // Maak een MapCircle object met de CampingSpotId en spotName
+                MapCircle mapCircle = new MapCircle(id, coordinateX, coordinateY, campingSpotId, spotName);
                 mapCircles.Add(mapCircle);
             }
         }
@@ -90,7 +92,99 @@ public class DatabaseQueryHandler {
 
         return mapCircles;
     }
-    public void AddReservation(Reservation reservation)
+
+    public MapCircle? SelectMapCircleById(int circleId)
+    {
+        string query = @"
+SELECT 
+    map_circles.id,
+    map_circles.coordinate_x,
+    map_circles.coordinate_y,
+    map_circles.camping_spot,  -- Haal camping_spot id op
+    camping_spots.spot_name 
+FROM 
+    map_circles
+LEFT JOIN 
+    camping_spots 
+ON 
+    map_circles.camping_spot = camping_spots.id
+WHERE 
+    map_circles.id = @circleId;";
+
+        MapCircle? mapCircle = null;
+
+        try
+        {
+            var parameters = new Dictionary<string, object>
+        {
+            { "@circleId", circleId }
+        };
+
+            DataTable result = _databaseHandler.ExecuteSelectQuery(query, parameters);
+
+            if (result.Rows.Count > 0)
+            {
+                DataRow row = result.Rows[0];
+                int id = Convert.ToInt32(row["id"]);
+                double coordinateX = Convert.ToDouble(row["coordinate_x"]);
+                double coordinateY = Convert.ToDouble(row["coordinate_y"]);
+                string spotName = row["spot_name"] != DBNull.Value ? row["spot_name"].ToString() : null;
+
+                // Haal de CampingSpotId uit de query
+                int campingSpotId = Convert.ToInt32(row["camping_spot"]);
+
+                // Maak de MapCircle met de juiste waarden
+                mapCircle = new MapCircle(id, coordinateX, coordinateY, campingSpotId, spotName);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error fetching map circle with ID {circleId}: {ex.Message}");
+        }
+
+        return mapCircle; // Kan nu null zijn
+    }
+
+
+    public CampingSpot SelectCampingSpotById(int campingSpotId)
+    {
+        string query = "SELECT * FROM camping_spots WHERE id = @campingSpotId LIMIT 1;";
+        CampingSpot campingSpot = null;
+
+        try
+        {
+            var parameters = new Dictionary<string, object>
+        {
+            { "@campingSpotId", campingSpotId }
+        };
+
+            DataTable result = _databaseHandler.ExecuteSelectQuery(query, parameters);
+
+            if (result.Rows.Count > 0)
+            {
+                DataRow row = result.Rows[0];
+                int id = Convert.ToInt32(row["id"]);
+                string description = row["description"].ToString();
+                double surface_m2 = Convert.ToDouble(row["surface_m2"]);
+                bool power = Convert.ToBoolean(row["power"]);
+                bool water = Convert.ToBoolean(row["water"]);
+                bool wifi = Convert.ToBoolean(row["wifi"]);
+                int max_persons = Convert.ToInt32(row["max_persons"]);
+                double price_m2 = Convert.ToDouble(row["price_m2"]);
+                bool available = Convert.ToBoolean(row["available"]);
+
+                campingSpot = new CampingSpot(id, description, surface_m2, power, water, wifi, max_persons, price_m2, available);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error fetching camping spot with ID {campingSpotId}: {ex.Message}");
+        }
+
+        return campingSpot;
+    }
+
+    public void AddReservation(string firstName, string lastName, int campingSpot, DateTime fromDate, DateTime toDate, string phone, string email)
     {
         string query = @"
     INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`, phone, email) 
@@ -99,24 +193,26 @@ public class DatabaseQueryHandler {
 
         var parameters = new Dictionary<string, object>
     {
-        { "@firstname", reservation.FirstName },
-        { "@lastname", reservation.LastName },
-        { "@campingSpot", reservation.PlaceNumber },
-        { "@fromDate", reservation.Arrival },
-        { "@toDate", reservation.Depart },
-        { "@phone", reservation.PhoneNumber },
-        { "@email", reservation.Email }
+        { "@firstname", firstName ?? string.Empty },
+        { "@lastname", lastName ?? string.Empty },
+        { "@campingSpot", campingSpot },
+        { "@fromDate", fromDate.ToString("yyyy-MM-dd") },
+        { "@toDate", toDate.ToString("yyyy-MM-dd") },
+        { "@phone", phone ?? string.Empty },
+        { "@email", email ?? string.Empty }
     };
 
         try
         {
+            // Execute the query using the database handler
             _databaseHandler.ExecuteNonQuery(query, parameters);
         }
         catch (Exception ex)
         {
-            throw new Exception($"Error adding reservation: {ex.Message}");
+            throw new Exception($"Error adding reservation: {ex.Message}. Query: {query}. Parameters: {string.Join(", ", parameters.Select(p => $"{p.Key}: {p.Value}"))}");
         }
     }
+
 
     public bool SetPrimaryMap(int mapId)
     {
@@ -142,6 +238,7 @@ public class DatabaseQueryHandler {
             throw new Exception($"Error setting primary map with ID {mapId}: {ex.Message}", ex);
         }
     }
+
     public List<Reservation> SelectReservations() {
         string query = "SELECT * FROM reservations ORDER BY id;";
         List<Reservation> reservations = new List<Reservation>();
@@ -432,6 +529,7 @@ public class DatabaseQueryHandler {
             throw new Exception($"Error updating camping spot: {ex.Message}");
         }
     }
+
 
     public void DeleteReservation(int reservationId)
     {
