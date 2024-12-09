@@ -182,21 +182,22 @@ WHERE
         return campingSpot;
     }
 
-    public void AddReservation(Reservation reservation)
+    public void AddReservation(string firstName, string lastName, int campingSpot, DateTime fromDate, DateTime toDate, string phone, string email)
     {
         string query = @"
-        INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`, phone, email) 
-        VALUES (@firstname, @lastname, @campingSpot, @fromDate, @toDate, @phone, @email);
+    INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`, phone, email) 
+    VALUES (@firstname, @lastname, @campingSpot, @fromDate, @toDate, @phone, @email);
     ";
 
-        var parameters = new Dictionary<string, object> {
-        { "@firstname", reservation.FirstName ?? string.Empty },
-        { "@lastname", reservation.LastName ?? string.Empty },
-        { "@campingSpot", reservation.PlaceNumber },
-        { "@fromDate", reservation.Arrival.ToString("yyyy-MM-dd") },
-        { "@toDate", reservation.Depart.ToString("yyyy-MM-dd") },
-        { "@phone", reservation.PhoneNumber ?? string.Empty },
-        { "@email", reservation.Email ?? string.Empty }
+        var parameters = new Dictionary<string, object>
+    {
+        { "@firstname", firstName ?? string.Empty },
+        { "@lastname", lastName ?? string.Empty },
+        { "@campingSpot", campingSpot },
+        { "@fromDate", fromDate.ToString("yyyy-MM-dd") },
+        { "@toDate", toDate.ToString("yyyy-MM-dd") },
+        { "@phone", phone ?? string.Empty },
+        { "@email", email ?? string.Empty }
     };
 
         try
@@ -209,6 +210,7 @@ WHERE
             throw new Exception($"Error adding reservation: {ex.Message}. Query: {query}. Parameters: {string.Join(", ", parameters.Select(p => $"{p.Key}: {p.Value}"))}");
         }
     }
+
 
 
 

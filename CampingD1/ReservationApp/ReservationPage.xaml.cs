@@ -58,28 +58,12 @@ namespace ReservationApp
                 DateTime fromDate = arrivalDatePicker.Date;
                 DateTime toDate = departureDatePicker.Date;
 
-                // SQL-query om de reservering direct toe te voegen
-                string query = @"
-            INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`, phone, email) 
-            VALUES (@firstname, @lastname, @campingSpot, @fromDate, @toDate, @phone, @email);
-        ";
-
-                // Parameters voor de SQL-query
-                var parameters = new Dictionary<string, object>
-        {
-            { "@firstname", firstName ?? string.Empty },
-            { "@lastname", lastName ?? string.Empty },
-            { "@campingSpot", campingSpot },
-            { "@fromDate", fromDate.ToString("yyyy-MM-dd") }, // Verzeker dat de datum in de juiste indeling is
-            { "@toDate", toDate.ToString("yyyy-MM-dd") }, // Verzeker dat de datum in de juiste indeling is
-            { "@phone", phone ?? string.Empty },
-            { "@email", email ?? string.Empty }
-        };
-
                 try
                 {
-                    // Voer de query uit via je database handler
-                    //App.Database.(query, parameters);
+                    // Voer de query uit via de database handler
+                    App.Database.AddReservation(
+                        firstName, lastName, campingSpot, fromDate, toDate, phone, email
+                    );
 
                     // Toon bevestiging
                     await DisplayAlert("Bevestiging",
@@ -102,6 +86,8 @@ namespace ReservationApp
                 }
             }
         }
+
+
 
 
     }
