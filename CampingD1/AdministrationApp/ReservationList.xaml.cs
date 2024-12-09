@@ -103,13 +103,11 @@ public partial class ReservationList : ContentPage
         {
             _selectedReservation = (Reservation)e.CurrentSelection.FirstOrDefault();
             EditButton.IsEnabled = true;
-            DeleteButton.IsEnabled = true;
         }
         else
         {
             _selectedReservation = null;
             EditButton.IsEnabled = false;
-            DeleteButton.IsEnabled = false;
         }
     }
 
@@ -120,33 +118,4 @@ public partial class ReservationList : ContentPage
             await Navigation.PushAsync(new EditReservation(_selectedReservation));
         }
     }
-
-    private async void OnDeleteButtonClicked(object sender, EventArgs e)
-    {
-        if (_selectedReservation != null)
-        {
-            bool confirmDelete = await DisplayAlert("Bevestigen", "Weet u zeker dat u deze reservering wilt verwijderen?", "Ja", "Nee");
-
-            if (confirmDelete)
-            {
-                try
-                {
-                    // Delete the reservation from the database
-                    await Task.Run(() => App.Database.DeleteReservation(_selectedReservation.Id));
-
-                    // Refresh the reservations list
-                    await LoadReservationsAsync();
-
-                    // Disable buttons after removal
-                    EditButton.IsEnabled = false;
-                    DeleteButton.IsEnabled = false;
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", $"Verwijderen van reservering mislukt: {ex.Message}", "OK");
-                }
-            }
-        }
-    }
-
 }

@@ -70,9 +70,6 @@
 	  <MauiXaml Update="CampingSpotList.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="EditCampingSpotPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="EditReservation.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

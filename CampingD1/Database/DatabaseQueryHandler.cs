@@ -6,7 +6,6 @@ using Database.Types;
 using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Common;
-using Org.BouncyCastle.Asn1;
 
 namespace Database;
 
@@ -19,28 +18,23 @@ public class DatabaseQueryHandler {
 
     public List<CampingMap> SelectCampingMaps() {
         string query = "SELECT * FROM maps ORDER BY id;";
-        //Console.WriteLine(query);
+        Console.WriteLine(query);
         List<CampingMap> campingMaps = new List<CampingMap>();
 
-        try
-        {
+        try {
             DataTable mapsResult = _databaseHandler.ExecuteSelectQuery(query);
 
-            foreach (DataRow mapRow in mapsResult.Rows)
-            {
+            foreach (DataRow mapRow in mapsResult.Rows) {
                 int mapId = Convert.ToInt32(mapRow["id"]);
                 string name = Convert.ToString(mapRow["name"]);
-                bool isPrimary = Convert.ToBoolean(mapRow["is_primary"]);
-
 
                 List<MapCircle> mapCircles = SelectMapCircles(mapId);
 
-                CampingMap campingMap = new CampingMap(mapId, mapCircles, name, isPrimary);
+                CampingMap campingMap = new CampingMap(mapId, mapCircles, name);
                 campingMaps.Add(campingMap);
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw new Exception($"Error fetching camping maps: {ex.Message}");
         }
 
@@ -94,58 +88,7 @@ public class DatabaseQueryHandler {
 
         return mapCircles;
     }
-    public void AddReservation(Reservation reservation)
-    {
-        string query = @"
-    INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`, phone, email) 
-    VALUES (@firstname, @lastname, @campingSpot, @fromDate, @toDate, @phone, @email);
-    ";
 
-        var parameters = new Dictionary<string, object>
-    {
-        { "@firstname", reservation.FirstName },
-        { "@lastname", reservation.LastName },
-        { "@campingSpot", reservation.PlaceNumber },
-        { "@fromDate", reservation.Arrival },
-        { "@toDate", reservation.Depart },
-        { "@phone", reservation.PhoneNumber },
-        { "@email", reservation.Email }
-    };
-
-        try
-        {
-            _databaseHandler.ExecuteNonQuery(query, parameters);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Error adding reservation: {ex.Message}");
-        }
-    }
-
-    public bool SetPrimaryMap(int mapId)
-    {
-        try
-        {
-            // Step 1: Set `is_primary` to 0 for all maps
-            string resetPrimaryQuery = "UPDATE maps SET is_primary = 0;";
-            _databaseHandler.ExecuteNonQuery(resetPrimaryQuery);
-
-            // Step 2: Set `is_primary` to 1 for the given mapId
-            string setPrimaryQuery = "UPDATE maps SET is_primary = 1 WHERE id = @mapId;";
-            var parameters = new Dictionary<string, object>
-            {
-                { "@mapId", mapId }
-            };
-            int rowsAffected = _databaseHandler.ExecuteNonQuery(setPrimaryQuery, parameters);
-
-            // Return true if the specific map was successfully updated
-            return rowsAffected > 0;
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Error setting primary map with ID {mapId}: {ex.Message}", ex);
-        }
-    }
     public List<Reservation> SelectReservations() {
         string query = "SELECT * FROM reservations ORDER BY id;";
         List<Reservation> reservations = new List<Reservation>();
@@ -162,10 +105,9 @@ public class DatabaseQueryHandler {
                 DateTime toDate = Convert.ToDateTime(row["to"]);
                 string phone = row["phone"].ToString();
                 string email = row["email"].ToString();
-                ReservationStatus status = System.Enum.Parse<ReservationStatus>((string)row["status"]);
 
                 Reservation reservation =
-                    new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email, status);
+                    new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email);
                 reservations.Add(reservation);
             }
         }
@@ -301,7 +243,7 @@ public class DatabaseQueryHandler {
 
     public void UpdateReservation(Reservation reservation)
     {
-        string query = @"UPDATE reservations SET firstname = @firstname, lastname = @lastname, camping_spot = @placeNumber, `from` = @fromDate, `to` = @toDate, phone = @phone, email = @email, status = @status WHERE id = @id;";
+        string query = @"UPDATE reservations SET firstname = @firstname, lastname = @lastname, camping_spot = @placeNumber, `from` = @fromDate, `to` = @toDate, phone = @phone, email = @email WHERE id = @id;";
 
         var parameters = new Dictionary<string, object>
         {
@@ -312,7 +254,6 @@ public class DatabaseQueryHandler {
             { "@toDate", reservation.Depart },
             { "@phone", reservation.PhoneNumber },
             { "@email", reservation.Email },
-            { "@status", reservation.Status.ToString() },
             { "@id", reservation.Id }
         };
 
@@ -470,60 +411,4 @@ public class DatabaseQueryHandler {
             throw new Exception($"Error deleting map with ID {mapId}: {ex.Message}", ex);
         }
     }
-
-    public void UpdateCampingSpot(CampingSpot campingSpot)
-    {
-        string query = @"UPDATE camping_spots 
-                         SET description = @description,
-                         surface_m2 = @surfaceM2,
-                         power = @power,
-                         water = @water,
-                         wifi = @wifi,
-                         max_persons = @maxPersons,
-                         price_m2 = @priceM2,
-                         available = @available
-                         WHERE id = @id;";
-
-        var parameters = new Dictionary<string, object>
-        {
-            {"@description", campingSpot.Description},
-            {"@surfaceM2", campingSpot.Surface_m2},
-            {"@power", campingSpot.Power},
-            {"@water", campingSpot.Water},
-            {"@wifi", campingSpot.Wifi},
-            {"@maxPersons", campingSpot.MaxPersons},
-            {"@priceM2", campingSpot.Price_m2},
-            {"@available", campingSpot.Available},
-            {"@id", campingSpot.Id}
-        };
-
-        try
-        {
-            _databaseHandler.ExecuteNonQuery(query, parameters);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Error updating camping spot: {ex.Message}");
-        }
-    }
-
-    public void DeleteReservation(int reservationId)
-    {
-        string query = "DELETE FROM reservations WHERE id = @id;";
-
-        var parameters = new Dictionary<string, object>
-    {
-        { "@id", reservationId }
-    };
-
-        try
-        {
-            _databaseHandler.ExecuteNonQuery(query, parameters);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Error deleting reservation with ID {reservationId}: {ex.Message}");
-        }
-    }
-
 }
