@@ -291,12 +291,10 @@ WHERE
             query += " AND email LIKE @emailFilter";
         }
 
-
         if (!string.IsNullOrEmpty(fromDateFilter))
         {
             query += " AND `from` = @fromDateFilter";
         }
-
 
         query += " ORDER BY id;";
 
