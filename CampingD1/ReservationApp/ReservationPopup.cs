@@ -8,6 +8,7 @@ namespace ReservationApp
     {
         private CampingSpot _campingSpot;
         private Button _reserveButton;
+        private Button _closeButton;
 
         public ReservationPopup(CampingSpot campingSpot)
         {
@@ -64,7 +65,34 @@ namespace ReservationApp
                 TextColor = Colors.White,
                 CornerRadius = 10,
                 HeightRequest = 50,
-                HorizontalOptions = LayoutOptions.Fill
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+
+            // Close button with styling
+            _closeButton = new Button
+            {
+                Text = "Sluiten",
+                FontSize = 18,
+                BackgroundColor = Colors.Red,
+                TextColor = Colors.White,
+                CornerRadius = 10,
+                HeightRequest = 50,
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+
+            // Add click handler to open ReservationPage
+            _reserveButton.Clicked += async (sender, e) =>
+            {
+                var reservationPage = new ReservationPage(_campingSpot);
+                await Application.Current.MainPage.Navigation.PushAsync(reservationPage);
+
+                this.Close();
+            };
+
+            // Add click handler to close the popup
+            _closeButton.Clicked += (sender, e) =>
+            {
+                this.Close();
             };
 
             // Card-style container for labels
@@ -87,6 +115,17 @@ namespace ReservationApp
                 }
             };
 
+            // Buttons container
+            var buttonContainer = new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                Spacing = 10,
+                Children = {
+                    _reserveButton,
+                    _closeButton
+                }
+            };
+
             // Arrange UI elements
             var layout = new StackLayout
             {
@@ -95,17 +134,8 @@ namespace ReservationApp
                 BackgroundColor = Colors.LightGray.WithLuminosity(1),
                 Children = {
                     infoContainer,
-                    _reserveButton
+                    buttonContainer
                 }
-            };
-
-            // Add click handler to open ReservationPage
-            _reserveButton.Clicked += async (sender, e) =>
-            {
-                var reservationPage = new ReservationPage(_campingSpot);
-                await Application.Current.MainPage.Navigation.PushAsync(reservationPage);
-
-                this.Close();
             };
 
             // Add border and content to the popup
