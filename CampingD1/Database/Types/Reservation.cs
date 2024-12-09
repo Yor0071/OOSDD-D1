@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace Database.Types
 {
+    public enum ReservationStatus
+    {
+        cancelled,
+        repaid,
+        ongoing,
+        awaiting,
+        finished
+    }
     public class Reservation
     {
         public int Id { get; set; }
@@ -16,8 +24,20 @@ namespace Database.Types
         public DateTime Depart { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public ReservationStatus Status { get; set; }
+        public string TranslatedStatus => Translate(Status);
 
-        public Reservation(int id, string firstName, string lastName, int placeNumber, DateTime arrival, DateTime depart, string phoneNumber, string email)
+        public static readonly Dictionary<ReservationStatus, string> StatusTranslations = new()
+        {
+            { ReservationStatus.cancelled, "Geannuleerd" },
+            { ReservationStatus.repaid, "Terugbetaald" },
+            { ReservationStatus.ongoing, "Lopend" },
+            { ReservationStatus.awaiting, "In afwachting" },
+            { ReservationStatus.finished, "Afgerond" }
+        };
+
+
+        public Reservation(int id, string firstName, string lastName, int placeNumber, DateTime arrival, DateTime depart, string phoneNumber, string email, ReservationStatus status)
         {
             Id = id;
             FirstName = firstName;
@@ -27,6 +47,14 @@ namespace Database.Types
             Depart = depart;
             PhoneNumber = phoneNumber;
             Email = email;
+            Status = status;
+        }
+
+        public static string Translate(ReservationStatus status)
+        {
+            return StatusTranslations.TryGetValue(status, out string translatedStatus)
+                ? translatedStatus
+                : "Onbekend"; // Fallback
         }
     }
 }
