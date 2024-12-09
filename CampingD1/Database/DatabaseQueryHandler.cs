@@ -402,13 +402,14 @@ public class DatabaseQueryHandler {
         {
             _databaseHandler.EnsureConnection();
 
-            // Step 1: Delete related entries from reservations
-            string deleteReservationsQuery = "DELETE FROM reservations WHERE camping_spot = @id;";
+            // Step 1: Update reservations to "cancelled"
+            string updateReservationsQuery = "UPDATE reservations SET status = @status WHERE camping_spot = @id;";
             var reservationParams = new Dictionary<string, object>
         {
+            { "@status", ReservationStatus.cancelled.ToString() }, // Use the string representation of the enum
             { "@id", campingSpotId }
         };
-            _databaseHandler.ExecuteNonQuery(deleteReservationsQuery, reservationParams);
+            _databaseHandler.ExecuteNonQuery(updateReservationsQuery, reservationParams);
 
             // Step 2: Delete related entries from map_circles
             string deleteMapCirclesQuery = "DELETE FROM map_circles WHERE camping_spot = @id;";
@@ -426,13 +427,14 @@ public class DatabaseQueryHandler {
         };
             _databaseHandler.ExecuteNonQuery(deleteCampingSpotQuery, campingSpotParams);
 
-            Console.WriteLine($"Camping spot with ID {campingSpotId} and its related data have been deleted.");
+            Console.WriteLine($"Camping spot with ID {campingSpotId} has been deleted, and associated reservations were marked as 'cancelled'.");
         }
         catch (Exception ex)
         {
             throw new Exception($"Error deleting camping spot with ID {campingSpotId}: {ex.Message}", ex);
         }
     }
+
 
 
 }
