@@ -1,4 +1,5 @@
 using System.Data;
+using System.Data.SqlTypes;
 using System.Resources;
 using Database.types;
 using Database.Types;
@@ -293,7 +294,7 @@ WHERE
 
         if (!string.IsNullOrEmpty(fromDateFilter))
         {
-            query += " AND `from` = \"@fromDateFilter\"";
+            query += " AND `from` = @fromDateFilter";
         }
 
 
@@ -306,9 +307,8 @@ WHERE
             { "@nameFilter", $"%{nameFilter}%" },
             { "@campingSpot", spotFilter },
             {"@emailFilter", $"%{emailFilter}%" },
-            { "@fromDateFilter", $"%{fromDateFilter}%" }
+            { "@fromDateFilter", fromDateFilter }
         };
-
 
         try
         {
