@@ -26,6 +26,8 @@ public partial class ReservationList : ContentPage
         public int? SpotFilter { get; set; }
         public string EmailFilter { get; set; }
         public string FromDateFilter { get; set; }
+
+        public string ToDateFilter { get; set; }
     }
 
     private async Task LoadReservationsAsync(ReservationFilter filter = null)
@@ -41,7 +43,7 @@ public partial class ReservationList : ContentPage
                 filter = new ReservationFilter();
             }
 
-            reservations = await Task.Run(() => App.Database.SelectFilteredReservations(filter.NameFilter, filter.SpotFilter, filter.EmailFilter, filter.FromDateFilter));
+            reservations = await Task.Run(() => App.Database.SelectFilteredReservations(filter.NameFilter, filter.SpotFilter, filter.EmailFilter, filter.FromDateFilter, filter.ToDateFilter));
 
             ReservationsCollectionView.ItemsSource = reservations;
         }
@@ -134,7 +136,11 @@ public partial class ReservationList : ContentPage
 
     private async void OnArrivalButtonClicked(object sender, EventArgs e) 
     {
-        var filter = new ReservationFilter { FromDateFilter = ArrivalDatePicker.Date.ToString("yyyy-MM-dd") };
+        var filter = new ReservationFilter 
+        {
+            FromDateFilter = ArrivalDatePicker.Date.ToString("yyyy-MM-dd"),
+            ToDateFilter = DepartureDatePicker.Date.ToString("yyyy-MM-dd")
+        };
         
 
         await LoadReservationsAsync(filter);

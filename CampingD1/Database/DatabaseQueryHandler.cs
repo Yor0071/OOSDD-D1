@@ -273,7 +273,7 @@ WHERE
         return reservations;
     }
 
-    public List<Reservation> SelectFilteredReservations(string nameFilter, int? spotFilter, string emailFilter, string fromDateFilter)
+    public List<Reservation> SelectFilteredReservations(string nameFilter, int? spotFilter, string emailFilter, string fromDateFilter, string toDateFilter)
     {
         string query = @"SELECT * FROM reservations WHERE 1 = 1";
         if (!string.IsNullOrEmpty(nameFilter))
@@ -293,8 +293,15 @@ WHERE
 
         if (!string.IsNullOrEmpty(fromDateFilter))
         {
-            query += " AND `from` = @fromDateFilter";
+            query += " AND `from` >= @fromDateFilter";
         }
+
+        if (!string.IsNullOrEmpty(toDateFilter))
+        {
+            query += " AND `to` <= @toDateFilter";
+        }
+
+       
 
         query += " ORDER BY id;";
 
@@ -305,7 +312,8 @@ WHERE
             { "@nameFilter", $"%{nameFilter}%" },
             { "@campingSpot", spotFilter },
             {"@emailFilter", $"%{emailFilter}%" },
-            { "@fromDateFilter", fromDateFilter }
+            { "@fromDateFilter", fromDateFilter },
+            { "@toDateFilter", toDateFilter }
         };
 
         try
