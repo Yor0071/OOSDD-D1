@@ -45,13 +45,13 @@ namespace ReservationApp
         public static void ReserveSpot(int spotId)
         {
             // Haal de campingplek details op uit de database
-            var spotDetails = Database.SelectCampingSpots().FirstOrDefault(s => s.Id == spotId);
+            var Idspot = Database.SelectCampingSpots().FirstOrDefault(s => s.Id == spotId);
 
             // Check of de plek bestaat
-            if (spotDetails != null)
+            if (Idspot != null)
             {
                 // Maak de reserveringspagina aan en navigeer er naartoe
-                Application.Current.MainPage.Navigation.PushAsync(new ReservationPage(spotDetails));
+                Application.Current.MainPage.Navigation.PushAsync(new ReservationPage(Idspot));
             }
             else
             {

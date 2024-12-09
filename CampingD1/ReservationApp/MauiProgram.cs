@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using CommunityToolkit.Maui; // Zorg ervoor dat je deze alleen eenmaal toevoegt
+using CommunityToolkit.Maui;
 
 namespace ReservationApp
 {

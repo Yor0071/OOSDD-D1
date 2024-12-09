@@ -15,7 +15,7 @@ public class DatabaseQueryHandler {
 
     public List<CampingMap> SelectCampingMaps() {
         string query = "SELECT * FROM maps ORDER BY id;";
-        Console.WriteLine(query);
+        //Console.WriteLine(query);
         List<CampingMap> campingMaps = new List<CampingMap>();
 
         try
