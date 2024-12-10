@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8" ?>
-    <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ReservationApp.MapScreenCustomer"
              Title="Plattegrond">
+
     <ContentPage.Resources>
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="22"/>
@@ -10,7 +10,10 @@
         </Style>
 
         <Style TargetType="DatePicker">
-            <Setter Property="HeightRequest" Value= "40"/>
+            <Setter Property="HeightRequest" Value="50"/>
+            <!-- Set consistent height -->
+            <Setter Property="WidthRequest" Value="200"/>
+            <!-- Set consistent width -->
             <Setter Property="BackgroundColor" Value="#f0f0f0"/>
             <Setter Property="TextColor" Value="Black"/>
         </Style>
@@ -19,12 +22,16 @@
             <Setter Property="BackgroundColor" Value="#4CAF50"/>
             <Setter Property="TextColor" Value="White"/>
             <Setter Property="HeightRequest" Value="50"/>
+            <!-- Set consistent height -->
+            <Setter Property="WidthRequest" Value="200"/>
+            <!-- Set consistent width -->
             <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="FontSize" Value="18"/>
         </Style>
     </ContentPage.Resources>
 
     <VerticalStackLayout Padding="5" Spacing="20">
+
         <!-- Page Title -->
         <Label 
             Text="Plattegrond"
@@ -34,47 +41,69 @@
             HorizontalOptions="Center" />
 
         <!-- Date pickers in a horizontal layout -->
-        <HorizontalStackLayout Spacing="180" HorizontalOptions="Center">
-            <StackLayout>
+        <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center">
+            <StackLayout VerticalOptions="Center" Spacing="5">
                 <Label 
             Text="Aankomstdatum"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
-                <DatePicker 
-            x:Name="arrivalDatePicker"
-            Date="{Binding ArrivalDate}"
-            VerticalOptions="Center"
-            WidthRequest="150" />
+            FontSize="16"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            TextColor="#333" />
+                <Frame Padding="5" BackgroundColor="#f0f0f0" CornerRadius="10" HasShadow="True" BorderColor="#dcdcdc">
+                    <DatePicker 
+                x:Name="arrivalDatePicker"
+                Date="{Binding ArrivalDate}"
+                VerticalOptions="Center"
+                BackgroundColor="White"
+                TextColor="Black"
+                HeightRequest="50"
+                WidthRequest="200"
+                 />
+                </Frame>
             </StackLayout>
-            
-            <StackLayout>
+
+            <StackLayout VerticalOptions="Center" Spacing="5">
                 <Label 
             Text="Vertrekdatum"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
-                <DatePicker 
-            x:Name="departureDatePicker"
-            Date="{Binding DepartureDate}"
-            VerticalOptions="Center"
-            WidthRequest="150" />
+            FontSize="16"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            TextColor="#333" />
+                <Frame Padding="5" BackgroundColor="#f0f0f0" CornerRadius="10" HasShadow="True" BorderColor="#dcdcdc">
+                    <DatePicker 
+                x:Name="departureDatePicker"
+                Date="{Binding DepartureDate}"
+                VerticalOptions="Center"
+                BackgroundColor="White"
+                TextColor="Black"
+                HeightRequest="50"
+                WidthRequest="200"
+                />
+                </Frame>
             </StackLayout>
-
-            <!-- Knop voor Reserveringsnummer Popup -->
-            <Button 
-Text="Inzien plek bekende"
-HorizontalOptions="Center"
-VerticalOptions="Center"
-Clicked="OnReservationNumberClicked" />
         </HorizontalStackLayout>
 
+        <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center">
+            <Button 
+        Text="Zoek Beschikbaarheid"
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        WidthRequest="200"
+        HeightRequest="50"
+        Clicked="OnSearchAvailabilityClicked" />
+
+            <Button 
+        Text="Ik heb een reservering"
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        WidthRequest="200"
+        HeightRequest="50"
+        Margin="0,0,0,0" 
+        Clicked="OnReservationNumberClicked" />
+        </HorizontalStackLayout>
 
         <!-- Search availability button -->
-        <Button 
-            Text="Zoek Beschikbaarheid"
-            HorizontalOptions="Center"
-            VerticalOptions="Center" 
-            Clicked="OnSearchAvailabilityClicked" />
-
+        
         <!-- Grid with the map -->
         <Grid Padding="0">
             <!-- Main Content -->

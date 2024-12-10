@@ -211,7 +211,7 @@ public partial class MapEditorPage : ContentPage
 
         var map = selectedMap.Value;
 
-        var newCircle = new MapCircle(id: map.cirles.Count + 1, coordinateX: 0, coordinateY: 0);
+        var newCircle = new MapCircle(id: map.cirles.Count + 1, coordinateX: 0, coordinateY: 0, campingSpotId: 0, spotName: string.Empty);
 
         var updatedCircles = new List<MapCircle>(map.cirles) { newCircle };
         selectedMap = new CampingMap(

@@ -68,7 +68,9 @@ namespace ReservationApp
                 FontSize = 15,
                 Padding = new Thickness(1),
                 HorizontalOptions = LayoutOptions.End,
-                VerticalOptions = LayoutOptions.Center
+                VerticalOptions = LayoutOptions.Center,
+                HeightRequest = 30, // Specificeer de hoogte van de knop
+                WidthRequest = 30
             };
             closeButton.Clicked += (s, e) => Close();
 

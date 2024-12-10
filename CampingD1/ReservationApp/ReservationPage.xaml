@@ -7,12 +7,13 @@
     <ScrollView>
         <StackLayout Padding="20" Spacing="20">
 
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-                <Label Text="Locatie" FontSize="24" VerticalOptions="Center" />
-                <Label Text=" " FontSize="24" VerticalOptions="Center" />
-                <Label Text="9" FontSize="24" VerticalOptions="Center" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Spacing="1">
+                <Label Text="Locatie" FontSize="24" VerticalOptions="Center" Margin="0,0,3,0" />
+                <Label Text=" " FontSize="24" VerticalOptions="Center" Margin="0,0,3,0" />
+                <Label x:Name="campingSpotNumberLabel" FontSize="24" VerticalOptions="Center" Margin="0,0,3,0" />
                 <BoxView WidthRequest="20" HeightRequest="20" CornerRadius="10" Color="Green" VerticalOptions="Center" />
             </StackLayout>
+
 
             <StackLayout Orientation="Horizontal" Spacing="10">
                 <StackLayout VerticalOptions="Center" HorizontalOptions="StartAndExpand">
