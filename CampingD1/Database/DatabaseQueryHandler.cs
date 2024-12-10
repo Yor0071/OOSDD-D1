@@ -44,28 +44,29 @@ public class DatabaseQueryHandler {
     public List<MapCircle> SelectMapCircles(int mapId)
     {
         string query = @"
-        SELECT 
-            map_circles.id,
-            map_circles.coordinate_x,
-            map_circles.coordinate_y,
-            camping_spots.spot_name 
-        FROM 
-            map_circles
-        LEFT JOIN 
-            camping_spots 
-        ON 
-            map_circles.camping_spot = camping_spots.id
-        WHERE 
-            map_circles.map = @mapId;";
+    SELECT 
+        map_circles.id,
+        map_circles.coordinate_x,
+        map_circles.coordinate_y,
+        camping_spots.id AS camping_spot_id,  -- Voeg de camping_spot_id toe aan de query
+        camping_spots.spot_name 
+    FROM 
+        map_circles
+    LEFT JOIN 
+        camping_spots 
+    ON 
+        map_circles.camping_spot = camping_spots.id
+    WHERE 
+        map_circles.map = @mapId;";
 
         List<MapCircle> mapCircles = new List<MapCircle>();
 
         try
         {
             var parameters = new Dictionary<string, object>
-            {
-                { "@mapId", mapId }
-            };
+        {
+            { "@mapId", mapId }
+        };
 
             DataTable result = _databaseHandler.ExecuteSelectQuery(query, parameters);
 
@@ -75,9 +76,10 @@ public class DatabaseQueryHandler {
                 double coordinateX = Convert.ToDouble(row["coordinate_x"]);
                 double coordinateY = Convert.ToDouble(row["coordinate_y"]);
                 string spotName = row["spot_name"] != DBNull.Value ? row["spot_name"].ToString() : null;
-                Console.WriteLine(spotName);
+                int campingSpotId = row["camping_spot_id"] != DBNull.Value ? Convert.ToInt32(row["camping_spot_id"]) : 0;  // Haal de CampingSpotId op, stel in op 0 als het leeg is
 
-                MapCircle mapCircle = new MapCircle(id, coordinateX, coordinateY, spotName);
+                // Maak een MapCircle object met de CampingSpotId en spotName
+                MapCircle mapCircle = new MapCircle(id, coordinateX, coordinateY, campingSpotId, spotName);
                 mapCircles.Add(mapCircle);
             }
         }
@@ -88,7 +90,7 @@ public class DatabaseQueryHandler {
 
         return mapCircles;
     }
-
+    
     public List<Reservation> SelectReservations() {
         string query = "SELECT * FROM reservations ORDER BY id;";
         List<Reservation> reservations = new List<Reservation>();
@@ -411,4 +413,61 @@ public class DatabaseQueryHandler {
             throw new Exception($"Error deleting map with ID {mapId}: {ex.Message}", ex);
         }
     }
+
+    public void UpdateCampingSpot(CampingSpot campingSpot)
+    {
+        string query = @"UPDATE camping_spots 
+                         SET description = @description,
+                         surface_m2 = @surfaceM2,
+                         power = @power,
+                         water = @water,
+                         wifi = @wifi,
+                         max_persons = @maxPersons,
+                         price_m2 = @priceM2,
+                         available = @available
+                         WHERE id = @id;";
+
+        var parameters = new Dictionary<string, object>
+        {
+            {"@description", campingSpot.Description},
+            {"@surfaceM2", campingSpot.Surface_m2},
+            {"@power", campingSpot.Power},
+            {"@water", campingSpot.Water},
+            {"@wifi", campingSpot.Wifi},
+            {"@maxPersons", campingSpot.MaxPersons},
+            {"@priceM2", campingSpot.Price_m2},
+            {"@available", campingSpot.Available},
+            {"@id", campingSpot.Id}
+        };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error updating camping spot: {ex.Message}");
+        }
+    }
+
+
+    public void DeleteReservation(int reservationId)
+    {
+        string query = "DELETE FROM reservations WHERE id = @id;";
+
+        var parameters = new Dictionary<string, object>
+    {
+        { "@id", reservationId }
+    };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error deleting reservation with ID {reservationId}: {ex.Message}");
+        }
+    }
+
 }
