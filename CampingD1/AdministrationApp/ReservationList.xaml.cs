@@ -53,60 +53,19 @@ public partial class ReservationList : ContentPage
         }
     }
 
-    private async void OnSearchButtonPressed(object sender, EventArgs e)
-    {
-        SearchBar searchBar = (SearchBar)sender;
-        string searchText = searchBar.Text?.Trim();
-        var filter = new ReservationFilter();
-
-        if (!string.IsNullOrEmpty(searchText))
-        {
-            var inputs = searchText.Split(' ');
-
-            foreach (var input in inputs)
-            {
-                if (int.TryParse(input, out int campingSpot))
-                {
-                    // Als het een getal is, interpreteer het als campingplek
-                    filter.SpotFilter = campingSpot;
-                }
-                else if (input.Contains("@"))
-                {
-                    filter.EmailFilter = input;
-                }
-                else
-                {
-                    // Anders interpreteer het als naam
-                    filter.NameFilter = input;
-                }
-            }
-        }
-        await LoadReservationsAsync(filter);
-    }
-
-    private async void OnArrivalButtonClicked(object sender, EventArgs e) 
-    {
-        var filter = new ReservationFilter 
-        {
-            FromDateFilter = ArrivalDatePicker.Date.ToString("yyyy-MM-dd"),
-            ToDateFilter = DepartureDatePicker.Date.ToString("yyyy-MM-dd")
-        };
-        
-
-        await LoadReservationsAsync(filter);
-    }
-
     private void OnReservationSelected(Object sender, SelectionChangedEventArgs e)
     {
         if (e.CurrentSelection.Count > 0)
         {
             _selectedReservation = (Reservation)e.CurrentSelection.FirstOrDefault();
             EditButton.IsEnabled = true;
+            DeleteButton.IsEnabled = true;
         }
         else
         {
             _selectedReservation = null;
             EditButton.IsEnabled = false;
+            DeleteButton.IsEnabled = false;
         }
     }
 
@@ -144,8 +103,6 @@ public partial class ReservationList : ContentPage
                 }
             }
         }
-    }
-    
     private async void OnSearchButtonPressed(object sender, EventArgs e)
     {
         SearchBar searchBar = (SearchBar)sender;
