@@ -60,26 +60,11 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Database\Database.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="MapScreenCustomer.xaml.cs">
-	    <DependentUpon>MapScreenCustomer.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="MapScreenCustomer.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="ReservationPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
