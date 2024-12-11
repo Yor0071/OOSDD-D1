@@ -103,6 +103,8 @@ public partial class ReservationList : ContentPage
                 }
             }
         }
+    }
+
     private async void OnSearchButtonPressed(object sender, EventArgs e)
     {
         SearchBar searchBar = (SearchBar)sender;
