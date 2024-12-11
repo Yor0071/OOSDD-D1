@@ -59,11 +59,13 @@ public partial class ReservationList : ContentPage
         {
             _selectedReservation = (Reservation)e.CurrentSelection.FirstOrDefault();
             EditButton.IsEnabled = true;
+            DeleteButton.IsEnabled = true;
         }
         else
         {
             _selectedReservation = null;
             EditButton.IsEnabled = false;
+            DeleteButton.IsEnabled = false;
         }
     }
 

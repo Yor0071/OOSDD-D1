@@ -69,6 +69,18 @@ public partial class MapEditorPage : ContentPage
         }
     }
 
+    private void OnSetPrimaryMapButtonClicked(object sender, EventArgs e)
+    {
+        if (isNewMap || !selectedMap.HasValue)
+        {
+            DisplayAlert("Fout", "Je moet een bestaande kaart selecteren om deze als primaire kaart in te stellen.", "OK");
+            return;
+        }
+    
+        App.Database.SetPrimaryMap(selectedMap.Value.id);
+        DisplayAlert("Succes", $"Kaart '{selectedMap.Value.name}' is ingesteld als primaire kaart.", "OK");
+    }
+
     private void OnMapSelected(object sender, EventArgs e)
     {
         int selectedIndex = MapPicker.SelectedIndex;
