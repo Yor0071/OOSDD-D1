@@ -241,10 +241,10 @@ WHERE
     }
 
     public List<Reservation> SelectReservations() {
-        string query = "SELECT r.*, cs.spot_name " +
-                       "FROM reservations r " +
-                       "JOIN camping_spots cs ON r.camping_spot = cs.id " +
-                       "ORDER BY r.id;";
+        string query = @"SELECT r.*, cs.spot_name
+                       FROM reservations r 
+                       JOIN camping_spots cs ON r.camping_spot = cs.id
+                       ORDER BY r.id;";
         List<Reservation> reservations = new List<Reservation>();
 
         try {
@@ -316,8 +316,7 @@ WHERE
                 bool available = Convert.ToBoolean(row["available"]);
                 string spotName = row["spot_name"].ToString();
 
-                CampingSpot campingSpot = new CampingSpot(id, description, surface_m2, power, water, wifi, max_persons,
-                                                          price_m2, available, spotName);
+                CampingSpot campingSpot = new CampingSpot(id, description, surface_m2, power, water, wifi, max_persons, price_m2, available, spotName);
                 campingSpots.Add(campingSpot);
             }
         }
