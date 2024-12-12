@@ -8,7 +8,7 @@
         <StackLayout Padding="20" Spacing="20">
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Spacing="1">
-                <Label Text="Locatie" FontSize="24" VerticalOptions="Center" Margin="0,0,3,0" />
+                <Label Text="Locatie: " FontSize="24" VerticalOptions="Center" Margin="0,0,3,0" />
                 <Label Text=" " FontSize="24" VerticalOptions="Center" Margin="0,0,3,0" />
                 <Label x:Name="campingSpotNumberLabel" FontSize="24" VerticalOptions="Center" Margin="0,0,3,0" />
                 <BoxView WidthRequest="20" HeightRequest="20" CornerRadius="10" Color="Green" VerticalOptions="Center" />
@@ -31,7 +31,6 @@
 
             <StackLayout Orientation="Horizontal">
                 <Entry Placeholder="Voornaam *" x:Name="firstNameEntry" HorizontalOptions="FillAndExpand" />
-                <Entry Placeholder="Tussenvoegsel" x:Name="middleNameEntry" HorizontalOptions="FillAndExpand" />
                 <Entry Placeholder="Achternaam *" x:Name="lastNameEntry" HorizontalOptions="FillAndExpand" />
             </StackLayout>
 
@@ -39,7 +38,6 @@
             <Entry Placeholder="E-mailadres *" Keyboard="Email" x:Name="emailEntry" />
 
             <Entry Placeholder="Totaal aantal kampeerders *" Keyboard="Numeric" x:Name="totalCampersEntry" />
-            <Entry Placeholder="Waarvan onder de 12 jaar *" Keyboard="Numeric" x:Name="under12Entry" />
 
             <Editor Placeholder="Bijzonderheden:" AutoSize="TextChanges" x:Name="specialNotesEditor" HeightRequest="150" />
 

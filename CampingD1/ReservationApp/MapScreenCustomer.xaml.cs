@@ -15,38 +15,34 @@ public partial class MapScreenCustomer : ContentPage
     public MapScreenCustomer()
     {
         InitializeComponent();
+        LoadCampingMap();
+
+        // Stel de standaardwaarden voor de date pickers in
+        arrivalDatePicker.Date = DateTime.Today;
+        departureDatePicker.Date = DateTime.Today.AddDays(1);
+
     }
 
-    private async void OnSearchAvailabilityClicked(object sender, EventArgs e)
+    private async void LoadCampingMap()
     {
         try
         {
-            // Laad de kaarten pas wanneer de zoekbeschikbaarheid knop wordt geklikt
+            // Zorg ervoor dat de database verbinding is gemaakt
             await Task.Run(() => App.databaseHandler.EnsureConnection());
 
+            // Haal de kaarten op
             var maps = await Task.Run(() => App.Database.SelectCampingMaps());
 
-            // RenderCampingMap(maps.First());
-            // CampingMap? primaryMap = maps.FirstOrDefault(map => map.isPrimary);
-
-            foreach (var map in maps) {
-                if (map.isPrimary == true) {
+            foreach (var map in maps)
+            {
+                if (map.isPrimary == true)
+                {
                     RenderCampingMap(map);
                     return;
                 }
             }
 
-            // if (primaryMap.HasValue == false)
-            // {
-            //     // Render the primary map
-            //     RenderCampingMap(primaryMap.Value);
-            // }
-            // else
-            // {
-            //     await DisplayAlert("No Primary Map", "No primary camping map found.", "OK");
-            // }
             await DisplayAlert("Oeps", "Er kan geen kaart gevonden worden", "OK");
-
         }
         catch (Exception ex)
         {
@@ -139,5 +135,4 @@ public partial class MapScreenCustomer : ContentPage
             }
         }
     }
-
 }

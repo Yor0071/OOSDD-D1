@@ -16,7 +16,7 @@ namespace ReservationApp
             _spotDetails = spotDetails;
 
             // Stel het label in met de beschrijving of nummer van de plek
-            campingSpotNumberLabel.Text = _spotDetails.Id.ToString();
+            campingSpotNumberLabel.Text = _spotDetails.Description.ToString();
 
             arrivalDatePicker.MinimumDate = DateTime.Today;
             departureDatePicker.MinimumDate = DateTime.Today.AddDays(1);
@@ -34,14 +34,13 @@ namespace ReservationApp
                 string.IsNullOrWhiteSpace(phoneEntry.Text) ||
                 string.IsNullOrWhiteSpace(emailEntry.Text) ||
                 string.IsNullOrWhiteSpace(totalCampersEntry.Text) ||
-                string.IsNullOrWhiteSpace(under12Entry.Text) ||
                 arrivalDatePicker.Date == null ||
                 departureDatePicker.Date == null)
             {
                 errorLabel.Text = "Alle verplichte velden moeten worden ingevuld.";
                 errorLabel.IsVisible = true;
             }
-            else if (!emailEntry.Text.Contains("@"))
+            else if (!emailEntry.Text.Contains("@") || emailEntry.Text.Length < 5)
             {
                 errorLabel.Text = "Controleer uw e-mailadres.";
                 errorLabel.IsVisible = true;
@@ -54,7 +53,6 @@ namespace ReservationApp
                 var phone = phoneEntry.Text;
                 var email = emailEntry.Text;
                 var totalCampers = int.TryParse(totalCampersEntry.Text, out int parsedTotalCampers) ? parsedTotalCampers : 0;
-                var under12 = int.TryParse(under12Entry.Text, out int parsedUnder12) ? parsedUnder12 : 0;
                 var specialNotes = specialNotesEditor.Text;
 
                 // Verkrijg de geselecteerde data
@@ -91,51 +89,50 @@ namespace ReservationApp
                             {
                                 Spacing = 20,
                                 Children = {
-                    // Header label
-                    new Label
-                    {
-                        Text = "✅ Bevestiging",
-                        FontSize = 24,
-                        FontAttributes = FontAttributes.Bold,
-                        HorizontalTextAlignment = TextAlignment.Center,
-                        TextColor = Color.FromArgb("#333333")
-                    },
-                    
-                    // Content label
-                    new Label
-                    {
-                        Text = $"Reservering succesvol opgeslagen!\n" +
-                               $"U krijgt een bevistigeningsmail!\n" + 
-                               $"📍 Naam: {firstName} {lastName}\n" +
-                               $"📞 Telefoon: {phone}\n" +
-                               $"📧 Email: {email}\n" +
-                               $"👨‍👩‍👧‍👦 Aantal kampeerders: {totalCampers}\n" +
-                               $"👶 Onder 12 jaar: {under12}\n" +
-                               $"📝 Bijzonderheden: {specialNotes}",
-                        FontSize = 16,
-                        TextColor = Color.FromArgb("#555555"),
-                        LineHeight = 1.5
-                    },
-                    
-                    // Return to map button
-                    new Button
-                    {
-                        Text = "🔙 Terug naar Kaart",
-                        BackgroundColor = Color.FromArgb("#007BFF"),
-                        TextColor = Colors.White,
-                        CornerRadius = 12,
-                        FontSize = 18,
-                        HeightRequest = 50,
-                        HorizontalOptions = LayoutOptions.FillAndExpand,
-                        Command = new Command(async () =>
-                        {
-                            confirmationPopup.Close(); // Sluit de pop-up
-                            await Application.Current.MainPage.Navigation.PopToRootAsync(); // Ga terug naar MapScreenCustomer
-                        })
-                    }
-                }
+                                    // Header label
+                                    new Label
+                                    {
+                                        Text = "✅ Bevestiging",
+                                        FontSize = 24,
+                                        FontAttributes = FontAttributes.Bold,
+                                        HorizontalTextAlignment = TextAlignment.Center,
+                                        TextColor = Color.FromArgb("#333333")
+                                    },
+                                    
+                                    // Content label
+                                    new Label
+                                    {
+                                        Text = $"Reservering succesvol opgeslagen!\n" +
+                                               $"📍 Naam: {firstName} {lastName}\n" +
+                                               $"📞 Telefoon: {phone}\n" +
+                                               $"📧 Email: {email}\n" +
+                                               $"👨‍👩‍👧‍👦 Aantal kampeerders: {totalCampers}\n" +
+                                               $"📝 Bijzonderheden: {specialNotes}",
+                                        FontSize = 16,
+                                        TextColor = Color.FromArgb("#555555"),
+                                        LineHeight = 1.5
+                                    },
+                                    
+                                    // Return to map button
+                                    new Button
+                                    {
+                                        Text = "🔙 Terug naar Kaart",
+                                        BackgroundColor = Color.FromArgb("#007BFF"),
+                                        TextColor = Colors.White,
+                                        CornerRadius = 12,
+                                        FontSize = 18,
+                                        HeightRequest = 50,
+                                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                                        Command = new Command(async () =>
+                                        {
+                                            confirmationPopup.Close(); // Sluit de pop-up
+                                            await Application.Current.MainPage.Navigation.PopToRootAsync(); // Ga terug naar MapScreenCustomer
+                                        })
+                                    }
+                                }
                             }
-                        }
+                        },
+                        CanBeDismissedByTappingOutsideOfPopup = false // Prevent closing when tapping outside
                     };
 
                     // Toon de pop-up
@@ -149,9 +146,6 @@ namespace ReservationApp
                     errorLabel.Text = $"Er is een fout opgetreden: {ex.Message}";
                     errorLabel.IsVisible = true;
                 }
-
-
-
             }
         }
     }

@@ -40,6 +40,7 @@
             VerticalOptions="Center"
             HorizontalOptions="Center" />
 
+
         <!-- Date pickers in a horizontal layout -->
         <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center">
             <StackLayout VerticalOptions="Center" Spacing="5">
@@ -48,17 +49,10 @@
             FontSize="16"
             FontAttributes="Bold"
             HorizontalOptions="Center"
-            TextColor="#333" />
-                <Frame Padding="5" BackgroundColor="#f0f0f0" CornerRadius="10" HasShadow="True" BorderColor="#dcdcdc">
-                    <DatePicker 
-                x:Name="arrivalDatePicker"
-                Date="{Binding ArrivalDate}"
-                VerticalOptions="Center"
-                BackgroundColor="White"
-                TextColor="Black"
-                HeightRequest="50"
-                WidthRequest="200"
-                 />
+            TextColor="#FFFFFF" />
+                <Frame Padding="5" BackgroundColor="#f0f0f0" CornerRadius="10" HasShadow="False" BorderColor="#dcdcdc">
+                    <DatePicker x:Name="arrivalDatePicker"
+            Format="dd MMMM yyyy" />
                 </Frame>
             </StackLayout>
 
@@ -68,29 +62,22 @@
             FontSize="16"
             FontAttributes="Bold"
             HorizontalOptions="Center"
-            TextColor="#333" />
+            TextColor="#FFFFFF" />
                 <Frame Padding="5" BackgroundColor="#f0f0f0" CornerRadius="10" HasShadow="True" BorderColor="#dcdcdc">
-                    <DatePicker 
-                x:Name="departureDatePicker"
-                Date="{Binding DepartureDate}"
-                VerticalOptions="Center"
-                BackgroundColor="White"
-                TextColor="Black"
-                HeightRequest="50"
-                WidthRequest="200"
-                />
+                    <DatePicker x:Name="departureDatePicker"
+            Format="dd MMMM yyyy" />
                 </Frame>
             </StackLayout>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center">
-            <Button 
+            <!--       <Button 
         Text="Zoek Beschikbaarheid"
         HorizontalOptions="Center"
         VerticalOptions="Center"
         WidthRequest="200"
-        HeightRequest="50"
-        Clicked="OnSearchAvailabilityClicked" />
+        HeightRequest="50"/>
+            Clicked="OnSearchAvailabilityClicked" /> -->
 
             <Button 
         Text="Ik heb een reservering"
@@ -103,7 +90,7 @@
         </HorizontalStackLayout>
 
         <!-- Search availability button -->
-        
+
         <!-- Grid with the map -->
         <Grid Padding="0">
             <!-- Main Content -->

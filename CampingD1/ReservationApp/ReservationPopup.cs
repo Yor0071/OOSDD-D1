@@ -14,6 +14,9 @@ namespace ReservationApp
         {
             _campingSpot = campingSpot;
 
+            // Helper functie om true/false naar "ja"/"nee" te converteren
+            string ConvertBoolToYesNo(bool value) => value ? "Ja" : "Nee";
+
             // Show camping spot details with improved formatting
             var descriptionLabel = new Label
             {
@@ -26,7 +29,7 @@ namespace ReservationApp
 
             var powerLabel = new Label
             {
-                Text = $"Power: {_campingSpot.Power}",
+                Text = $"Stroom: {ConvertBoolToYesNo(_campingSpot.Power)}",
                 FontSize = 16,
                 TextColor = Colors.Gray,
                 HorizontalOptions = LayoutOptions.Start
@@ -34,7 +37,7 @@ namespace ReservationApp
 
             var wifiLabel = new Label
             {
-                Text = $"WiFi: {_campingSpot.Wifi}",
+                Text = $"Internet connectie: {ConvertBoolToYesNo(_campingSpot.Wifi)}",
                 FontSize = 16,
                 TextColor = Colors.Gray,
                 HorizontalOptions = LayoutOptions.Start
@@ -42,7 +45,7 @@ namespace ReservationApp
 
             var waterLabel = new Label
             {
-                Text = $"Water: {_campingSpot.Water}",
+                Text = $"Water: {ConvertBoolToYesNo(_campingSpot.Water)}",
                 FontSize = 16,
                 TextColor = Colors.Gray,
                 HorizontalOptions = LayoutOptions.Start
@@ -50,7 +53,7 @@ namespace ReservationApp
 
             var maxPersonsLabel = new Label
             {
-                Text = $"Max Persons: {_campingSpot.MaxPersons}",
+                Text = $"Maximaal aantal personen: {_campingSpot.MaxPersons}",
                 FontSize = 16,
                 TextColor = Colors.Gray,
                 HorizontalOptions = LayoutOptions.Start
