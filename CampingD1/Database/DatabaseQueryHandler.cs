@@ -172,8 +172,9 @@ WHERE
                 int max_persons = Convert.ToInt32(row["max_persons"]);
                 double price_m2 = Convert.ToDouble(row["price_m2"]);
                 bool available = Convert.ToBoolean(row["available"]);
+                string spotName = row["spot_name"].ToString();
 
-                campingSpot = new CampingSpot(id, description, surface_m2, power, water, wifi, max_persons, price_m2, available);
+                campingSpot = new CampingSpot(id, description, surface_m2, power, water, wifi, max_persons, price_m2, available, spotName);
             }
         }
         catch (Exception ex)
@@ -309,9 +310,10 @@ WHERE
                 int max_persons = Convert.ToInt32(row["max_persons"]);
                 double price_m2 = Convert.ToDouble(row["price_m2"]);
                 bool available = Convert.ToBoolean(row["available"]);
+                string spotName = row["spot_name"].ToString();
 
                 CampingSpot campingSpot = new CampingSpot(id, description, surface_m2, power, water, wifi, max_persons,
-                    price_m2, available);
+                    price_m2, available, spotName);
                 campingSpots.Add(campingSpot);
             }
         }

@@ -17,6 +17,7 @@ namespace Database.Types
         public int MaxPersons { get; set; }
         public double Price_m2 { get; set; }
         public bool Available { get; set; }
+        public string SpotName { get; set; }
 
         // Formatted properties
         public string AvailableText => Available ? "Ja" : "Nee";
@@ -24,7 +25,7 @@ namespace Database.Types
         public string WaterText => Water ? "Ja" : "Nee";
         public string WifiText => Wifi ? "Ja" : "Nee";
 
-        public CampingSpot(int id, string description, double surface, bool power, bool water, bool wifi, int maxPersons, double price, bool available) 
+        public CampingSpot(int id, string description, double surface, bool power, bool water, bool wifi, int maxPersons, double price, bool available, string spotName) 
         {
             Id = id;
             Description = description;
@@ -35,6 +36,7 @@ namespace Database.Types
             MaxPersons = maxPersons;
             Price_m2 = price;
             Available = available;
+            SpotName = spotName;
         }
     }
 }
