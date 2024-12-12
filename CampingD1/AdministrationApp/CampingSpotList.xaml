@@ -29,7 +29,7 @@
             <Label Text="Aantal personen" FontAttributes="Bold" Grid.Column="2"/>
             <Label Text="Oppervlakte(m2)" FontAttributes="Bold" Grid.Column="3" />
             <Label Text="Prijs per m2" FontAttributes="Bold" Grid.Column="4"/>
-            <Label Text="Electriciteit" FontAttributes="Bold" Grid.Column="5" />
+            <Label Text="Elektriciteit" FontAttributes="Bold" Grid.Column="5" />
             <Label Text="Water" FontAttributes="Bold" Grid.Column="6" />
             <Label Text="Wifi" FontAttributes="Bold" Grid.Column="7" />
             <Label Text="Omschrijving" FontAttributes="Bold" Grid.Column="8" />

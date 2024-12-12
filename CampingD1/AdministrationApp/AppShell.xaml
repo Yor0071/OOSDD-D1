@@ -14,7 +14,7 @@
             Route="ReservationList" />
 
         <ShellContent
-            Title="Camping plekken"
+            Title="Campingplekken"
             ContentTemplate="{DataTemplate local:CampingSpotList}"
             Route="CampingSpotList" />
         
