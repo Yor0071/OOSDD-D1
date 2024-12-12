@@ -2,33 +2,20 @@ using Database.Types;
 
 namespace AdministrationApp;
 
-public partial class EditReservation : ContentPage
+public partial class CreateReservation : ContentPage
 {
     private Reservation _reservation;
-
-    public EditReservation(Reservation reservation)
-    {
-        InitializeComponent();
-        _reservation = reservation;
-
-        // Populate labels with existing data
-        SpotNameLabel.Text = _reservation.SpotName;
-        FirstNameEntry.Text = _reservation.FirstName;
-        LastNameEntry.Text = _reservation.LastName;
-        ArrivalDatePicker.Date = _reservation.Arrival;
-        DepartDatePicker.Date = _reservation.Depart;
-        PhoneNumberEntry.Text = _reservation.PhoneNumber;
-        EmailEntry.Text = _reservation.Email;
-
-        // Populate the Picker with translated statuses and select the current status
+    public CreateReservation()
+	{
+		InitializeComponent();
         StatusPicker.ItemsSource = Reservation.StatusTranslations.Values.ToList();
-        StatusPicker.SelectedItem = _reservation.TranslatedStatus;
     }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
         _reservation.FirstName = FirstNameEntry.Text;
         _reservation.LastName = LastNameEntry.Text;
+        _reservation.PlaceNumber = int.Parse(PlaceNumberEntry.Text);
         _reservation.Arrival = ArrivalDatePicker.Date;
         _reservation.Depart = DepartDatePicker.Date;
         _reservation.PhoneNumber = PhoneNumberEntry.Text;
