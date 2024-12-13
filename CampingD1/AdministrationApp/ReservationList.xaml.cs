@@ -145,4 +145,12 @@ public partial class ReservationList : ContentPage
         await LoadReservationsAsync(filter);
     }
 
+    private async void OnResetFilterClicked(object sender, EventArgs e)
+    {
+        SearchBar.Text = string.Empty;
+        ArrivalDatePicker.Date = DateTime.Today;
+        DepartureDatePicker.Date = DateTime.Today;
+
+        await LoadReservationsAsync();
+    }
 }

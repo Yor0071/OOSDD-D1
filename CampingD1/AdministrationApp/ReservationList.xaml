@@ -48,6 +48,14 @@
                     <Button x:Name="FilterButton" Text="Filter" Clicked="OnArrivalButtonClicked" HeightRequest="40" />
                 </HorizontalStackLayout>
             </Grid>
+
+            <!-- Reset Filter Buttons -->
+            <Button x:Name="ResetFilterButton"
+            Text="Reset Filter"
+            Clicked="OnResetFilterClicked"
+            HeightRequest="40"
+            WidthRequest="100"
+            HorizontalOptions="End" />
         </HorizontalStackLayout>
 
         <!-- Table Header -->
