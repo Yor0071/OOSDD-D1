@@ -33,7 +33,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label Text="Aankomst:" FontAttributes="Bold" Grid.Row="0" VerticalOptions="Start" />
-                <DatePicker x:Name="ArrivalDatePicker" HeightRequest="40" Grid.Row="1" />
+                <DatePicker x:Name="ArrivalDatePicker" HeightRequest="40" Grid.Row="1" Format="dd/MM/yyyy" />
             </Grid>
 
             <!-- Departure Date and Button -->
@@ -44,7 +44,7 @@
                 </Grid.RowDefinitions>
                 <Label Text="Vertrek:" FontAttributes="Bold" Grid.Row="0" VerticalOptions="Start" />
                 <HorizontalStackLayout Grid.Row="1" Spacing="5">
-                    <DatePicker x:Name="DepartureDatePicker" HeightRequest="40" />
+                    <DatePicker x:Name="DepartureDatePicker" HeightRequest="40" Format="dd/MM/yyyy" />
                     <Button x:Name="FilterButton" Text="Filter" Clicked="OnArrivalButtonClicked" HeightRequest="40" />
                 </HorizontalStackLayout>
             </Grid>
@@ -123,8 +123,8 @@
                         <Label Text="{Binding FirstName}" Grid.Column="1" />
                         <Label Text="{Binding LastName}" Grid.Column="2" />
                         <Label Text="{Binding PlaceNumber}" Grid.Column="3" />
-                        <Label Text="{Binding Arrival, StringFormat='{0:MM/dd/yyyy}'}" Grid.Column="4" />
-                        <Label Text="{Binding Depart, StringFormat='{0:MM/dd/yyyy}'}" Grid.Column="5" />
+                        <Label Text="{Binding Arrival, StringFormat='{0:dd/MM/yyyy}'}" Grid.Column="4" />
+                        <Label Text="{Binding Depart, StringFormat='{0:dd/MM/yyyy}'}" Grid.Column="5" />
                         <Label Text="{Binding PhoneNumber}" Grid.Column="6" />
                         <Label Text="{Binding Email}" Grid.Column="7" />
                         <Label Text="{Binding TranslatedStatus}" Grid.Column="8" />
