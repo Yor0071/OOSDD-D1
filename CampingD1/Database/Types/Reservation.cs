@@ -53,18 +53,18 @@ namespace Database.Types
             Email = email;
             Status = status;
         }
-
-        public Reservation(int v, string firstName, string lastName, int campingSpot, DateTime fromDate, DateTime toDate, string phone, string email)
-        {
-            this.v = v;
-            FirstName = firstName;
-            LastName = lastName;
-            this.campingSpot = campingSpot;
-            this.fromDate = fromDate;
-            this.toDate = toDate;
-            this.phone = phone;
-            Email = email;
-        }
+        // Kan Deze constructor weg of niet? Zijn namelijk geen references
+        //public Reservation(int v, string firstName, string lastName, int campingSpot, DateTime fromDate, DateTime toDate, string phone, string email)
+        //{
+        //    this.v = v;
+        //    FirstName = firstName;
+        //    LastName = lastName;
+        //    this.campingSpot = campingSpot;
+        //    this.fromDate = fromDate;
+        //    this.toDate = toDate;
+        //    this.phone = phone;
+        //    Email = email;
+        //}
 
         public static string Translate(ReservationStatus status)
         {

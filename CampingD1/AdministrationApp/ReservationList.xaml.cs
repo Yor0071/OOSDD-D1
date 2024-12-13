@@ -142,8 +142,6 @@ public partial class ReservationList : ContentPage
             FromDateFilter = ArrivalDatePicker.Date.ToString("yyyy-MM-dd"),
             ToDateFilter = DepartureDatePicker.Date.ToString("yyyy-MM-dd")
         };
-
-
         await LoadReservationsAsync(filter);
     }
 

@@ -604,13 +604,16 @@ WHERE
                 int id = Convert.ToInt32(row["id"]);
                 string firstName = row["firstname"].ToString();
                 string lastName = row["lastname"].ToString();
-                int campingSpot = Convert.ToInt32(row["camping_spot"]);
-                DateTime fromDate = Convert.ToDateTime(row["from"]);
-                DateTime toDate = Convert.ToDateTime(row["to"]);
-                string phone = row["phone"].ToString();
-                string email = row["email"].ToString();
+                int campingSpot = row["camping_spot"] != DBNull.Value ? Convert.ToInt32(row["camping_spot"]) : 0;
+                DateTime fromDate = row["from"] != DBNull.Value ? Convert.ToDateTime(row["from"]) : DateTime.MinValue;
+                DateTime toDate = row["to"] != DBNull.Value ? Convert.ToDateTime(row["to"]) : DateTime.MinValue;
+                string phone = row["phone"] != DBNull.Value ? row["phone"].ToString() : "Onbekend";
+                string email = row["email"] != DBNull.Value ? row["email"].ToString() : "Onbekend";
+                ReservationStatus status = row["status"] != DBNull.Value
+                    ? Enum.Parse<ReservationStatus>(row["status"].ToString())
+                    : ReservationStatus.awaiting;
 
-                Reservation reservation = new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email);
+                Reservation reservation = new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email, status);
                 reservations.Add(reservation);
             }
         }
