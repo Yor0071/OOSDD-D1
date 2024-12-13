@@ -5,6 +5,17 @@ namespace AdministrationApp;
 
 public partial class ReservationList : ContentPage
 {
+    // Is het een idee om dit in een eigen klasse te zetten?
+    public class ReservationFilter
+    {
+        public string NameFilter { get; set; }
+        public int? SpotFilter { get; set; }
+        public string EmailFilter { get; set; }
+        public string FromDateFilter { get; set; }
+
+        public string ToDateFilter { get; set; }
+    }
+
     private Reservation _selectedReservation;
     public ReservationList()
     {
@@ -18,17 +29,21 @@ public partial class ReservationList : ContentPage
         LoadReservationsAsync();
     }
 
-    private async Task LoadReservationsAsync()
+    private async Task LoadReservationsAsync(ReservationFilter filter = null)
     {
         try
         {
             // Simulate database connection or initialization if needed
             await Task.Run(() => App.databaseHandler.EnsureConnection()); // Ensure the database connection is established
 
-            // Fetch reservations
-            var reservations = await Task.Run(() => App.Database.SelectReservations());
+            List<Reservation> reservations;
+            if (filter == null)
+            {
+                filter = new ReservationFilter();
+            }
 
-            // Bind the data
+            reservations = await Task.Run(() => App.Database.SelectFilteredReservations(filter.NameFilter, filter.SpotFilter, filter.EmailFilter, filter.FromDateFilter, filter.ToDateFilter));
+
             ReservationsCollectionView.ItemsSource = reservations;
         }
         catch (Exception ex)
@@ -87,6 +102,49 @@ public partial class ReservationList : ContentPage
                 }
             }
         }
+    }
+
+    private async void OnSearchButtonPressed(object sender, EventArgs e)
+    {
+        SearchBar searchBar = (SearchBar)sender;
+        string searchText = searchBar.Text?.Trim();
+        var filter = new ReservationFilter();
+
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            var inputs = searchText.Split(' ');
+
+            foreach (var input in inputs)
+            {
+                if (int.TryParse(input, out int campingSpot))
+                {
+                    // Als het een getal is, interpreteer het als campingplek
+                    filter.SpotFilter = campingSpot;
+                }
+                else if (input.Contains("@"))
+                {
+                    filter.EmailFilter = input;
+                }
+                else
+                {
+                    // Anders interpreteer het als naam
+                    filter.NameFilter = input;
+                }
+            }
+        }
+        await LoadReservationsAsync(filter);
+    }
+
+    private async void OnArrivalButtonClicked(object sender, EventArgs e)
+    {
+        var filter = new ReservationFilter
+        {
+            FromDateFilter = ArrivalDatePicker.Date.ToString("yyyy-MM-dd"),
+            ToDateFilter = DepartureDatePicker.Date.ToString("yyyy-MM-dd")
+        };
+
+
+        await LoadReservationsAsync(filter);
     }
 
 }

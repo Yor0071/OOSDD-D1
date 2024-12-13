@@ -552,4 +552,75 @@ WHERE
         }
     }
 
+    public List<Reservation> SelectFilteredReservations(string nameFilter, int? spotFilter, string emailFilter, string fromDateFilter, string toDateFilter)
+    {
+        string query = @"SELECT * FROM reservations WHERE 1 = 1";
+        if (!string.IsNullOrEmpty(nameFilter))
+        {
+            query += " AND (firstname LIKE @nameFilter OR lastname LIKE @nameFilter)";
+        }
+
+        if (spotFilter.HasValue)
+        {
+            query += " AND camping_spot = @campingSpot";
+        }
+
+        if (!string.IsNullOrEmpty(emailFilter))
+        {
+            query += " AND email LIKE @emailFilter";
+        }
+
+        if (!string.IsNullOrEmpty(fromDateFilter))
+        {
+            query += " AND `from` >= @fromDateFilter";
+        }
+
+        if (!string.IsNullOrEmpty(toDateFilter))
+        {
+            query += " AND `to` <= @toDateFilter";
+        }
+
+
+
+        query += " ORDER BY id;";
+
+        List<Reservation> reservations = new List<Reservation>();
+
+        var parameters = new Dictionary<string, object>
+        {
+            { "@nameFilter", $"%{nameFilter}%" },
+            { "@campingSpot", spotFilter },
+            {"@emailFilter", $"%{emailFilter}%" },
+            { "@fromDateFilter", fromDateFilter },
+            { "@toDateFilter", toDateFilter }
+        };
+
+        try
+        {
+            DataTable result = _databaseHandler.ExecuteSelectQuery(query, parameters);
+
+            foreach (DataRow row in result.Rows)
+            {
+                int id = Convert.ToInt32(row["id"]);
+                string firstName = row["firstname"].ToString();
+                string lastName = row["lastname"].ToString();
+                int campingSpot = Convert.ToInt32(row["camping_spot"]);
+                DateTime fromDate = Convert.ToDateTime(row["from"]);
+                DateTime toDate = Convert.ToDateTime(row["to"]);
+                string phone = row["phone"].ToString();
+                string email = row["email"].ToString();
+
+                Reservation reservation = new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email);
+                reservations.Add(reservation);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error fetching reservations: {ex.Message}");
+        }
+
+        return reservations;
+
+    }
+
 }
