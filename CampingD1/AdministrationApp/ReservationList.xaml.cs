@@ -1,21 +1,11 @@
 using Database.Types;
 using Database;
+using AdministrationApp;
 
 namespace AdministrationApp;
 
 public partial class ReservationList : ContentPage
 {
-    // Is het een idee om dit in een eigen klasse te zetten?
-    public class ReservationFilter
-    {
-        public string NameFilter { get; set; }
-        public int? SpotFilter { get; set; }
-        public string EmailFilter { get; set; }
-        public string FromDateFilter { get; set; }
-
-        public string ToDateFilter { get; set; }
-    }
-
     private Reservation _selectedReservation;
     public ReservationList()
     {
