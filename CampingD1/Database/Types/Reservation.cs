@@ -54,18 +54,6 @@ namespace Database.Types
             Status = status;
         }
 
-        public Reservation(int v, string firstName, string lastName, int campingSpot, DateTime fromDate, DateTime toDate, string phone, string email)
-        {
-            this.v = v;
-            FirstName = firstName;
-            LastName = lastName;
-            this.campingSpot = campingSpot;
-            this.fromDate = fromDate;
-            this.toDate = toDate;
-            this.phone = phone;
-            Email = email;
-        }
-
         public static string Translate(ReservationStatus status)
         {
             return StatusTranslations.TryGetValue(status, out string translatedStatus)
