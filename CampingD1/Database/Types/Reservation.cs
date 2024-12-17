@@ -48,12 +48,12 @@ namespace Database.Types
             FirstName = firstName;
             LastName = lastName;
             PlaceNumber = placeNumber;
+            SpotName = spotName;
             Arrival = arrival;
             Depart = depart;
             PhoneNumber = phoneNumber;
             Email = email;
             Status = status;
-            SpotName = spotName;
         }
 
         public static string Translate(ReservationStatus status)
