@@ -11,9 +11,9 @@
         </Grid.RowDefinitions>
 
         <VerticalStackLayout Padding="10" Grid.Row="0">
-            <!-- Camping Spot Name -->
-            <Label Text="Pleknaam:" FontAttributes="Bold" />
-            <Label x:Name="CampingSpotNameLabel" />
+            <!-- Camping Spot Number -->
+            <Label Text="Kampeer Plaats:" FontAttributes="Bold" />
+            <Label x:Name="CampingSpotIdLabel" />
 
             <!-- Camping Spot Description -->
             <Label Text="Beschrijving:" FontAttributes="Bold" />

@@ -11,9 +11,6 @@
         </Grid.RowDefinitions>
         
         <VerticalStackLayout Padding="10" Grid.Row="0">
-            <!-- Plek -->
-            <Label Text="Pleknaam:" FontAttributes="Bold" />
-            <Label x:Name="SpotNameLabel" />
             <!-- Voornaam and achternaam -->
             <HorizontalStackLayout Spacing="10">
                 <VerticalStackLayout>
@@ -26,6 +23,9 @@
                     <Entry x:Name="LastNameEntry" Placeholder="Achternaam" />
                 </VerticalStackLayout>
             </HorizontalStackLayout>
+            <!-- Plek -->
+            <Label Text="Plek:" FontAttributes="Bold" />
+            <Entry x:Name="PlaceNumberEntry" Placeholder="Plek" />
             <!-- Aankomst and Vertrek -->
             <HorizontalStackLayout Spacing="10">
                 <VerticalStackLayout>
