@@ -143,4 +143,9 @@ public partial class ReservationList : ContentPage
 
         await LoadReservationsAsync();
     }
+
+    private async void OnAddButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new CreateReservation());
+    }
 }

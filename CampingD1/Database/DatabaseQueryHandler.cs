@@ -626,4 +626,40 @@ WHERE
 
     }
 
+    public void AddAdminReservation(string firstName, string lastName, int campingSpot, DateTime fromDate, DateTime toDate, string phone, string email, ReservationStatus status)
+    {
+        string query = @"
+        INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`, phone, email, status) 
+        VALUES (@firstname, @lastname, @campingSpot, @fromDate, @toDate, @phone, @email, @status);
+    ";
+
+        var parameters = new Dictionary<string, object>
+    {
+        { "@firstname", firstName ?? string.Empty },
+        { "@lastname", lastName ?? string.Empty },
+        { "@campingSpot", campingSpot },
+        { "@fromDate", fromDate.ToString("yyyy-MM-dd") },
+        { "@toDate", toDate.ToString("yyyy-MM-dd") },
+        { "@phone", phone ?? string.Empty },
+        { "@email", email ?? string.Empty },
+        { "@status", status.ToString() }
+    };
+
+        Console.WriteLine("Query Parameters:");
+        foreach (var param in parameters)
+        {
+            Console.WriteLine($"{param.Key}: {param.Value}");
+        }
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error adding reservation: {ex.Message}");
+        }
+    }
+
+
 }

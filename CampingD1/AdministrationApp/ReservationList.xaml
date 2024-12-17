@@ -132,12 +132,18 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <!-- Edit and remove button -->
+        <!-- Edit, Remove and Add button -->
         <HorizontalStackLayout Grid.Row="3"
                                HorizontalOptions="End"
                                Spacing="10"
                                Margin="10">
-            
+            <Button x:Name="AddButton"
+                    Text="Toevoegen"
+                    Clicked="OnAddButtonClicked"
+                    IsEnabled="True"
+                    WidthRequest="150"
+                    HeightRequest="50" />
+
             <Button x:Name="EditButton"
             Text="Bewerken"
             Clicked="OnEditButtonClicked"
