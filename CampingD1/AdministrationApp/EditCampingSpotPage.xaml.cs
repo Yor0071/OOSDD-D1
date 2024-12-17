@@ -12,7 +12,7 @@ public partial class EditCampingSpotPage : ContentPage
 		InitializeComponent();
 		_campingSpot = campingSpot;
 
-        CampingSpotNameLabel.Text = _campingSpot.SpotName;
+        CampingSpotIdLabel.Text = _campingSpot.Id.ToString();
         CampingSpotDescriptionEntry.Text = _campingSpot.Description;
         SurfaceAreaEntry.Text = _campingSpot.Surface_m2.ToString();
         PowerSwitch.IsToggled = _campingSpot.Power;

@@ -12,9 +12,9 @@ public partial class EditReservation : ContentPage
         _reservation = reservation;
 
         // Populate labels with existing data
-        SpotNameLabel.Text = _reservation.SpotName;
         FirstNameEntry.Text = _reservation.FirstName;
         LastNameEntry.Text = _reservation.LastName;
+        PlaceNumberEntry.Text = _reservation.PlaceNumber.ToString();
         ArrivalDatePicker.Date = _reservation.Arrival;
         DepartDatePicker.Date = _reservation.Depart;
         PhoneNumberEntry.Text = _reservation.PhoneNumber;
@@ -29,6 +29,7 @@ public partial class EditReservation : ContentPage
     {
         _reservation.FirstName = FirstNameEntry.Text;
         _reservation.LastName = LastNameEntry.Text;
+        _reservation.PlaceNumber = int.Parse(PlaceNumberEntry.Text);
         _reservation.Arrival = ArrivalDatePicker.Date;
         _reservation.Depart = DepartDatePicker.Date;
         _reservation.PhoneNumber = PhoneNumberEntry.Text;
