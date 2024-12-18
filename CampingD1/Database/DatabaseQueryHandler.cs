@@ -27,11 +27,12 @@ public class DatabaseQueryHandler {
                 int mapId = Convert.ToInt32(mapRow["id"]);
                 string name = Convert.ToString(mapRow["name"]);
                 bool isPrimary = Convert.ToBoolean(mapRow["is_primary"]);
+                string backgroundImage = mapRow["background_image"].ToString() ?? "unknown";
 
 
                 List<MapCircle> mapCircles = SelectMapCircles(mapId);
 
-                CampingMap campingMap = new CampingMap(mapId, mapCircles, name, isPrimary);
+                CampingMap campingMap = new CampingMap(mapId, mapCircles, name, isPrimary, backgroundImage);
                 campingMaps.Add(campingMap);
             }
         }

@@ -76,7 +76,7 @@
             <!-- Rectangle container -->
             <Grid WidthRequest="1000" HeightRequest="700" Padding="0" HorizontalOptions="Center">
                 <!-- Background Image -->
-                <Image Source="plattegrond.png" Aspect="AspectFill" />
+                <Image x:Name="BackgroundImage" Aspect="AspectFill" />
 
                 <!-- Frame Content -->
                 <Frame x:Name="RectangleContainer"
