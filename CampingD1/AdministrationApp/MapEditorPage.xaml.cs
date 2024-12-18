@@ -284,7 +284,7 @@ public partial class MapEditorPage : ContentPage
         
         if (!isNewMap)
         {
-            App.Database.EditCampingMap(selectedMap.Value.id, MapNameEntry.Text, circleData);
+            App.Database.EditCampingMap(selectedMap.Value.id, MapNameEntry.Text, circleData, selectedMap.Value.backgroundImage);
              await DisplayAlert("Succes", $"Kaart '{MapNameEntry.Text}' succesvol bijgewerkt.", "OK");
         }
         else
@@ -398,6 +398,7 @@ public partial class MapEditorPage : ContentPage
     
     private async void OnUploadImageClicked(object sender, EventArgs e)
     {
+        Console.WriteLine("picking image");
         try {
             var result = await FilePicker.PickAsync(new PickOptions
             {
@@ -421,7 +422,10 @@ public partial class MapEditorPage : ContentPage
 
                 // Save the base64 string to the database
                 // SaveImageToDatabase(base64Image);
-                Console.WriteLine(base64Image);
+                // Console.WriteLine(base64Image);
+                if (selectedMap != null) {
+                    selectedMap = selectedMap.Value with { backgroundImage = base64Image };
+                }
             }
         }
         catch (Exception ex)
