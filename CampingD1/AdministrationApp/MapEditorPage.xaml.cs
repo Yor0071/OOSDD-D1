@@ -31,8 +31,6 @@ public partial class MapEditorPage : ContentPage
             await Task.Run(() => App.databaseHandler.EnsureConnection());
             var maps = await Task.Run(() => App.Database.SelectCampingMaps());
             
-            // currentMaps = DeepCopyMaps(maps);
-            // originalMapsFromDatabase = DeepCopyMaps(maps);
             currentMaps = maps;
             originalMapsFromDatabase = maps;
             
@@ -42,20 +40,6 @@ public partial class MapEditorPage : ContentPage
         {
             await DisplayAlert("Fout", $"Kan mappen niet laden: {ex.Message}", "OK");
         }
-    }
-
-    private List<CampingMap> DeepCopyMaps(List<CampingMap> maps)
-    {
-        var copy = new List<CampingMap>();
-        foreach (var map in maps)
-        {
-            var circleCopy = new List<MapCircle>();
-            foreach (var circle in map.cirles) {
-                circleCopy.Add(circle);
-            }
-            copy.Add(new CampingMap(map.id, circleCopy, map.name, map.isPrimary, map.backgroundImage));
-        }
-        return copy;
     }
 
     private void PopulateMapPicker()
@@ -265,7 +249,7 @@ public partial class MapEditorPage : ContentPage
         {
             selectedMap = new CampingMap(
                 originalMap?.id ?? 1,
-                DeepCopyCircles(originalMap?.cirles ?? []),
+                originalMap?.cirles ?? [],
                 originalMap?.name ?? "",
                 originalMap?.isPrimary ?? false,
                 originalMap?.backgroundImage
@@ -279,16 +263,6 @@ public partial class MapEditorPage : ContentPage
         {
             DisplayAlert("Fout", "Originele kaartgegevens niet gevonden.", "OK");
         }
-    }
-
-    private List<MapCircle> DeepCopyCircles(List<MapCircle> circles)
-    {
-        var copy = new List<MapCircle>();
-        foreach (var circle in circles)
-        {
-            copy.Add(circle);
-        }
-        return copy;
     }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
