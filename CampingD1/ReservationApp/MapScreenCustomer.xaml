@@ -96,7 +96,7 @@
             <!-- Main Content -->
             <Grid WidthRequest="1000" HeightRequest="700" Padding="0">
                 <!-- Background Image -->
-                <Image Source="mapv1.png" Aspect="AspectFill" />
+                <Image x:Name="BackgroundImage" Aspect="AspectFill" />
                 <!-- Frame Content -->
                 <Frame x:Name="RectangleContainer"
                        BackgroundColor="Transparent"
