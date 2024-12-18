@@ -389,4 +389,39 @@ public partial class MapEditorPage : ContentPage
         isNewMap = true;
         ClearCanvas();
     }
+    
+    private async void OnUploadImageClicked(object sender, EventArgs e)
+    {
+        try {
+            var result = await FilePicker.PickAsync(new PickOptions
+            {
+                FileTypes = FilePickerFileType.Images // This cause the exception to be thrown
+            });
+
+            if (result == null)
+                return;
+
+            var stream = await result.OpenReadAsync();
+
+            // Display the image
+            // myImage.Source = ImageSource.FromStream(() => stream);
+
+            // Convert the image to a Base64 string
+            using (var memoryStream = new MemoryStream())
+            {
+                await stream.CopyToAsync(memoryStream);
+                var imageBytes = memoryStream.ToArray();
+                string base64Image = Convert.ToBase64String(imageBytes);
+
+                // Save the base64 string to the database
+                // SaveImageToDatabase(base64Image);
+                Console.WriteLine(base64Image);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during file pick: {ex.Message}");
+            await DisplayAlert("Error", $"Something went wrong: {ex.Message}", "OK");
+        }
+    }
 }

@@ -29,18 +29,48 @@
                            WidthRequest="200"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
+
+                <!-- Upload Button -->
+                <Button Text="Upload Afbeelding"
+                        Clicked="OnUploadImageClicked"
+                        HorizontalOptions="Center"
+                        VerticalOptions="End"
+                        HeightRequest="50"
+                        BackgroundColor="#C8C8C8"
+                        TextColor="Black" />
             </HorizontalStackLayout>
 
             <!-- Buttons -->
             <HorizontalStackLayout Padding="10" Spacing="10" HorizontalOptions="Center">
-                <Button Text="Voeg cirkel toe" Clicked="OnAddCircleButtonClicked" />
-                <Button Text="Reset" Clicked="OnResetButtonClicked" />
-                <Button Text="Map opslaan" Clicked="OnSaveButtonClicked" />
-                <Button Text="Maak primaire map" Clicked="OnSetPrimaryMapButtonClicked" />
+                <Button Text="Voeg cirkel toe"
+                        Clicked="OnAddCircleButtonClicked"
+                        HeightRequest="50"
+                        BackgroundColor="#C8C8C8"
+                        TextColor="Black" />
+
+                <Button Text="Reset"
+                        Clicked="OnResetButtonClicked"
+                        HeightRequest="50"
+                        BackgroundColor="#C8C8C8"
+                        TextColor="Black" />
+
+                <Button Text="Map opslaan"
+                        Clicked="OnSaveButtonClicked"
+                        HeightRequest="50"
+                        BackgroundColor="#C8C8C8"
+                        TextColor="Black" />
+
+                <Button Text="Maak primaire map"
+                        Clicked="OnSetPrimaryMapButtonClicked"
+                        HeightRequest="50"
+                        BackgroundColor="#C8C8C8"
+                        TextColor="Black" />
+
                 <Button Text="Verwijder huidige kaart"
                         BackgroundColor="Red"
                         TextColor="White"
-                        Clicked="OnDeleteMapButtonClicked" />
+                        Clicked="OnDeleteMapButtonClicked"
+                        HeightRequest="50" />
             </HorizontalStackLayout>
 
             <!-- Rectangle container -->
