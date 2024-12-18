@@ -8,11 +8,10 @@ namespace AdministrationApp
 {
     class ReservationFilter
     {
+        public string SpotNameFilter { get; set; }
         public string NameFilter { get; set; }
-        public int? SpotFilter { get; set; }
         public string EmailFilter { get; set; }
         public string FromDateFilter { get; set; }
         public string ToDateFilter { get; set; }
-
     }
 }

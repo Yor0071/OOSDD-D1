@@ -552,17 +552,20 @@ WHERE
         }
     }
 
-    public List<Reservation> SelectFilteredReservations(string nameFilter, int? spotFilter, string emailFilter, string fromDateFilter, string toDateFilter)
+    public List<Reservation> SelectFilteredReservations(string spotNameFilter, string nameFilter, string emailFilter, string fromDateFilter, string toDateFilter)
     {
-        string query = @"SELECT * FROM reservations WHERE 1 = 1";
+        string query = @"SELECT r.*, cs.spot_name
+                         FROM reservations r
+                         JOIN camping_spots cs ON r.camping_spot = cs.id
+                         WHERE 1 = 1";
+        if (!string.IsNullOrEmpty(spotNameFilter))
+        {
+            query += " AND spot_name LIKE @spotNameFilter";
+        }
+
         if (!string.IsNullOrEmpty(nameFilter))
         {
             query += " AND (firstname LIKE @nameFilter OR lastname LIKE @nameFilter)";
-        }
-
-        if (spotFilter.HasValue)
-        {
-            query += " AND camping_spot = @campingSpot";
         }
 
         if (!string.IsNullOrEmpty(emailFilter))
@@ -580,16 +583,14 @@ WHERE
             query += " AND `to` <= @toDateFilter";
         }
 
-
-
-        query += " ORDER BY id;";
+        query += " ORDER BY r.id;";
 
         List<Reservation> reservations = new List<Reservation>();
 
         var parameters = new Dictionary<string, object>
         {
+            { "@spotNameFilter", $"%{spotNameFilter}%" },
             { "@nameFilter", $"%{nameFilter}%" },
-            { "@campingSpot", spotFilter },
             {"@emailFilter", $"%{emailFilter}%" },
             { "@fromDateFilter", fromDateFilter },
             { "@toDateFilter", toDateFilter }
@@ -605,6 +606,7 @@ WHERE
                 string firstName = row["firstname"].ToString();
                 string lastName = row["lastname"].ToString();
                 int campingSpot = row["camping_spot"] != DBNull.Value ? Convert.ToInt32(row["camping_spot"]) : 0;
+                string spotName = row["spot_name"] != DBNull.Value ? row["spot_name"].ToString() : "Onbekend";
                 DateTime fromDate = row["from"] != DBNull.Value ? Convert.ToDateTime(row["from"]) : DateTime.MinValue;
                 DateTime toDate = row["to"] != DBNull.Value ? Convert.ToDateTime(row["to"]) : DateTime.MinValue;
                 string phone = row["phone"] != DBNull.Value ? row["phone"].ToString() : "Onbekend";
@@ -613,7 +615,7 @@ WHERE
                     ? Enum.Parse<ReservationStatus>(row["status"].ToString())
                     : ReservationStatus.awaiting;
 
-                Reservation reservation = new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email, status);
+                Reservation reservation = new Reservation(id, firstName, lastName, campingSpot, spotName, fromDate, toDate, phone, email, status);
                 reservations.Add(reservation);
             }
         }
