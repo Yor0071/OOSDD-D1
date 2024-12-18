@@ -32,7 +32,7 @@ public partial class ReservationList : ContentPage
                 filter = new ReservationFilter();
             }
 
-            reservations = await Task.Run(() => App.Database.SelectFilteredReservations(filter.NameFilter, filter.SpotFilter, filter.EmailFilter, filter.FromDateFilter, filter.ToDateFilter));
+            reservations = await Task.Run(() => App.Database.SelectFilteredReservations(filter.ReservationIDFilter, filter.SpotNameFilter, filter.NameFilter, filter.EmailFilter, filter.FromDateFilter, filter.ToDateFilter));
 
             ReservationsCollectionView.ItemsSource = reservations;
         }
@@ -106,10 +106,14 @@ public partial class ReservationList : ContentPage
 
             foreach (var input in inputs)
             {
-                if (int.TryParse(input, out int campingSpot))
+                if (int.TryParse(input, out int reservationID))
                 {
-                    // Als het een getal is, interpreteer het als campingplek
-                    filter.SpotFilter = campingSpot;
+                    filter.ReservationIDFilter = reservationID;
+                }
+                // Regex for 1 uppercase letter followed by 1 digit, such as 'B1' or 'I8'
+                if (System.Text.RegularExpressions.Regex.IsMatch(input, @"^[A-Z]\d$"))
+                {
+                    filter.SpotNameFilter = input;
                 }
                 else if (input.Contains("@"))
                 {
