@@ -47,6 +47,7 @@ namespace Database.Types
             FirstName = firstName;
             LastName = lastName;
             PlaceNumber = placeNumber;
+            SpotName = spotName;
             Arrival = arrival;
             Depart = depart;
             PhoneNumber = phoneNumber;
