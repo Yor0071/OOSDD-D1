@@ -261,11 +261,11 @@ public partial class MapEditorPage : ContentPage
         return copy;
     }
 
-    private void OnSaveButtonClicked(object sender, EventArgs e)
+    private async void OnSaveButtonClicked(object sender, EventArgs e)
     {
         if (!selectedMap.HasValue)
         {
-            DisplayAlert("Fout", "Geen kaart geselecteerd om op te slaan.", "OK");
+            await DisplayAlert("Fout", "Geen kaart geselecteerd om op te slaan.", "OK");
             return;
         }
 
@@ -285,17 +285,23 @@ public partial class MapEditorPage : ContentPage
         if (!isNewMap)
         {
             App.Database.EditCampingMap(selectedMap.Value.id, MapNameEntry.Text, circleData);
-            DisplayAlert("Succes", $"Kaart '{MapNameEntry.Text}' succesvol bijgewerkt.", "OK");
+             await DisplayAlert("Succes", $"Kaart '{MapNameEntry.Text}' succesvol bijgewerkt.", "OK");
         }
         else
         {
             App.Database.AddCampingMap(MapNameEntry.Text, circleData);
-            DisplayAlert("Succes", $"Nieuwe kaart '{MapNameEntry.Text}' succesvol aangemaakt.", "OK");
+            await DisplayAlert("Succes", $"Nieuwe kaart '{MapNameEntry.Text}' succesvol aangemaakt.", "OK");
         }
 
-        LoadMapsAsync();
-        setNewEmptyMap();
-        MapNameEntry.Text = "";
+        await LoadMapsAsync();
+
+        //Find the just edited map and reselect it
+        CampingMap? updatedMap = currentMaps.FirstOrDefault(map => map.name == MapNameEntry.Text);
+        if (updatedMap.HasValue)
+        {
+            int updatedIndex = currentMaps.IndexOf(updatedMap.Value) + 1;
+            MapPicker.SelectedIndex = updatedIndex;
+        }
     }
     
     private void OnDeleteCircleButtonClicked(object sender, EventArgs e)
