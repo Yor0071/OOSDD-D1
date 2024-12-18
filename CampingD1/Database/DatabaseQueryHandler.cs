@@ -556,18 +556,12 @@ WHERE
         }
     }
 
-    public List<Reservation> SelectFilteredReservations(int? reservationIDFilter, string spotNameFilter, string nameFilter, string emailFilter, string fromDateFilter, string toDateFilter)
+    public List<Reservation> SelectFilteredReservations(string spotNameFilter, string nameFilter, string emailFilter, string fromDateFilter, string toDateFilter)
     {
         string query = @"SELECT r.*, cs.spot_name
                          FROM reservations r
                          JOIN camping_spots cs ON r.camping_spot = cs.id
                          WHERE 1 = 1";
-
-        if (reservationIDFilter.HasValue)
-        {
-            query += " AND r.id = @reservationIDFilter";
-        }
-
         if (!string.IsNullOrEmpty(spotNameFilter))
         {
             query += " AND spot_name LIKE @spotNameFilter";
@@ -599,7 +593,6 @@ WHERE
 
         var parameters = new Dictionary<string, object>
         {
-            { "@reservationIDFilter", reservationIDFilter },
             { "@spotNameFilter", $"%{spotNameFilter}%" },
             { "@nameFilter", $"%{nameFilter}%" },
             {"@emailFilter", $"%{emailFilter}%" },

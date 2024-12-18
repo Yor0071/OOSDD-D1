@@ -8,7 +8,6 @@ namespace AdministrationApp
 {
     class ReservationFilter
     {
-        public int? ReservationIDFilter { get; set; }
         public string SpotNameFilter { get; set; }
         public string NameFilter { get; set; }
         public string EmailFilter { get; set; }
