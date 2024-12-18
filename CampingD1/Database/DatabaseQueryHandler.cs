@@ -241,7 +241,10 @@ WHERE
     }
 
     public List<Reservation> SelectReservations() {
-        string query = "SELECT * FROM reservations ORDER BY id;";
+        string query = @"SELECT r.*, cs.spot_name
+                       FROM reservations r 
+                       JOIN camping_spots cs ON r.camping_spot = cs.id
+                       ORDER BY r.id;";
         List<Reservation> reservations = new List<Reservation>();
 
         try {
@@ -252,6 +255,7 @@ WHERE
                 string firstName = row["firstname"].ToString();
                 string lastName = row["lastname"].ToString();
                 int campingSpot = Convert.ToInt32(row["camping_spot"]);
+                string spotName = row["spot_name"].ToString();
                 DateTime fromDate = Convert.ToDateTime(row["from"]);
                 DateTime toDate = Convert.ToDateTime(row["to"]);
                 string phone = row["phone"].ToString();
@@ -259,7 +263,7 @@ WHERE
                 ReservationStatus status =  Enum.Parse<ReservationStatus>((string)row["status"]); 
 
                 Reservation reservation =
-                    new Reservation(id, firstName, lastName, campingSpot, fromDate, toDate, phone, email, status);
+                    new Reservation(id, firstName, lastName, campingSpot, spotName, fromDate, toDate, phone, email, status);
                 reservations.Add(reservation);
             }
         }
@@ -312,8 +316,7 @@ WHERE
                 bool available = Convert.ToBoolean(row["available"]);
                 string spotName = row["spot_name"].ToString();
 
-                CampingSpot campingSpot = new CampingSpot(id, description, surface_m2, power, water, wifi, max_persons,
-                    price_m2, available, spotName);
+                CampingSpot campingSpot = new CampingSpot(id, description, surface_m2, power, water, wifi, max_persons, price_m2, available, spotName);
                 campingSpots.Add(campingSpot);
             }
         }
@@ -326,13 +329,12 @@ WHERE
 
     public void UpdateReservation(Reservation reservation)
     {
-        string query = @"UPDATE reservations SET firstname = @firstname, lastname = @lastname, camping_spot = @placeNumber, `from` = @fromDate, `to` = @toDate, phone = @phone, email = @email, status = @status WHERE id = @id;";
+        string query = @"UPDATE reservations SET firstname = @firstname, lastname = @lastname, `from` = @fromDate, `to` = @toDate, phone = @phone, email = @email, status = @status WHERE id = @id;";
 
         var parameters = new Dictionary<string, object>
         {
             { "@firstname", reservation.FirstName },
             { "@lastname", reservation.LastName },
-            { "@placeNumber", reservation.PlaceNumber },
             { "@fromDate", reservation.Arrival },
             { "@toDate", reservation.Depart },
             { "@phone", reservation.PhoneNumber },
@@ -499,7 +501,8 @@ WHERE
     public void UpdateCampingSpot(CampingSpot campingSpot)
     {
         string query = @"UPDATE camping_spots 
-                         SET description = @description,
+                         SET spot_name = @spotName
+                         description = @description,
                          surface_m2 = @surfaceM2,
                          power = @power,
                          water = @water,
@@ -511,6 +514,7 @@ WHERE
 
         var parameters = new Dictionary<string, object>
         {
+            {"@spot_name", campingSpot.SpotName},
             {"@description", campingSpot.Description},
             {"@surfaceM2", campingSpot.Surface_m2},
             {"@power", campingSpot.Power},
