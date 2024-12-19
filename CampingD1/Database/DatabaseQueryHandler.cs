@@ -685,4 +685,28 @@ WHERE
         }
     }
 
+    public List<(int Id, string Name)> GetAllCampingSpots()
+    {
+        string query = "SELECT id, spot_name FROM camping_spots ORDER BY id;";
+        var campingSpots = new List<(int Id, string Name)>();
+
+        try
+        {
+            DataTable result = _databaseHandler.ExecuteSelectQuery(query);
+
+            foreach (DataRow row in result.Rows)
+            {
+                int id = Convert.ToInt32(row["id"]);
+                string name = row["spot_name"].ToString();
+
+                campingSpots.Add((id, name));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error fetching camping spots: {ex.Message}");
+        }
+
+        return campingSpots;
+    }
 }
