@@ -501,7 +501,7 @@ WHERE
     public void UpdateCampingSpot(CampingSpot campingSpot)
     {
         string query = @"UPDATE camping_spots 
-                         SET spot_name = @spotName
+                         SET spot_name = @spotName,
                          description = @description,
                          surface_m2 = @surfaceM2,
                          power = @power,
@@ -514,7 +514,7 @@ WHERE
 
         var parameters = new Dictionary<string, object>
         {
-            {"@spot_name", campingSpot.SpotName},
+            {"@spotName", campingSpot.SpotName},
             {"@description", campingSpot.Description},
             {"@surfaceM2", campingSpot.Surface_m2},
             {"@power", campingSpot.Power},
@@ -630,6 +630,35 @@ WHERE
 
         return reservations;
 
+    }
+
+    public void AddCampingSpot(CampingSpot campingSpot)
+    {
+        string query = @"INSERT INTO camping_spots (spot_name, description, surface_m2, power, water, wifi, max_persons, price_m2, available) 
+                         VALUES (@spotName, @description, @surfaceM2, @power, @water, @wifi, @maxPersons, @priceM2, @available);";
+
+        var parameters = new Dictionary<string, object>
+        {
+            {"@spotName", campingSpot.SpotName},
+            {"@description", campingSpot.Description},
+            {"@surfaceM2", campingSpot.Surface_m2},
+            {"@power", campingSpot.Power},
+            {"@water", campingSpot.Water},
+            {"@wifi", campingSpot.Wifi},
+            {"@maxPersons", campingSpot.MaxPersons},
+            {"@priceM2", campingSpot.Price_m2},
+            {"@available", campingSpot.Available},
+            {"@id", campingSpot.Id}
+        };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error creating camping spot: {ex.Message}");
+        }
     }
 
 }
