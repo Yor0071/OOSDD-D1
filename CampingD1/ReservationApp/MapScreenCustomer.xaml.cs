@@ -55,6 +55,23 @@ public partial class MapScreenCustomer : ContentPage
         // Verwijder bestaande cirkels van het canvas
         Canvas.Children.Clear();
         circleMap.Clear();
+        
+        if (!string.IsNullOrEmpty(campingMap.backgroundImage))
+        {
+            try {
+                var imageBytes = Convert.FromBase64String(campingMap.backgroundImage);
+                var imageSource = ImageSource.FromStream(() => new MemoryStream(imageBytes));
+
+                BackgroundImage.Source = imageSource;
+            }
+            catch (Exception e) {
+                BackgroundImage.Source = null;
+            }
+        }
+        else
+        {
+            BackgroundImage.Source = null;
+        }
 
         // Voeg nieuwe cirkels toe op basis van de kaart
         foreach (var circle in campingMap.cirles)
@@ -62,7 +79,7 @@ public partial class MapScreenCustomer : ContentPage
             AddCircle(circle.id, circle.coordinateX, circle.coordinateY);
         }
     }
-
+    
     private void AddCircle(int id, double x, double y)
     {
         // Maak een nieuwe cirkel

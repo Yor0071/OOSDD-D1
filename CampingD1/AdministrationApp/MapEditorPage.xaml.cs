@@ -30,10 +30,9 @@ public partial class MapEditorPage : ContentPage
         {
             await Task.Run(() => App.databaseHandler.EnsureConnection());
             var maps = await Task.Run(() => App.Database.SelectCampingMaps());
-            Console.WriteLine(maps.First().cirles.First().spotName);
             
-            currentMaps = DeepCopyMaps(maps);
-            originalMapsFromDatabase = DeepCopyMaps(maps);
+            currentMaps = maps;
+            originalMapsFromDatabase = maps;
             
             PopulateMapPicker();
         }
@@ -41,20 +40,6 @@ public partial class MapEditorPage : ContentPage
         {
             await DisplayAlert("Fout", $"Kan mappen niet laden: {ex.Message}", "OK");
         }
-    }
-
-    private List<CampingMap> DeepCopyMaps(List<CampingMap> maps)
-    {
-        var copy = new List<CampingMap>();
-        foreach (var map in maps)
-        {
-            var circleCopy = new List<MapCircle>();
-            foreach (var circle in map.cirles) {
-                circleCopy.Add(circle);
-            }
-            copy.Add(new CampingMap(map.id, circleCopy, map.name));
-        }
-        return copy;
     }
 
     private void PopulateMapPicker()
@@ -93,8 +78,10 @@ public partial class MapEditorPage : ContentPage
             selectedMap = new CampingMap(
                 id: 0,
                 cirles: new List<MapCircle>(),
-                name: $"zonder naam"
+                name: $"zonder naam",
+                backgroundImage: ""
             );
+                BackgroundImage.Source = "";
 
             isNewMap = true;
             ClearCanvas();
@@ -115,12 +102,37 @@ public partial class MapEditorPage : ContentPage
 
     private void RenderMap(CampingMap map)
     {
-        ClearCanvas();
-
-        foreach (var circle in map.cirles)
+        try
         {
-            Console.WriteLine("Adding");
-            AddCircle(circle);
+            if (!string.IsNullOrEmpty(map.backgroundImage))
+            {
+                try {
+                    var imageBytes = Convert.FromBase64String(map.backgroundImage);
+                    var imageSource = ImageSource.FromStream(() => new MemoryStream(imageBytes));
+
+                    BackgroundImage.Source = imageSource;
+                }
+                catch (Exception e) {
+                    BackgroundImage.Source = null;
+                }
+            }
+            else
+            {
+                BackgroundImage.Source = null;
+            }
+
+            // Clear the canvas for new circles
+            ClearCanvas();
+
+            // Render circles on the map
+            foreach (var circle in map.cirles)
+            {
+                AddCircle(circle);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error rendering map: {ex.Message}");
         }
     }
 
@@ -237,8 +249,10 @@ public partial class MapEditorPage : ContentPage
         {
             selectedMap = new CampingMap(
                 originalMap?.id ?? 1,
-                DeepCopyCircles(originalMap?.cirles ?? []),
-                originalMap?.name ?? ""
+                originalMap?.cirles ?? [],
+                originalMap?.name ?? "",
+                originalMap?.isPrimary ?? false,
+                originalMap?.backgroundImage
             );
 
             RenderMap(selectedMap.Value);
@@ -249,16 +263,6 @@ public partial class MapEditorPage : ContentPage
         {
             DisplayAlert("Fout", "Originele kaartgegevens niet gevonden.", "OK");
         }
-    }
-
-    private List<MapCircle> DeepCopyCircles(List<MapCircle> circles)
-    {
-        var copy = new List<MapCircle>();
-        foreach (var circle in circles)
-        {
-            copy.Add(circle);
-        }
-        return copy;
     }
 
     private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -284,12 +288,12 @@ public partial class MapEditorPage : ContentPage
         
         if (!isNewMap)
         {
-            App.Database.EditCampingMap(selectedMap.Value.id, MapNameEntry.Text, circleData);
+            App.Database.EditCampingMap(selectedMap.Value.id, MapNameEntry.Text, circleData, selectedMap.Value.backgroundImage);
              await DisplayAlert("Succes", $"Kaart '{MapNameEntry.Text}' succesvol bijgewerkt.", "OK");
         }
         else
         {
-            App.Database.AddCampingMap(MapNameEntry.Text, circleData);
+            App.Database.AddCampingMap(MapNameEntry.Text, circleData, selectedMap.Value.backgroundImage);
             await DisplayAlert("Succes", $"Nieuwe kaart '{MapNameEntry.Text}' succesvol aangemaakt.", "OK");
         }
 
@@ -394,5 +398,50 @@ public partial class MapEditorPage : ContentPage
         
         isNewMap = true;
         ClearCanvas();
+    }
+    
+    private async void OnUploadImageClicked(object sender, EventArgs e)
+    {
+        Console.WriteLine("Picking image...");
+        try
+        {
+            var result = await FilePicker.PickAsync(new PickOptions
+            {
+                FileTypes = FilePickerFileType.Images
+            });
+
+            if (result == null)
+                return;
+
+            // Convert the selected image into a byte array
+            byte[] imageBytes;
+            using (var stream = await result.OpenReadAsync())
+            {
+                imageBytes = ReadStreamToByteArray(stream);
+            }
+
+            BackgroundImage.Source = ImageSource.FromStream(() => new MemoryStream(imageBytes));
+            
+            string base64Image = Convert.ToBase64String(imageBytes);
+
+            if (selectedMap != null)
+            {
+                selectedMap = selectedMap.Value with { backgroundImage = base64Image };
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Er is iets mis gegaan: {ex.Message}", "OK");
+        }
+    }
+    
+    private byte[] ReadStreamToByteArray(Stream inputStream)
+    {
+        using (var memoryStream = new MemoryStream())
+        {
+            inputStream.CopyTo(memoryStream);
+            return memoryStream.ToArray();
+        }
     }
 }
