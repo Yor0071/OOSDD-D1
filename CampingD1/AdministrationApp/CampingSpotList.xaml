@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label Text="ID" FontAttributes="Bold" Grid.Column="0" />
+            <Label Text="Pleknaam" FontAttributes="Bold" Grid.Column="0" />
             <Label Text="Beschikbaar" FontAttributes="Bold" Grid.Column="1"/>
             <Label Text="Aantal personen" FontAttributes="Bold" Grid.Column="2"/>
             <Label Text="Oppervlakte(m2)" FontAttributes="Bold" Grid.Column="3" />
@@ -70,7 +70,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Label Text="{Binding Id}" Grid.Column="0" />
+                        <Label Text="{Binding SpotName}" Grid.Column="0" />
                         <Label Text="{Binding AvailableText}" Grid.Column="1" />
                         <Label Text="{Binding MaxPersons}" Grid.Column="2" />
                         <Label Text="{Binding Surface_m2}" Grid.Column="3" />
@@ -83,7 +83,11 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button x:Name="EditButton"
+        <HorizontalStackLayout Grid.Row="3"
+                               HorizontalOptions="End"
+                               Spacing="10"
+                               Margin="10">
+            <Button x:Name="EditButton"
                 Text="Bewerk"
                 Clicked="OnEditButtonClicked"
                 IsEnabled="False"
@@ -93,5 +97,12 @@
                 HorizontalOptions="End"
                 VerticalOptions="End" 
                 Grid.Row="2"/>
+
+            <Button x:Name="CreateButton"
+                Text="Maken"
+                Clicked="OnCreateButtonClicked"
+                WidthRequest="100"
+                HeightRequest="50" />
+        </HorizontalStackLayout>
     </Grid>
 </ContentPage>

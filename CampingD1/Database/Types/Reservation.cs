@@ -24,6 +24,7 @@ namespace Database.Types
         public DateTime Depart { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public string SpotName { get; set; }
         public ReservationStatus Status { get; set; }
         public string TranslatedStatus => Translate(Status);
 
@@ -41,17 +42,19 @@ namespace Database.Types
         private DateTime toDate;
         private string phone;
 
-        public Reservation(int id, string firstName, string lastName, int placeNumber, DateTime arrival, DateTime depart, string phoneNumber, string email, ReservationStatus status)
+        public Reservation(int id, string firstName, string lastName, int placeNumber, string spotName, DateTime arrival, DateTime depart, string phoneNumber, string email, ReservationStatus status)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
             PlaceNumber = placeNumber;
+            SpotName = spotName;
             Arrival = arrival;
             Depart = depart;
             PhoneNumber = phoneNumber;
             Email = email;
             Status = status;
+            SpotName = spotName;
         }
 
         public static string Translate(ReservationStatus status)

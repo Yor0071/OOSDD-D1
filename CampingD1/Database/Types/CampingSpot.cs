@@ -38,5 +38,18 @@ namespace Database.Types
             Available = available;
             SpotName = spotName;
         }
+
+        public CampingSpot(string description, double surface, bool power, bool water, bool wifi, int maxPersons, double price, bool available, string spotName)
+        {
+            Description = description;
+            Surface_m2 = surface;
+            Power = power;
+            Water = water;
+            Wifi = wifi;
+            MaxPersons = maxPersons;
+            Price_m2 = price;
+            Available = available;
+            SpotName = spotName;
+        }
     }
 }

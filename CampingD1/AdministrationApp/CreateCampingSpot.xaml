@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AdministrationApp.EditCampingSpotPage"
-             Title="Bewerken campingplek">
+             x:Class="AdministrationApp.CreateCampingSpot"
+             Title="Maken campingplek">
     <Grid Padding="10">
         <!-- Define rows for grid -->
         <Grid.RowDefinitions>
@@ -13,7 +13,7 @@
         <VerticalStackLayout Padding="10" Grid.Row="0">
             <!-- Camping Spot Name -->
             <Label Text="Pleknaam:" FontAttributes="Bold" />
-            <Label x:Name="CampingSpotNameLabel" />
+            <Entry x:Name="SpotNameEntry" Placeholder="Pleknaam"/>
 
             <!-- Camping Spot Description -->
             <Label Text="Beschrijving:" FontAttributes="Bold" />
