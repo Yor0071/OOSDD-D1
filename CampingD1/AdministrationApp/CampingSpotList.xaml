@@ -83,7 +83,11 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button x:Name="EditButton"
+        <HorizontalStackLayout Grid.Row="3"
+                               HorizontalOptions="End"
+                               Spacing="10"
+                               Margin="10">
+            <Button x:Name="EditButton"
                 Text="Bewerk"
                 Clicked="OnEditButtonClicked"
                 IsEnabled="False"
@@ -93,5 +97,12 @@
                 HorizontalOptions="End"
                 VerticalOptions="End" 
                 Grid.Row="2"/>
+
+            <Button x:Name="CreateButton"
+                Text="Maken"
+                Clicked="OnCreateButtonClicked"
+                WidthRequest="100"
+                HeightRequest="50" />
+        </HorizontalStackLayout>
     </Grid>
 </ContentPage>

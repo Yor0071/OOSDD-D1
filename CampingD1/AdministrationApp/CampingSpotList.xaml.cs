@@ -59,4 +59,9 @@ public partial class CampingSpotList : ContentPage
             await Navigation.PushAsync(new EditCampingSpotPage(_selectedCampingSpot));
         }
     }
+
+    private async void OnCreateButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new CreateCampingSpot());
+    }
 }
