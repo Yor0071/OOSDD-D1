@@ -23,7 +23,7 @@ public partial class CreateReservation : ContentPage
                 return;
             }
 
-            if (!int.TryParse(PlaceNumberEntry.Text, out int campingSpot))
+            if (!int.TryParse(PlaceNumberEntry.Text, out int CampingSpot))
             {
                 await DisplayAlert("Error", "Pleknummer moet een geldig nummer zijn.", "OK");
                 return;
@@ -33,7 +33,7 @@ public partial class CreateReservation : ContentPage
             App.Database.AddReservation(
                 firstName: FirstNameEntry.Text,
                 lastName: LastNameEntry.Text,
-                campingSpot: campingSpot,
+                campingSpot: CampingSpot,
                 fromDate: ArrivalDatePicker.Date,
                 toDate: DepartDatePicker.Date,
                 phone: PhoneNumberEntry.Text,

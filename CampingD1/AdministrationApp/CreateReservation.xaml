@@ -32,12 +32,14 @@
             <HorizontalStackLayout Spacing="10">
                 <VerticalStackLayout>
                     <Label Text="Aankomst:" FontAttributes="Bold" />
-                    <DatePicker x:Name="ArrivalDatePicker" />
+                    <DatePicker x:Name="ArrivalDatePicker"
+                                Format="dd MMMM yyyy"/>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout>
                     <Label Text="Vertrek:" FontAttributes="Bold" />
-                    <DatePicker x:Name="DepartDatePicker" />
+                    <DatePicker x:Name="DepartDatePicker"
+                                Format="dd MMMM yyyy"/>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout>

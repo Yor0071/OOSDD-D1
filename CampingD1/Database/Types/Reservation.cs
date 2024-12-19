@@ -36,11 +36,6 @@ namespace Database.Types
             { ReservationStatus.awaiting, "In afwachting" },
             { ReservationStatus.finished, "Afgerond" }
         };
-        private int v;
-        private int campingSpot;
-        private DateTime fromDate;
-        private DateTime toDate;
-        private string phone;
 
         public Reservation(int id, string firstName, string lastName, int placeNumber, string spotName, DateTime arrival, DateTime depart, string phoneNumber, string email, ReservationStatus status)
         {
