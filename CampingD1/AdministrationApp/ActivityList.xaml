@@ -35,6 +35,12 @@
                     IsEnabled="False"
                     WidthRequest="100"
                     HeightRequest="50" />
+
+            <Button x:Name="AddButton"
+                    Text="Toevoegen"
+                    Clicked="OnAddButtonClicked"
+                    WidthRequest="100"
+                    HeightRequest="50" />
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>

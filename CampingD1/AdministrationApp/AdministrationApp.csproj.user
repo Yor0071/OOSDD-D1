@@ -9,6 +9,9 @@
     <MauiXaml Update="ActivityList.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="AddActivityPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="CampingSpotList.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>

@@ -701,7 +701,7 @@ WHERE
     {
         { "@name", activity.Title },
         { "@description", activity.Description },
-        { "@location", activity.Loctation },
+        { "@location", activity.Location },
         { "@date", activity.Date },
         { "@activityID", activity.Id }
     };
@@ -713,6 +713,30 @@ WHERE
         catch (Exception ex)
         {
             throw new Exception($"Error updating activity with ID {activity.Id}: {ex.Message}");
+        }
+    }
+
+    public void AddActivity(Activity activity)
+    {
+        string query = @"
+        INSERT INTO activities (name, description, location, date) 
+        VALUES (@name, @description, @location, @date);";
+
+        var parameters = new Dictionary<string, object>
+    {
+        { "@name", activity.Title },
+        { "@description", activity.Description },
+        { "@location", activity.Location },
+        { "@date", activity.Date }
+    };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error adding activity: {ex.Message}");
         }
     }
 }

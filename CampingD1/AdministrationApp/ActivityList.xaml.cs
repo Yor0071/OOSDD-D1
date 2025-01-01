@@ -58,4 +58,9 @@ public partial class ActivityList : ContentPage
             await Navigation.PushAsync(new EditActivityPage(_selectedActivity));
         }
     }
+
+    private async void OnAddButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new AddActivityPage());
+    }
 }
