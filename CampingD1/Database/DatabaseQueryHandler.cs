@@ -686,4 +686,33 @@ WHERE
 
         return activities;
     }
+
+    public void UpdateActivity(Activity activity)
+    {
+        string query = @"
+        UPDATE activities 
+        SET name = @name, 
+            description = @description, 
+            location = @location, 
+            date = @date 
+        WHERE activityID = @activityID;";
+
+        var parameters = new Dictionary<string, object>
+    {
+        { "@name", activity.Title },
+        { "@description", activity.Description },
+        { "@location", activity.Loctation },
+        { "@date", activity.Date },
+        { "@activityID", activity.Id }
+    };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error updating activity with ID {activity.Id}: {ex.Message}");
+        }
+    }
 }
