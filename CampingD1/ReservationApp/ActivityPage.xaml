@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReservationApp.ActivityPage"
+             Title="Activiteiten">
+    <CollectionView x:Name="ActivitiesCollectionView" Margin="10">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame Padding="10" Margin="5" BorderColor="Gray" CornerRadius="8">
+                    <StackLayout>
+                        <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="18" />
+                        <Label Text="{Binding Description}" FontSize="14" TextColor="Gray" />
+                        <Label Text="{Binding Date, StringFormat='Datum: {0:dd-MM-yyyy}'}" FontSize="14" TextColor="DarkBlue" />
+                    </StackLayout>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

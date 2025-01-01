@@ -6,10 +6,19 @@
     <ActiveDebugProfile>Windows Machine</ActiveDebugProfile>
   </PropertyGroup>
   <ItemGroup>
+    <MauiXaml Update="ActivityList.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="AddActivityPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="CampingSpotList.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="CreateCampingSpot.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="EditActivityPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="EditCampingSpotPage.xaml">

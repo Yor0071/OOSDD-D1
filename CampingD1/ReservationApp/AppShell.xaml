@@ -7,10 +7,15 @@
     Shell.FlyoutBehavior="Disabled"
     Title="ReservationApp">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MapScreenCustomer}"
-        Route="MapScreenCustomer" />
+    <TabBar>
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MapScreenCustomer}"
+            Route="MapScreenCustomer" />
 
-    
+        <ShellContent
+            Title="Activiteiten"
+            ContentTemplate="{DataTemplate local:ActivityPage}"
+            Route="ActivityPage" />
+    </TabBar>
 </Shell>
