@@ -659,4 +659,31 @@ WHERE
         }
     }
 
+    public List<Activity> SelectActivities()
+    {
+        string query = "SELECT activityID, name, description, location, date FROM activities;";
+        List<Activity> activities = new List<Activity>();
+
+        try
+        {
+            DataTable result = _databaseHandler.ExecuteSelectQuery(query);
+
+            foreach (DataRow row in result.Rows)
+            {
+                activities.Add(new Activity(
+                    Convert.ToInt32(row["activityID"]),
+                    row["name"].ToString(),
+                    row["description"].ToString(),
+                    row["location"].ToString(),
+                    Convert.ToDateTime(row["date"])
+                ));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error fetching activities: {ex.Message}");
+        }
+
+        return activities;
+    }
 }
