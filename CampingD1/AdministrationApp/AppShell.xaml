@@ -22,5 +22,11 @@
             Title="Plattegrond bewerken"
             ContentTemplate="{DataTemplate local:MapEditorPage}"
             Route="MapEditorPage" />
+
+        <ShellContent
+            Title="Activiteiten"
+            ContentTemplate="{DataTemplate local:ActivityList}"
+            Route="ActivityList" />
+        
     </TabBar>
 </Shell>
