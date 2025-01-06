@@ -149,11 +149,12 @@ WHERE
 
     public CampingSpot SelectCampingSpotById(int campingSpotId)
     {
-        string query = "SELECT * FROM camping_spots WHERE id = @campingSpotId LIMIT 1;";
         CampingSpot campingSpot = null;
 
         try
         {
+            // Haal de gegevens op uit de database
+            string query = "SELECT * FROM camping_spots WHERE id = @campingSpotId LIMIT 1;";
             var parameters = new Dictionary<string, object>
         {
             { "@campingSpotId", campingSpotId }
@@ -185,6 +186,8 @@ WHERE
 
         return campingSpot;
     }
+
+
 
     public void AddReservation(string firstName, string lastName, int campingSpot, DateTime fromDate, DateTime toDate, string phone, string email)
     {

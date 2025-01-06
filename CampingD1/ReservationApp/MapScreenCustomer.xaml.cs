@@ -55,16 +55,18 @@ public partial class MapScreenCustomer : ContentPage
         // Verwijder bestaande cirkels van het canvas
         Canvas.Children.Clear();
         circleMap.Clear();
-        
+
+        // Stel de achtergrondafbeelding in (optioneel)
         if (!string.IsNullOrEmpty(campingMap.backgroundImage))
         {
-            try {
+            try
+            {
                 var imageBytes = Convert.FromBase64String(campingMap.backgroundImage);
                 var imageSource = ImageSource.FromStream(() => new MemoryStream(imageBytes));
-
                 BackgroundImage.Source = imageSource;
             }
-            catch (Exception e) {
+            catch (Exception)
+            {
                 BackgroundImage.Source = null;
             }
         }
@@ -73,50 +75,58 @@ public partial class MapScreenCustomer : ContentPage
             BackgroundImage.Source = null;
         }
 
-        // Voeg nieuwe cirkels toe op basis van de kaart
+        // Voeg de cirkels toe op basis van de campingMap
         foreach (var circle in campingMap.cirles)
         {
-            AddCircle(circle.id, circle.coordinateX, circle.coordinateY);
+            AddCircle(circle.id, circle.coordinateX, circle.coordinateY, circle.CampingSpotId);
         }
     }
-    
-    private void AddCircle(int id, double x, double y)
+
+    private void AddCircle(int id, double x, double y, int campingSpotId)
     {
+        // Haal de campingplek op via het ID
+        var campingSpot = App.Database.SelectCampingSpotById(campingSpotId);
+
+        // Stel de kleur van de cirkel in op basis van beschikbaarheid
+        var circleColor = campingSpot?.Available == true ? Colors.Green : Colors.Red;
+
         // Maak een nieuwe cirkel
         var circle = new Frame
         {
             WidthRequest = 50,
             HeightRequest = 50,
             CornerRadius = 25,
-            BackgroundColor = Colors.Red,
+            BackgroundColor = circleColor,
             HasShadow = false
         };
 
-        // Voeg de cirkel toe aan het Canvas en koppel het ID
+        // Voeg de cirkel toe aan de kaart en koppel het ID
         circleMap[circle] = id;
         AbsoluteLayout.SetLayoutBounds(circle, new Rect(x, y, circle.WidthRequest, circle.HeightRequest));
         AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
         Canvas.Children.Add(circle);
 
-        // Voeg een click event toe aan de cirkel
+        // Voeg een klikgebeurtenis toe aan de cirkel
         circle.GestureRecognizers.Add(new TapGestureRecognizer
         {
-            Command = new Command(() => OnCircleClicked(id))
+            Command = new Command(() => OnCircleClicked(id, campingSpotId))  // Verzend beide IDs
         });
     }
 
-    private async void OnCircleClicked(int circleId)
+    // Dit blijft ongewijzigd
+    private async void OnCircleClicked(int circleId, int campingSpotId)
     {
         // Haal details van de geselecteerde cirkel op
         var mapCircle = App.Database.SelectMapCircleById(circleId);
 
         // Haal de campingplek op die bij de cirkel hoort
-        CampingSpot campingSpot = App.Database.SelectCampingSpotById(mapCircle.Value.CampingSpotId);  // Toegang via .Value
+        CampingSpot campingSpot = App.Database.SelectCampingSpotById(campingSpotId);  // Toegang via .Value
 
         // Maak en toon de ReservationPopup met de details van de campingplek
         var popup = new ReservationPopup(campingSpot);
         await this.ShowPopupAsync(popup);
     }
+
 
     private async void OnReservationNumberClicked(object sender, EventArgs e)
     {
