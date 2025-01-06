@@ -17,7 +17,6 @@ public partial class AddActivityPage : ContentPage
         {
             Title = TitleEntry.Text,
             Description = DescriptionEditor.Text,
-            Location = "Default Location", // Pas dit aan als je een invoerveld wilt voor locatie
             Date = DatePicker.Date
         };
 
