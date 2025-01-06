@@ -630,6 +630,32 @@ WHERE
 
     }
 
+    public void AddAdminReservation(string firstName, string lastName, int campingSpot, DateTime fromDate, DateTime toDate, string phone, string email, ReservationStatus status)
+    {
+        string query = @"
+        INSERT INTO reservations (firstname, lastname, camping_spot, `from`, `to`, phone, email, status) 
+        VALUES (@firstname, @lastname, @campingSpot, @fromDate, @toDate, @phone, @email, @status);
+    ";
+
+        var parameters = new Dictionary<string, object>
+    {
+        { "@firstname", firstName ?? string.Empty },
+        { "@lastname", lastName ?? string.Empty },
+        { "@campingSpot", campingSpot },
+        { "@fromDate", fromDate.ToString("yyyy-MM-dd") },
+        { "@toDate", toDate.ToString("yyyy-MM-dd") },
+        { "@phone", phone ?? string.Empty },
+        { "@email", email ?? string.Empty },
+        { "@status", status.ToString() }
+    };
+
+        Console.WriteLine("Query Parameters:");
+        foreach (var param in parameters)
+        {
+            Console.WriteLine($"{param.Key}: {param.Value}");
+        }
+    }
+    
     public void AddCampingSpot(CampingSpot campingSpot)
     {
         string query = @"INSERT INTO camping_spots (spot_name, description, surface_m2, power, water, wifi, max_persons, price_m2, available) 
@@ -657,6 +683,31 @@ WHERE
         {
             throw new Exception($"Error creating camping spot: {ex.Message}");
         }
+    }
+
+    public List<(int Id, string Name)> GetAllCampingSpots()
+    {
+        string query = "SELECT id, spot_name FROM camping_spots ORDER BY id;";
+        var campingSpots = new List<(int Id, string Name)>();
+
+        try
+        {
+            DataTable result = _databaseHandler.ExecuteSelectQuery(query);
+
+            foreach (DataRow row in result.Rows)
+            {
+                int id = Convert.ToInt32(row["id"]);
+                string name = row["spot_name"].ToString();
+
+                campingSpots.Add((id, name));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error fetching camping spots: {ex.Message}");
+        }
+
+        return campingSpots;
     }
 
     public List<Activity> SelectActivities()

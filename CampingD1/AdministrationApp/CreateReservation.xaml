@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AdministrationApp.CreateReservation"
+             Title="Nieuwe Reservering">
+    <Grid Padding="10" Grid.Row="0">
+        <!-- Define rows for grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <VerticalStackLayout Padding="10" Grid.Row="0">
+            <!-- First Name and Last Name -->
+            <HorizontalStackLayout Spacing="10">
+                <VerticalStackLayout>
+                    <Label Text="Voornaam:" FontAttributes="Bold" />
+                    <Entry x:Name="FirstNameEntry" Placeholder="Voornaam" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="Achternaam:" FontAttributes="Bold" />
+                    <Entry x:Name="LastNameEntry" Placeholder="Achternaam" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- Place -->
+            <Label Text="Plek:" FontAttributes="Bold" />
+            <Picker x:Name="PlacePicker" Title="Selecteer een plek" />
+
+            <!-- Arrival and Departure Dates -->
+            <HorizontalStackLayout Spacing="10">
+                <VerticalStackLayout>
+                    <Label Text="Aankomst:" FontAttributes="Bold" />
+                    <DatePicker x:Name="ArrivalDatePicker"
+                                Format="dd MMMM yyyy"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="Vertrek:" FontAttributes="Bold" />
+                    <DatePicker x:Name="DepartDatePicker"
+                                Format="dd MMMM yyyy"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- Phone Number -->
+            <Label Text="Telefoonnummer:" FontAttributes="Bold" />
+            <Entry x:Name="PhoneNumberEntry" Placeholder="Telefoonnummer" />
+
+            <!-- Email -->
+            <Label Text="E-mail:" FontAttributes="Bold" />
+            <Entry x:Name="EmailEntry" Placeholder="E-mail" />
+        </VerticalStackLayout>
+
+        <!-- Back and Save Buttons -->
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="End" VerticalOptions="End" Grid.Row="1">
+            <Button x:Name="BackButton" Text="Terug" Clicked="OnBackButtonClicked" WidthRequest="100" />
+            <Button x:Name="SaveButton" Text="Opslaan" Clicked="OnSaveButtonClicked" WidthRequest="100" />
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>
