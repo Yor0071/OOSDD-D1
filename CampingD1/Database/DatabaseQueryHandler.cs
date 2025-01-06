@@ -659,4 +659,84 @@ WHERE
         }
     }
 
+    public List<Activity> SelectActivities()
+    {
+        string query = "SELECT activityID, name, description, location, date FROM activities;";
+        List<Activity> activities = new List<Activity>();
+
+        try
+        {
+            DataTable result = _databaseHandler.ExecuteSelectQuery(query);
+
+            foreach (DataRow row in result.Rows)
+            {
+                activities.Add(new Activity(
+                    Convert.ToInt32(row["activityID"]),
+                    row["name"].ToString(),
+                    row["description"].ToString(),
+                    row["location"].ToString(),
+                    Convert.ToDateTime(row["date"])
+                ));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error fetching activities: {ex.Message}");
+        }
+
+        return activities;
+    }
+
+    public void UpdateActivity(Activity activity)
+    {
+        string query = @"
+        UPDATE activities 
+        SET name = @name, 
+            description = @description, 
+            location = @location, 
+            date = @date 
+        WHERE activityID = @activityID;";
+
+        var parameters = new Dictionary<string, object>
+    {
+        { "@name", activity.Title },
+        { "@description", activity.Description },
+        { "@location", activity.Location },
+        { "@date", activity.Date },
+        { "@activityID", activity.Id }
+    };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error updating activity with ID {activity.Id}: {ex.Message}");
+        }
+    }
+
+    public void AddActivity(Activity activity)
+    {
+        string query = @"
+        INSERT INTO activities (name, description, location, date) 
+        VALUES (@name, @description, @location, @date);";
+
+        var parameters = new Dictionary<string, object>
+    {
+        { "@name", activity.Title },
+        { "@description", activity.Description },
+        { "@location", activity.Location },
+        { "@date", activity.Date }
+    };
+
+        try
+        {
+            _databaseHandler.ExecuteNonQuery(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error adding activity: {ex.Message}");
+        }
+    }
 }
