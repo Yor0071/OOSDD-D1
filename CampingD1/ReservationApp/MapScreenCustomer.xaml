@@ -26,7 +26,7 @@
         </Style>
     </ContentPage.Resources>
 
-    <VerticalStackLayout Padding="5" Spacing="20">
+    <VerticalStackLayout Padding="0" Spacing="5">
 
         <!-- Page Title -->
         <Label 
