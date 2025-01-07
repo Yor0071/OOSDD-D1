@@ -10,12 +10,19 @@ namespace ReservationApp
         private Button _reserveButton;
         private Button _closeButton;
 
-        public ReservationPopup(CampingSpot campingSpot)
+        public ReservationPopup(CampingSpot campingSpot, DateTime selectedFromDate, DateTime selectedToDate, List<Reservation> reservations)
         {
             _campingSpot = campingSpot;
 
             // Helper functie om true/false naar "ja"/"nee" te converteren
             string ConvertBoolToYesNo(bool value) => value ? "Ja" : "Nee";
+
+            // Controleer beschikbaarheid op basis van de geselecteerde datums en reserveringen
+            bool IsAvailable = !reservations.Any(reservation =>
+                reservation.PlaceNumber == campingSpot.Id &&
+                ((selectedFromDate >= reservation.Arrival && selectedFromDate <= reservation.Depart) ||
+                 (selectedToDate >= reservation.Arrival && selectedToDate <= reservation.Depart) ||
+                 (selectedFromDate <= reservation.Arrival && selectedToDate >= reservation.Depart)));
 
             // Toon campingplek details met verbeterde opmaak
             var nameLabel = new Label
@@ -72,11 +79,12 @@ namespace ReservationApp
             {
                 Text = "Reserveer nu!",
                 FontSize = 18,
-                BackgroundColor = Color.FromArgb("#4CAF50"),
+                BackgroundColor = IsAvailable ? Color.FromArgb("#4CAF50") : Colors.Gray,
                 TextColor = Colors.White,
                 CornerRadius = 10,
                 HeightRequest = 50,
-                HorizontalOptions = LayoutOptions.FillAndExpand
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                IsEnabled = IsAvailable // Alleen inschakelen als de plek beschikbaar is
             };
 
             // Sluit knop met opmaak
@@ -91,18 +99,10 @@ namespace ReservationApp
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
 
-            // Controleer of de campingplek beschikbaar is
-            if (!_campingSpot.Available)
-            {
-                // Zet de reserveer knop uit als de campingplek niet beschikbaar is (rode cirkel)
-                _reserveButton.IsEnabled = false;
-                _reserveButton.BackgroundColor = Colors.Gray;
-            }
-
             // Voeg klik handler toe om de reservatiepagina te openen
             _reserveButton.Clicked += async (sender, e) =>
             {
-                if (_campingSpot.Available) // Zorg ervoor dat de knop alleen klikbaar is als de plek beschikbaar is
+                if (IsAvailable) // Zorg ervoor dat de knop alleen klikbaar is als de plek beschikbaar is
                 {
                     var reservationPage = new ReservationPage(_campingSpot);
                     await Application.Current.MainPage.Navigation.PushAsync(reservationPage);

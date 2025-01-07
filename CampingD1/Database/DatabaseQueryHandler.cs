@@ -187,6 +187,51 @@ WHERE
         return campingSpot;
     }
 
+    public List<Reservation> SelectReservationsByPlaceNumber(int placeNumber)
+    {
+        string query = @"
+    SELECT id, camping_spot AS place_number, `from` AS arrival, `to` AS depart, 
+           firstname, lastname, phone AS phone_number, email, status
+    FROM reservations
+    WHERE camping_spot = @placeNumber;
+    ";
+
+        var parameters = new Dictionary<string, object>
+    {
+        { "@placeNumber", placeNumber }
+    };
+
+        var reservations = new List<Reservation>();
+
+        try
+        {
+            var rows = _databaseHandler.ExecuteSelectQuery(query, parameters);
+            foreach (DataRow row in rows.Rows) // Gebruik de Rows eigenschap
+            {
+                reservations.Add(new Reservation
+                (
+                    id: Convert.ToInt32(row["id"]),
+                    firstName: row["firstname"].ToString(),
+                    lastName: row["lastname"].ToString(),
+                    placeNumber: Convert.ToInt32(row["place_number"]),
+                    spotName: null, // SpotName kan niet uit deze query worden gehaald
+                    arrival: DateTime.Parse(row["arrival"].ToString()),
+                    depart: DateTime.Parse(row["depart"].ToString()),
+                    phoneNumber: row["phone_number"].ToString(),
+                    email: row["email"].ToString(),
+                    status: Enum.TryParse(row["status"].ToString(), true, out ReservationStatus status)
+                        ? status
+                        : ReservationStatus.awaiting
+                ));
+            }
+            }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error fetching reservations: {ex.Message}");
+        }
+
+        return reservations;
+    }
 
 
     public void AddReservation(string firstName, string lastName, int campingSpot, DateTime fromDate, DateTime toDate, string phone, string email)
@@ -243,6 +288,7 @@ WHERE
             throw new Exception($"Error setting primary map with ID {mapId}: {ex.Message}", ex);
         }
     }
+
 
     public List<Reservation> SelectReservations() {
         string query = @"SELECT r.*, cs.spot_name

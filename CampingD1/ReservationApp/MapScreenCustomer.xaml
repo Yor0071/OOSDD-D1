@@ -11,9 +11,7 @@
 
         <Style TargetType="DatePicker">
             <Setter Property="HeightRequest" Value="50"/>
-            <!-- Set consistent height -->
             <Setter Property="WidthRequest" Value="200"/>
-            <!-- Set consistent width -->
             <Setter Property="BackgroundColor" Value="#f0f0f0"/>
             <Setter Property="TextColor" Value="Black"/>
         </Style>
@@ -22,9 +20,7 @@
             <Setter Property="BackgroundColor" Value="#4CAF50"/>
             <Setter Property="TextColor" Value="White"/>
             <Setter Property="HeightRequest" Value="50"/>
-            <!-- Set consistent height -->
             <Setter Property="WidthRequest" Value="200"/>
-            <!-- Set consistent width -->
             <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="FontSize" Value="18"/>
         </Style>
@@ -40,60 +36,52 @@
             VerticalOptions="Center"
             HorizontalOptions="Center" />
 
-
         <!-- Date pickers in a horizontal layout -->
         <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center">
             <StackLayout VerticalOptions="Center" Spacing="5">
                 <Label 
-            Text="Aankomstdatum"
-            FontSize="16"
-            FontAttributes="Bold"
-            HorizontalOptions="Center"
-            TextColor="#FFFFFF" />
+                    Text="Aankomstdatum"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    TextColor="#FFFFFF" />
                 <Frame Padding="5" BackgroundColor="#f0f0f0" CornerRadius="10" HasShadow="False" BorderColor="#dcdcdc">
-                    <DatePicker x:Name="arrivalDatePicker"
-            Format="dd MMMM yyyy" />
+                    <DatePicker x:Name="arrivalDatePicker" 
+                                Format="dd MMMM yyyy" 
+                                DateSelected="OnDateSelected" />
                 </Frame>
             </StackLayout>
 
             <StackLayout VerticalOptions="Center" Spacing="5">
                 <Label 
-            Text="Vertrekdatum"
-            FontSize="16"
-            FontAttributes="Bold"
-            HorizontalOptions="Center"
-            TextColor="#FFFFFF" />
-                <Frame Padding="5" BackgroundColor="#f0f0f0" CornerRadius="10" HasShadow="True" BorderColor="#dcdcdc">
-                    <DatePicker x:Name="departureDatePicker"
-            Format="dd MMMM yyyy" />
+                    Text="Vertrekdatum"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    TextColor="#FFFFFF" />
+                <Frame Padding="5" BackgroundColor="#f0f0f0" CornerRadius="10" HasShadow="False" BorderColor="#dcdcdc">
+                    <DatePicker x:Name="departureDatePicker" 
+                                Format="dd MMMM yyyy" 
+                                DateSelected="OnDateSelected" />
                 </Frame>
             </StackLayout>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center">
-            <!--       <Button 
-        Text="Zoek Beschikbaarheid"
-        HorizontalOptions="Center"
-        VerticalOptions="Center"
-        WidthRequest="200"
-        HeightRequest="50"/>
-            Clicked="OnSearchAvailabilityClicked" /> -->
-
             <Button 
-        Text="Ik heb een reservering"
-        HorizontalOptions="Center"
-        VerticalOptions="Center"
-        WidthRequest="200"
-        HeightRequest="50"
-        Margin="0,0,0,0" 
-        Clicked="OnReservationNumberClicked" />
+                Text="Update Kaart" 
+                Clicked="OnUpdateMapClicked" 
+                HorizontalOptions="Center" 
+                VerticalOptions="Center" />
+            <Button 
+                Text="Ik heb een reservering"
+                Clicked="OnReservationNumberClicked"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
         </HorizontalStackLayout>
-
-        <!-- Search availability button -->
 
         <!-- Grid with the map -->
         <Grid Padding="0">
-            <!-- Main Content -->
             <Grid WidthRequest="1000" HeightRequest="700" Padding="0">
                 <!-- Background Image -->
                 <Image x:Name="BackgroundImage" Aspect="AspectFill" />
