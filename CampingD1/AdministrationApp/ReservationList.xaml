@@ -173,20 +173,18 @@
                                Margin="10">
 
             <Button x:Name="EditButton"
-            Text="Bewerken"
-            Clicked="OnEditButtonClicked"
-            IsEnabled="False"
-            WidthRequest="100"
-            HeightRequest="50"
-            BackgroundColor="{DynamicResource ButtonBackgroundLight}" />
+                    Text="Bewerken"
+                    Clicked="OnEditButtonClicked"
+                    IsEnabled="False"
+                    WidthRequest="100"
+                    HeightRequest="50" />
 
             <Button x:Name="DeleteButton"
-            Text="Verwijderen"
-            Clicked="OnDeleteButtonClicked"
-            IsEnabled="False"
-            WidthRequest="150"
-            HeightRequest="50"
-            BackgroundColor="{DynamicResource ButtonBackgroundLight}" />
+                    Text="Verwijderen"
+                    Clicked="OnDeleteButtonClicked"
+                    IsEnabled="False"
+                    WidthRequest="150"
+                    HeightRequest="50" />
         </HorizontalStackLayout>
 
     </Grid>
