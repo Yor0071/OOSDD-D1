@@ -3,6 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AdministrationApp.CampingSpotList"
              Title="Campingplekken">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Background Colors -->
+            <Color x:Key="HeaderBackgroundLight">#F5F5F5</Color>
+            <!-- Light mode header background -->
+            <Color x:Key="HeaderBackgroundDark">#333333</Color>
+            <!-- Dark mode header background -->
+
+            <!-- Text Colors -->
+            <Color x:Key="TextColorLight">#000000</Color>
+            <!-- Light mode text -->
+            <Color x:Key="TextColorDark">#FFFFFF</Color>
+            <!-- Dark mode text -->
+
+            <!-- Button Colors -->
+            <Color x:Key="ButtonBackgroundLight">#0078D4</Color>
+            <!-- Light mode button background -->
+            <Color x:Key="ButtonBackgroundDark">#1A73E8</Color>
+            <!-- Dark mode button background -->
+
+            <!-- Table Row Backgrounds -->
+            <Color x:Key="TableRowBackgroundLight">#FFFFFF</Color>
+            <!-- Light mode row background -->
+            <Color x:Key="TableRowBackgroundDark">#444444</Color>
+            <!-- Dark mode row background -->
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Grid Padding="10">
         <!-- Define rows for grid -->
         <Grid.RowDefinitions>
@@ -10,8 +39,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
         <!-- Table Header -->
-        <Grid BackgroundColor="LightGray" Padding="10" Grid.Row="0">
+        <Grid BackgroundColor="{DynamicResource HeaderBackgroundLight}" Padding="10" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -24,15 +54,15 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label Text="Pleknaam" FontAttributes="Bold" Grid.Column="0" />
-            <Label Text="Beschikbaar" FontAttributes="Bold" Grid.Column="1"/>
-            <Label Text="Aantal personen" FontAttributes="Bold" Grid.Column="2"/>
-            <Label Text="Oppervlakte(m2)" FontAttributes="Bold" Grid.Column="3" />
-            <Label Text="Prijs per m2" FontAttributes="Bold" Grid.Column="4"/>
-            <Label Text="Elektriciteit" FontAttributes="Bold" Grid.Column="5" />
-            <Label Text="Water" FontAttributes="Bold" Grid.Column="6" />
-            <Label Text="Wifi" FontAttributes="Bold" Grid.Column="7" />
-            <Label Text="Omschrijving" FontAttributes="Bold" Grid.Column="8" />
+            <Label Text="Pleknaam" FontAttributes="Bold" Grid.Column="0" TextColor="{DynamicResource TextColorLight}" />
+            <Label Text="Beschikbaar" FontAttributes="Bold" Grid.Column="1" TextColor="{DynamicResource TextColorLight}" />
+            <Label Text="Aantal personen" FontAttributes="Bold" Grid.Column="2" TextColor="{DynamicResource TextColorLight}" />
+            <Label Text="Oppervlakte(m2)" FontAttributes="Bold" Grid.Column="3" TextColor="{DynamicResource TextColorLight}" />
+            <Label Text="Prijs per m2" FontAttributes="Bold" Grid.Column="4" TextColor="{DynamicResource TextColorLight}" />
+            <Label Text="Elektriciteit" FontAttributes="Bold" Grid.Column="5" TextColor="{DynamicResource TextColorLight}" />
+            <Label Text="Water" FontAttributes="Bold" Grid.Column="6" TextColor="{DynamicResource TextColorLight}" />
+            <Label Text="Wifi" FontAttributes="Bold" Grid.Column="7" TextColor="{DynamicResource TextColorLight}" />
+            <Label Text="Omschrijving" FontAttributes="Bold" Grid.Column="8" TextColor="{DynamicResource TextColorLight}" />
         </Grid>
 
         <!-- Table Rows -->
@@ -60,49 +90,51 @@
                             <VisualStateGroup x:Name="CommentStates">
                                 <VisualState x:Name="Normal">
                                     <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="White"/>
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource TableRowBackgroundLight}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="LightBlue"/>
+                                        <Setter Property="BackgroundColor" Value="LightBlue" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Label Text="{Binding SpotName}" Grid.Column="0" />
-                        <Label Text="{Binding AvailableText}" Grid.Column="1" />
-                        <Label Text="{Binding MaxPersons}" Grid.Column="2" />
-                        <Label Text="{Binding Surface_m2}" Grid.Column="3" />
-                        <Label Text="{Binding Price_m2 }" Grid.Column="4" />
-                        <Label Text="{Binding PowerText}" Grid.Column="5" />
-                        <Label Text="{Binding WaterText}" Grid.Column="6" />
-                        <Label Text="{Binding WifiText}" Grid.Column="7" />
-                        <Label Text="{Binding Description}" Grid.Column="8" />
+
+                        <Label Text="{Binding SpotName}" Grid.Column="0" TextColor="{DynamicResource TextColorLight}" />
+                        <Label Text="{Binding AvailableText}" Grid.Column="1" TextColor="{DynamicResource TextColorLight}" />
+                        <Label Text="{Binding MaxPersons}" Grid.Column="2" TextColor="{DynamicResource TextColorLight}" />
+                        <Label Text="{Binding Surface_m2}" Grid.Column="3" TextColor="{DynamicResource TextColorLight}" />
+                        <Label Text="{Binding Price_m2}" Grid.Column="4" TextColor="{DynamicResource TextColorLight}" />
+                        <Label Text="{Binding PowerText}" Grid.Column="5" TextColor="{DynamicResource TextColorLight}" />
+                        <Label Text="{Binding WaterText}" Grid.Column="6" TextColor="{DynamicResource TextColorLight}" />
+                        <Label Text="{Binding WifiText}" Grid.Column="7" TextColor="{DynamicResource TextColorLight}" />
+                        <Label Text="{Binding Description}" Grid.Column="8" TextColor="{DynamicResource TextColorLight}" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <HorizontalStackLayout Grid.Row="3"
+
+        <!-- Buttons -->
+        <HorizontalStackLayout Grid.Row="2"
                                HorizontalOptions="End"
                                Spacing="10"
                                Margin="10">
             <Button x:Name="EditButton"
-                Text="Bewerk"
-                Clicked="OnEditButtonClicked"
-                IsEnabled="False"
-                WidthRequest="100"
-                HeightRequest="50"
-                Margin="10"
-                HorizontalOptions="End"
-                VerticalOptions="End" 
-                Grid.Row="2"/>
+                    Text="Bewerk"
+                    Clicked="OnEditButtonClicked"
+                    IsEnabled="False"
+                    WidthRequest="100"
+                    HeightRequest="50"
+                    Margin="10"
+                    BackgroundColor="{DynamicResource ButtonBackgroundLight}" />
 
             <Button x:Name="CreateButton"
-                Text="Maken"
-                Clicked="OnCreateButtonClicked"
-                WidthRequest="100"
-                HeightRequest="50" />
+                    Text="Maken"
+                    Clicked="OnCreateButtonClicked"
+                    WidthRequest="100"
+                    HeightRequest="50"
+                    BackgroundColor="{DynamicResource ButtonBackgroundLight}" />
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>
