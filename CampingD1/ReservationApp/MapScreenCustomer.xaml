@@ -31,10 +31,11 @@
         <!-- Page Title -->
         <Label 
             Text="Plattegrond"
-            FontSize="24"
+            FontSize="26"
             FontAttributes="Bold"
             VerticalOptions="Center"
-            HorizontalOptions="Center" />
+            HorizontalOptions="Center"
+            TextColor="Black"/>
 
         <!-- Date pickers in a horizontal layout -->
         <HorizontalStackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="Center">
