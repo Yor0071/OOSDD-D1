@@ -43,7 +43,7 @@ public partial class EditReservation : ContentPage
         try
         {
             App.Database.UpdateReservation(_reservation);
-            await DisplayAlert("Succes", "Reservering succesvol geüpdate!", "OK");
+            await DisplayAlert("Succes", "Reservering succesvol bewerkt!", "OK");
             await Navigation.PopAsync();
         }
         catch (Exception ex)
