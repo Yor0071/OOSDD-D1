@@ -57,6 +57,8 @@ public partial class CampingSpotList : ContentPage
         if (_selectedCampingSpot != null)
         {
             await Navigation.PushAsync(new EditCampingSpotPage(_selectedCampingSpot));
+            _selectedCampingSpot = null;
+            EditButton.IsEnabled = false;
         }
     }
 
