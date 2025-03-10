@@ -28,7 +28,6 @@ namespace ReservationApp
         private async void OnConfirmButtonClicked(object sender, EventArgs e)
         {
             errorLabel.IsVisible = false;
-            List<string> errors = new List<string>();
 
             // Controleer of alle verplichte velden zijn ingevuld
             string firstName = firstNameEntry.Text?.Trim();
@@ -40,23 +39,7 @@ namespace ReservationApp
             DateTime fromDate = arrivalDatePicker.Date;
             DateTime toDate = departureDatePicker.Date;
 
-            if (string.IsNullOrWhiteSpace(firstName)) errors.Add("Voornaam is verplicht.");
-            if (string.IsNullOrWhiteSpace(lastName)) errors.Add("Achternaam is verplicht.");
-            if (string.IsNullOrWhiteSpace(phone)) errors.Add("Telefoonnummer is verplicht.");
-            if (string.IsNullOrWhiteSpace(email)) errors.Add("E-mailadres is verplicht.");
-            if (string.IsNullOrWhiteSpace(totalCampersText)) errors.Add("Aantal kampeerders is verplicht.");
-
-            if (!Regex.IsMatch(email ?? "", @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-                errors.Add("Voer een geldig e-mailadres in.");
-
-            if (!Regex.IsMatch(phone ?? "", @"^\d{8,15}$"))
-                errors.Add("Telefoonnummer mag alleen cijfers bevatten (8-15 cijfers).");
-
-            if (toDate <= fromDate)
-                errors.Add("Vertrekdatum moet later zijn dan aankomstdatum.");
-
-            if (!int.TryParse(totalCampersText, out int totalCampers) || totalCampers <= 0)
-                errors.Add("Aantal kampeerders moet een positief getal zijn.");
+            var errors = ValidateReservation(firstName, lastName, phone, email, totalCampersText, fromDate, toDate);
 
             if (errors.Count > 0)
             {
@@ -113,7 +96,7 @@ namespace ReservationApp
                                                $"📍 Naam: {firstName} {lastName}\n" +
                                                $"📞 Telefoon: {phone}\n" +
                                                $"📧 Email: {email}\n" +
-                                               $"👨‍👩‍👧‍👦 Aantal kampeerders: {totalCampers}\n" +
+                                               $"👨‍👩‍👧‍👦 Aantal kampeerders: {totalCampersText}\n" +
                                                $"📝 Bijzonderheden: {specialNotes}",
                                         FontSize = 16,
                                         TextColor = Color.FromArgb("#555555"),
@@ -153,6 +136,36 @@ namespace ReservationApp
                 errorLabel.Text = $"Er is een fout opgetreden: {ex.Message}";
                 errorLabel.IsVisible = true;
             }
+        }
+
+        public List<string> ValidateReservation(string firstName, string lastName, string phone, string email, string totalCampersText, DateTime fromDate, DateTime toDate)
+        {
+            List<string> errors = new List<string>();
+
+            // Basisvalidatie (lege velden)
+            if (string.IsNullOrWhiteSpace(firstName)) errors.Add("Voornaam is verplicht.");
+            if (string.IsNullOrWhiteSpace(lastName)) errors.Add("Achternaam is verplicht.");
+            if (string.IsNullOrWhiteSpace(phone)) errors.Add("Telefoonnummer is verplicht.");
+            if (string.IsNullOrWhiteSpace(email)) errors.Add("E-mailadres is verplicht.");
+            if (string.IsNullOrWhiteSpace(totalCampersText)) errors.Add("Aantal kampeerders is verplicht.");
+
+            // E-mailvalidatie
+            if (!string.IsNullOrWhiteSpace(email) && !Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                errors.Add("Voer een geldig e-mailadres in.");
+
+            // Telefoonnummer: alleen cijfers (8-15 lang)
+            if (!string.IsNullOrWhiteSpace(phone) && !Regex.IsMatch(phone, @"^\d{8,15}$"))
+                errors.Add("Telefoonnummer mag alleen cijfers bevatten (8-15 cijfers).");
+
+            // Aankomst- en vertrekdatum controleren
+            if (toDate <= fromDate)
+                errors.Add("Vertrekdatum moet later zijn dan aankomstdatum.");
+
+            // Aantal kampeerders moet een positief getal zijn
+            if (!int.TryParse(totalCampersText, out int totalCampers) || totalCampers <= 0)
+                errors.Add("Aantal kampeerders moet een positief getal zijn.");
+
+            return errors;
         }
     }
 }
