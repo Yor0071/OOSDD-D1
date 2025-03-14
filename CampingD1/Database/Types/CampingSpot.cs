@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Database.Types
 {
@@ -50,6 +51,31 @@ namespace Database.Types
             Price_m2 = price;
             Available = available;
             SpotName = spotName;
+        }
+
+        public static async Task<bool> ValidateEmptyFields(string description, string spotName, string surface, string maxPersons, string price, Func<string, string, Task> displayAlert)
+        {
+            List<string> emptyFields = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(description)) emptyFields.Add("Beschrijving");
+            if (string.IsNullOrWhiteSpace(spotName)) emptyFields.Add("Naam");
+            if (string.IsNullOrWhiteSpace(surface)) emptyFields.Add("Oppervlakte");
+            if (string.IsNullOrWhiteSpace(maxPersons)) emptyFields.Add("Max personen");
+            if (string.IsNullOrWhiteSpace(price)) emptyFields.Add("Prijs per m²");
+
+            if (emptyFields.Count == 5)
+            {
+                await displayAlert("Fout", "Alle velden zijn leeg. Vul de vereiste gegevens in.");
+                return true;
+            }
+            else if (emptyFields.Count > 0)
+            {
+                string missingFieldsMessage = "De volgende velden zijn niet ingevuld: " + string.Join(", ", emptyFields);
+                await displayAlert("Let op", missingFieldsMessage);
+                return true;
+            }
+
+            return false;
         }
     }
 }
