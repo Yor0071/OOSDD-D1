@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdministrationApp", "Admini
 		{C1181BC8-D6D7-4545-9827-A5BAC49E511D} = {C1181BC8-D6D7-4545-9827-A5BAC49E511D}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{B7C81553-EDE6-45B7-90C9-2902C75A8C7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{DDE76163-8624-4C45-81FA-B8847225AE12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDE76163-8624-4C45-81FA-B8847225AE12}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DDE76163-8624-4C45-81FA-B8847225AE12}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B7C81553-EDE6-45B7-90C9-2902C75A8C7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7C81553-EDE6-45B7-90C9-2902C75A8C7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7C81553-EDE6-45B7-90C9-2902C75A8C7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7C81553-EDE6-45B7-90C9-2902C75A8C7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
