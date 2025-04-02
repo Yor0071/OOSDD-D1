@@ -2,6 +2,7 @@
 using Database.Types;
 using Database;
 using CommunityToolkit.Maui.Views;
+using System.Text.RegularExpressions;
 
 namespace ReservationApp
 {
@@ -29,66 +30,55 @@ namespace ReservationApp
             errorLabel.IsVisible = false;
 
             // Controleer of alle verplichte velden zijn ingevuld
-            if (string.IsNullOrWhiteSpace(firstNameEntry.Text) ||
-                string.IsNullOrWhiteSpace(lastNameEntry.Text) ||
-                string.IsNullOrWhiteSpace(phoneEntry.Text) ||
-                string.IsNullOrWhiteSpace(emailEntry.Text) ||
-                string.IsNullOrWhiteSpace(totalCampersEntry.Text) ||
-                arrivalDatePicker.Date == null ||
-                departureDatePicker.Date == null)
-            {
-                errorLabel.Text = "Alle verplichte velden moeten worden ingevuld.";
-                errorLabel.IsVisible = true;
-            }
-            else if (!emailEntry.Text.Contains("@") || emailEntry.Text.Length < 5)
-            {
-                errorLabel.Text = "Controleer uw e-mailadres.";
-                errorLabel.IsVisible = true;
-            }
-            else
-            {
-                // Verkrijg de invoer van de gebruiker
-                var firstName = firstNameEntry.Text;
-                var lastName = lastNameEntry.Text;
-                var phone = phoneEntry.Text;
-                var email = emailEntry.Text;
-                var totalCampers = int.TryParse(totalCampersEntry.Text, out int parsedTotalCampers) ? parsedTotalCampers : 0;
-                var specialNotes = specialNotesEditor.Text;
+            string firstName = firstNameEntry.Text?.Trim();
+            string lastName = lastNameEntry.Text?.Trim();
+            string phone = phoneEntry.Text?.Trim();
+            string email = emailEntry.Text?.Trim();
+            string totalCampersText = totalCampersEntry.Text?.Trim();
+            var specialNotes = specialNotesEditor.Text;
+            DateTime fromDate = arrivalDatePicker.Date;
+            DateTime toDate = departureDatePicker.Date;
 
-                // Verkrijg de geselecteerde data
+            var errors = ValidateReservation(firstName, lastName, phone, email, totalCampersText, fromDate, toDate);
+
+            if (errors.Count > 0)
+            {
+                errorLabel.Text = string.Join("\n", errors);
+                errorLabel.IsVisible = true;
+                return;
+            }
+
+            try
+            {
                 int campingSpot = _spotDetails.Id;
-                DateTime fromDate = arrivalDatePicker.Date;
-                DateTime toDate = departureDatePicker.Date;
 
-                try
+                // Voer de query uit via de database handler
+                App.Database.AddReservation(
+                    firstName, lastName, campingSpot, fromDate, toDate, phone, email
+                );
+
+                // Declareer de pop-up eerst
+                Popup confirmationPopup = null;
+
+                // Maak een aangepaste bevestigingspop-up
+                confirmationPopup = new Popup
                 {
-                    // Voer de query uit via de database handler
-                    App.Database.AddReservation(
-                        firstName, lastName, campingSpot, fromDate, toDate, phone, email
-                    );
-
-                    // Declareer de pop-up eerst
-                    Popup confirmationPopup = null;
-
-                    // Maak een aangepaste bevestigingspop-up
-                    confirmationPopup = new Popup
+                    Content = new Frame
                     {
-                        Content = new Frame
+                        CornerRadius = 25,
+                        BackgroundColor = Color.FromArgb("#f9f9f9"),
+                        BorderColor = Color.FromArgb("#cccccc"),
+                        Padding = 20,
+                        Shadow = new Shadow
                         {
-                            CornerRadius = 25,
-                            BackgroundColor = Color.FromArgb("#f9f9f9"),
-                            BorderColor = Color.FromArgb("#cccccc"),
-                            Padding = 20,
-                            Shadow = new Shadow
-                            {
-                                Offset = new Point(0, 4),
-                                Radius = 8,
-                                Opacity = 1
-                            },
-                            Content = new StackLayout
-                            {
-                                Spacing = 20,
-                                Children = {
+                            Offset = new Point(0, 4),
+                            Radius = 8,
+                            Opacity = 1
+                        },
+                        Content = new StackLayout
+                        {
+                            Spacing = 20,
+                            Children = {
                                     // Header label
                                     new Label
                                     {
@@ -106,7 +96,7 @@ namespace ReservationApp
                                                $"📍 Naam: {firstName} {lastName}\n" +
                                                $"📞 Telefoon: {phone}\n" +
                                                $"📧 Email: {email}\n" +
-                                               $"👨‍👩‍👧‍👦 Aantal kampeerders: {totalCampers}\n" +
+                                               $"👨‍👩‍👧‍👦 Aantal kampeerders: {totalCampersText}\n" +
                                                $"📝 Bijzonderheden: {specialNotes}",
                                         FontSize = 16,
                                         TextColor = Color.FromArgb("#555555"),
@@ -130,23 +120,52 @@ namespace ReservationApp
                                         })
                                     }
                                 }
-                            }
-                        },
-                        CanBeDismissedByTappingOutsideOfPopup = false // Prevent closing when tapping outside
-                    };
+                        }
+                    },
+                    CanBeDismissedByTappingOutsideOfPopup = false // Prevent closing when tapping outside
+                };
 
-                    // Toon de pop-up
-                    Application.Current.MainPage.ShowPopup(confirmationPopup);
+                // Toon de pop-up
+                Application.Current.MainPage.ShowPopup(confirmationPopup);
 
-                    errorLabel.IsVisible = false;
-                }
-                catch (Exception ex)
-                {
-                    // Toon een foutmelding
-                    errorLabel.Text = $"Er is een fout opgetreden: {ex.Message}";
-                    errorLabel.IsVisible = true;
-                }
+                errorLabel.IsVisible = false;
             }
+            catch (Exception ex)
+            {
+                // Toon een foutmelding
+                errorLabel.Text = $"Er is een fout opgetreden: {ex.Message}";
+                errorLabel.IsVisible = true;
+            }
+        }
+
+        public List<string> ValidateReservation(string firstName, string lastName, string phone, string email, string totalCampersText, DateTime fromDate, DateTime toDate)
+        {
+            List<string> errors = new List<string>();
+
+            // Basisvalidatie (lege velden)
+            if (string.IsNullOrWhiteSpace(firstName)) errors.Add("Voornaam is verplicht.");
+            if (string.IsNullOrWhiteSpace(lastName)) errors.Add("Achternaam is verplicht.");
+            if (string.IsNullOrWhiteSpace(phone)) errors.Add("Telefoonnummer is verplicht.");
+            if (string.IsNullOrWhiteSpace(email)) errors.Add("E-mailadres is verplicht.");
+            if (string.IsNullOrWhiteSpace(totalCampersText)) errors.Add("Aantal kampeerders is verplicht.");
+
+            // E-mailvalidatie
+            if (!string.IsNullOrWhiteSpace(email) && !Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                errors.Add("Voer een geldig e-mailadres in.");
+
+            // Telefoonnummer: alleen cijfers (8-15 lang)
+            if (!string.IsNullOrWhiteSpace(phone) && !Regex.IsMatch(phone, @"^\d{8,15}$"))
+                errors.Add("Telefoonnummer mag alleen cijfers bevatten (8-15 cijfers).");
+
+            // Aankomst- en vertrekdatum controleren
+            if (toDate <= fromDate)
+                errors.Add("Vertrekdatum moet later zijn dan aankomstdatum.");
+
+            // Aantal kampeerders moet een positief getal zijn
+            if (!int.TryParse(totalCampersText, out int totalCampers) || totalCampers <= 0)
+                errors.Add("Aantal kampeerders moet een positief getal zijn.");
+
+            return errors;
         }
     }
 }
