@@ -8,7 +8,6 @@ namespace UnitTests.ReservationAppTests
 {
     public class UnitTest1
     {
-        // Add this helper method to create a ReservationPage with dummy data
         private List<string> ValidateReservation(string firstName, string lastName, string phone, string email, string totalCampersText, DateTime fromDate, DateTime toDate)
         {
             List<string> errors = new List<string>();
@@ -156,26 +155,26 @@ namespace UnitTests.ReservationAppTests
             Assert.Contains("Aantal kampeerders moet een positief getal zijn.", errors);
         }
 
-public class UnitTest1 {
-    [Fact]
-    public void TestIsCampingSpotAvailable_WithNoConflicts_ShouldReturnTrue()
-    {
-        // Arrange: Setup a MapScreenCustomer and a list of reservations
-        var mapScreenCustomer = new MapScreenCustomer();
-        var reservations = new List<Reservation>
-            {
-                new Reservation
+        [Fact]
+        public void TestIsCampingSpotAvailable_WithNoConflicts_ShouldReturnTrue()
+        {
+            // Arrange: Setup a MapScreenCustomer and a list of reservations
+            var mapScreenCustomer = new MapScreenCustomer();
+            var reservations = new List<Reservation>
                 {
-                    PlaceNumber = 1,
-                    Arrival = DateTime.Today.AddDays(3),
-                    Depart = DateTime.Today.AddDays(5)
-                }
-            };
+                    new Reservation
+                    {
+                        PlaceNumber = 1,
+                        Arrival = DateTime.Today.AddDays(3),
+                        Depart = DateTime.Today.AddDays(5)
+                    }
+                };
 
-        // Act: Check if the spot is available
-        bool isAvailable = mapScreenCustomer.IsCampingSpotAvailable(2, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2), reservations);
+            // Act: Check if the spot is available
+            bool isAvailable = mapScreenCustomer.IsCampingSpotAvailable(2, DateTime.Today.AddDays(1), DateTime.Today.AddDays(2), reservations);
 
-        // Assert: The spot should be available because no conflict exists
-        Assert.True(isAvailable);
+            // Assert: The spot should be available because no conflict exists
+            Assert.True(isAvailable);
+        }
     }
 }
